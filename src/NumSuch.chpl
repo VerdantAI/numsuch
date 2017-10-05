@@ -13,7 +13,7 @@
 module NumSuch{
   use LinearAlgebra,
       Core,
-      Graph,
+      GraphUtils,
       PeelPropagation,
       GraphEntropy;
 

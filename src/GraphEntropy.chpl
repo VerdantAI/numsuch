@@ -3,7 +3,7 @@ Behold, the Graph Entropy Module.  A nice introduction to this idea is
 available from `Dr. Cho at Baylor University <http://web.ecs.baylor.edu/faculty/cho/Cho-Entropy.pdf>`_
 */
 module GraphEntropy {
-  use Graph,
+  use GraphUtils,
       Core;
 
 

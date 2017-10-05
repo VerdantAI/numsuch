@@ -4,7 +4,7 @@
 
  */
 
- module Graph {
+ module GraphUtils {
    use Core;
 
      //
