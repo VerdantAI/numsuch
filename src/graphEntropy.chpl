@@ -3,9 +3,9 @@ Behold, the Graph Entropy Module.  A nice introduction to this idea is
 available from `Dr. Cho at Baylor University <http://web.ecs.baylor.edu/faculty/cho/Cho-Entropy.pdf>`_
 */
 module GraphEntropy {
-  use Graph,
+  use GraphUtils,
       Core;
-
+  config const v = false;  // verbosity for logging
 
   /*
     Find the entropy of a given subgraph
@@ -77,14 +77,18 @@ module GraphEntropy {
         initialNode = G.Row[interior.first];
 
     do {
-      writeln("   currentDomain, ", currentDomain);
+      if v {
+        writeln("   currentDomain, ", currentDomain);
+      }
       var topDog = G.Row[currentDomain.first];
       for n in currentDomain {
         //writeln("\tchecking ", n);
         if G.Row[n].numNeighbors() > topDog.numNeighbors() {
           topDog = G.Row[n];
-          writeln("\tsetting pivot node to ", topDog.nid);
-          writeln("\tvertex: ", n, " degree: ", topDog.numNeighbors());
+          if v {
+            writeln("\tsetting pivot node to ", topDog.nid);
+            writeln("\tvertex: ", n, " degree: ", topDog.numNeighbors());
+          }
         }
       }
 
@@ -97,7 +101,9 @@ module GraphEntropy {
           var e = subgraphEntropy(G, d);
           //writeln("\t\tinterior: ", d, "  energy: ", e);
           if e < currentEntropy {
-            writeln("\t\tremoving ", n[1], " from interior lowers entropy to ", e);
+            if v {
+              writeln("\t\tremoving ", n[1], " from interior lowers entropy to ", e);
+            }
             minimalDomain -= n[1];
             currentEntropy = e;
           }
@@ -106,7 +112,9 @@ module GraphEntropy {
           var e = subgraphEntropy(G, d);
           //writeln("\t\tinterior: ", d, "  energy: ", e);
           if e < currentEntropy {
-            writeln("\t\tadding ", n[1], " to interior lowers entropy to ", e);
+            if v {
+              writeln("\t\tadding ", n[1], " to interior lowers entropy to ", e);
+            }
             minimalDomain += n[1];
             currentEntropy = e;
           }
