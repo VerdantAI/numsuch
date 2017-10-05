@@ -11,11 +11,11 @@
 
  */
 module NumSuch{
-  use Core,
-      PeelPropagation,
+  use LinearAlgebra,
+      Core,
       Graph,
-      GraphEntropy,
-      LinearAlgebra;
+      PeelPropagation,
+      GraphEntropy;
 
   proc main() {
     writeln("don't expect much...");
