@@ -277,7 +277,8 @@
         https://stackoverflow.com/questions/45846989/how-to-iterate-non-zeroes-in-a-sparse-matrix-in-chapel/46248469#46248469
       */
      proc buildFromSparseMatrix(A: [], param weighted:bool, param directed:bool) {
-       const n = max reduce A.shape;
+       //const n = max reduce A.shape;
+       const n = A.shape[1];
 
        const vertices: domain(1) = {1..n};
        var G = new Graph(nodeIdType = int.type,
