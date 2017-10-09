@@ -71,7 +71,20 @@ module GraphEntropy {
     :param interior: The vertex ids for the subgraph in question
    */
   proc minimalSubGraph(G: Graph, interior: domain) {
-    var currentEntropy = subgraphEntropy(G, interior),
+    var currentEntropy = subgraphEntropy(G, interior);
+    var (entropy, minDom) = pruneBoundary(G, interior, currentEntropy);
+    if v {
+      writeln("  comming back from prune entropy=", entropy, " minDom=", minDom);
+    }
+    (entropy, minDom) = growBoundary(G, minDom, entropy);
+    if v {
+      writeln("  comming back from grow entropy=", entropy, " minDom=", minDom);
+    }  
+    return (entropy, minDom);
+  }
+
+  proc pruneBoundary(G: Graph, interior: domain, entropy: real) {
+    var currentEntropy = entropy,
         currentDomain = interior,
         minimalDomain = interior,
         initialNode = G.Row[interior.first];
@@ -92,10 +105,10 @@ module GraphEntropy {
         }
       }
 
+      // Prune only
       for n in topDog.neighborList {
         var d = interior;
-        // Switch the state of the neighbor
-        //writeln("\t\tswitching ", n, " in ", d);
+
         if d.member(n[1]) {
           d -= n[1];
           var e = subgraphEntropy(G, d);
@@ -107,10 +120,42 @@ module GraphEntropy {
             minimalDomain -= n[1];
             currentEntropy = e;
           }
-        } else {
+        }
+      }
+
+      currentDomain -= topDog.nid;
+    } while currentDomain.size > 0;
+    return (currentEntropy, minimalDomain);
+  }
+
+  proc growBoundary(G: Graph, interior: domain, entropy: real) {
+    var currentEntropy = entropy,
+        currentDomain = interior,
+        minimalDomain = interior,
+        initialNode = G.Row[interior.first];
+
+    do {
+      if v {
+        writeln("   currentDomain, ", currentDomain);
+      }
+      var topDog = G.Row[currentDomain.first];
+      for n in currentDomain {
+        if G.Row[n].numNeighbors() > topDog.numNeighbors() {
+          topDog = G.Row[n];
+          if v {
+            writeln("\tsetting pivot node to ", topDog.nid);
+            writeln("\tvertex: ", n, " degree: ", topDog.numNeighbors());
+          }
+        }
+      }
+
+      // Grow only only
+      for n in topDog.neighborList {
+        var d = interior;
+
+        if !d.member(n[1]) {
           d += n[1];
           var e = subgraphEntropy(G, d);
-          //writeln("\t\tinterior: ", d, "  energy: ", e);
           if e < currentEntropy {
             if v {
               writeln("\t\tadding ", n[1], " to interior lowers entropy to ", e);
@@ -123,7 +168,6 @@ module GraphEntropy {
 
       currentDomain -= topDog.nid;
     } while currentDomain.size > 0;
-
     return (currentEntropy, minimalDomain);
   }
 
