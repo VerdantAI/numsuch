@@ -76,10 +76,12 @@ module GraphEntropy {
     if v {
       writeln("  comming back from prune entropy=", entropy, " minDom=", minDom);
     }
-    (entropy, minDom) = growBoundary(G, minDom, entropy);
+    if minDom.size > 0 {
+      (entropy, minDom) = growBoundary(G, minDom, entropy);
+    }
     if v {
       writeln("  comming back from grow entropy=", entropy, " minDom=", minDom);
-    }  
+    }
     return (entropy, minDom);
   }
 
