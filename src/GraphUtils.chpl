@@ -185,6 +185,17 @@
        proc   n_Neighbors (v : index (vertices) )
        {return Row (v).numNeighbors();}
 
+       /*
+        Returns and array of the degree for each vertex
+        */
+       proc degree() {
+         var r: [Row.domain] real;
+         for i in Row.domain {
+           r[i] = n_Neighbors(i);
+         }
+         return r;
+       }
+
      } // class Associative_Graph
 
      /* how to use Graph: e.g.
