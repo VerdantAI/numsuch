@@ -196,10 +196,23 @@
          return r;
        }
 
+       /*
+        Degree of a single vertex id
+        As in http://igraph.org/python/doc/igraph.Vertex-class.html#degree
+        */
+       proc degree(v: int) {
+         return n_Neighbors(v);
+       }
+
        /* Returns a subgraph from the selected vertices
         modeled after igraph: http://igraph.org/python/doc/igraph.Graph-class.html#subgraph
         */
-       proc subgraph(vset: []) {
+       proc subgraph(vset: domain) {
+         for v in vset {
+           if vertices.member(v) {
+             writeln(" Okay, I have ", v);
+           }
+         }
          return vset;
        }
 

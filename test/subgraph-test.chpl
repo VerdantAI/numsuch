@@ -21,11 +21,17 @@ SD += (7,8); A[7,8] = 1;
 var G = buildFromSparseMatrix(A, weighted=false, directed=false);
 
 var ecdf = new ECDF(G.degree());
-writeln(" ecdf: ", ecdf(G.degree()));
-writeln(" G.vs(): ", G.vs());
-//writeln(" G.vs().type:string: ", G.vs().type:string);
+writeln("ecdf: ", ecdf(G.degree()));
+writeln("G.vs(): ", G.vs());
 
 var p = 0.7;
-var vs = for v in G.vs() do v;
-writeln(" vs: ", vs);
+var vs: sparse subdomain(G.vs());
+for v in G.vs() {
+   if ecdf(G.degree(v)) <= p {
+     vs += v;
+   }
+}
+writeln("vs: ", vs);
+var SG = G.subgraph(vs);
+writeln("SG: ", SG);
 //var recipeArray = for recipe in cookBook.recipes do recipe;

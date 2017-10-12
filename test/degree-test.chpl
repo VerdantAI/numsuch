@@ -21,3 +21,5 @@ SD += (7,8); A[7,8] = 1;
 var G = buildFromSparseMatrix(A, weighted=false, directed=false);
 var d = G.degree();
 writeln("Degrees: ", d);
+var dv = G.degree(1);
+writeln("Degree of vertex 1: ", dv);
