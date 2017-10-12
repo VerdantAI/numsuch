@@ -208,12 +208,18 @@
         modeled after igraph: http://igraph.org/python/doc/igraph.Graph-class.html#subgraph
         */
        proc subgraph(vset: domain) {
-         for v in vset {
-           if vertices.member(v) {
-             writeln(" Okay, I have ", v);
-           }
+         var subG = new Graph(nodeIdType = int.type,
+                           edgeWeightType = this.edgeWeightType,
+                           vertices = vset,
+                           initialLastAvail=0);
+
+         forall v in vset {
+           var nList = for n in this.Row(v).neighborList do
+             if vset.member(n(1)) then n;
+           subG.Row[v].ndom = nList.domain;
+           subG.Row[v].neighborList = nList;
          }
-         return vset;
+         return subG;
        }
 
        /* Return the list of vertex ids as a domain

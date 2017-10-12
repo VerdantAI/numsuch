@@ -25,13 +25,10 @@ writeln("ecdf: ", ecdf(G.degree()));
 writeln("G.vs(): ", G.vs());
 
 var p = 0.7;
-var vs: sparse subdomain(G.vs());
-for v in G.vs() {
-   if ecdf(G.degree(v)) <= p {
-     vs += v;
-   }
-}
+var vs: domain(int) = for v in G.vs() do if ecdf(G.degree(v)) <= p then v;
+
 writeln("vs: ", vs);
 var SG = G.subgraph(vs);
 writeln("SG: ", SG);
+writeln("SG.degree(): ", SG.degree());
 //var recipeArray = for recipe in cookBook.recipes do recipe;
