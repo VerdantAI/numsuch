@@ -185,6 +185,50 @@
        proc   n_Neighbors (v : index (vertices) )
        {return Row (v).numNeighbors();}
 
+       /* Returns and array of the degree for each vertex.
+        */
+       proc degree() {
+         var r: [Row.domain] real;
+         for i in Row.domain {
+           //writeln(" vid: ", i);
+           r[i] = n_Neighbors(i);
+         }
+         return r;
+       }
+
+       /*
+        Degree of a single vertex id
+        As in http://igraph.org/python/doc/igraph.Vertex-class.html#degree
+        */
+       proc degree(v: int) {
+         return n_Neighbors(v);
+       }
+
+       /* Returns a subgraph from the selected vertices
+        modeled after igraph: http://igraph.org/python/doc/igraph.Graph-class.html#subgraph
+        */
+       proc subgraph(vset: domain) {
+         var subG = new Graph(nodeIdType = int.type,
+                           edgeWeightType = this.edgeWeightType,
+                           vertices = vset,
+                           initialLastAvail=0);
+
+         forall v in vset {
+           var nList = for n in this.Row(v).neighborList do
+             if vset.member(n(1)) then n;
+           subG.Row[v].ndom = nList.domain;
+           subG.Row[v].neighborList = nList;
+         }
+         return subG;
+       }
+
+       /* Return the list of vertex ids as a domain
+        */
+       proc vs() {
+         return vertices;
+       }
+
+
      } // class Associative_Graph
 
      /* how to use Graph: e.g.

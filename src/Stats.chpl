@@ -1,9 +1,9 @@
 module Stats {
   use Sort;
+  
   /*
   Trying to make this as close as possible to the `SciPy Version<http://www.statsmodels.org/stable/_modules/statsmodels/distributions/empirical_distribution.html#ECDF`_
    */
-
   class ECDF {
     var nobs: int,
         odom = {1..nobs},
@@ -24,6 +24,10 @@ module Stats {
         r[i] = p;
       }
       return r;
+    }
+
+    proc this(x:real) {
+      return findPosition(x);
     }
 
     proc findPosition(y) {
