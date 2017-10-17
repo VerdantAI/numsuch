@@ -208,16 +208,21 @@
         modeled after igraph: http://igraph.org/python/doc/igraph.Graph-class.html#subgraph
         */
        proc subgraph(vset: domain) {
+         var verts: [vset] int,
+             newVerts = {1..vset.size};
+
+         var newVertMap: [vset] int = for v in newVerts do v;
          var subG = new Graph(nodeIdType = int.type,
                            edgeWeightType = this.edgeWeightType,
-                           vertices = vset,
+                           vertices = newVerts,
                            initialLastAvail=0);
 
          forall v in vset {
            var nList = for n in this.Row(v).neighborList do
              if vset.member(n(1)) then n;
-           subG.Row[v].ndom = nList.domain;
-           subG.Row[v].neighborList = nList;
+           //subG.Row[v].ndom = nList.domain;
+           subG.Row[newVertMap(v)].ndom = nList.domain;
+           subG.Row[newVertMap(v)].neighborList = nList;
          }
          return subG;
        }

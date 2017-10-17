@@ -1,5 +1,5 @@
 ecdf: 0.875 0.625 0.625 1.0 0.625 0.875 0.625 0.625
 G.vs(): {1..8}
 vs: {2, 5, 7, 8, 3}
-SG: {vertices = {2, 5, 7, 8, 3}, Row = (ndom = {1..0}, neighborList = , last = 0, nid = 0, weight = 0.0) (ndom = {1..0}, neighborList = , last = 0, nid = 0, weight = 0.0) (ndom = {1..1}, neighborList = (8, 1.0), last = 0, nid = 0, weight = 0.0) (ndom = {1..1}, neighborList = (7, 1.0), last = 0, nid = 0, weight = 0.0) (ndom = {1..0}, neighborList = , last = 0, nid = 0, weight = 0.0), num_edges = -1}
+SG: {vertices = {1..5}, Row = (ndom = {1..0}, neighborList = , last = 0, nid = 0, weight = 0.0) (ndom = {1..0}, neighborList = , last = 0, nid = 0, weight = 0.0) (ndom = {1..1}, neighborList = (8, 1.0), last = 0, nid = 0, weight = 0.0) (ndom = {1..1}, neighborList = (7, 1.0), last = 0, nid = 0, weight = 0.0) (ndom = {1..0}, neighborList = , last = 0, nid = 0, weight = 0.0), num_edges = -1}
 SG.degree(): 0.0 0.0 1.0 1.0 0.0
