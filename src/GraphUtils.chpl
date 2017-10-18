@@ -191,7 +191,8 @@
          var r: [Row.domain] real;
          for i in Row.domain {
            //writeln(" vid: ", i);
-           r[i] = n_Neighbors(i);
+           //r[i] = n_Neighbors(i);
+           r[i] = degree(i);
          }
          return r;
        }
@@ -212,19 +213,27 @@
              newVerts = {1..vset.size};
 
          var newVertMap: [vset] int = for v in newVerts do v;
+         //writeln(" newVertMap: ", newVertMap);
          var subG = new Graph(nodeIdType = int.type,
                            edgeWeightType = this.edgeWeightType,
                            vertices = newVerts,
                            initialLastAvail=0);
 
+         //writeln("subG.vertices: ", subG.vertices);
          forall v in vset {
-           var nList = for n in this.Row(v).neighborList do
-             if vset.member(n(1)) then n;
-           //subG.Row[v].ndom = nList.domain;
+           var nList: [{1..0}] Row(v).nleType;
+           for n in this.Row(v).neighborList {
+             // Based on old ID
+             if vset.member(n(1)) {
+               // Set to new ID
+               nList.push_back((newVertMap(n(1)), n(2)));
+             }
+           }
            subG.Row[newVertMap(v)].ndom = nList.domain;
            subG.Row[newVertMap(v)].neighborList = nList;
+           subG.Row[newVertMap(v)].nid = newVertMap(v);
          }
-         return subG;
+         return (subG, newVertMap);
        }
 
        /* Return the list of vertex ids as a domain
