@@ -21,3 +21,6 @@ var n = ["alice", "bob", "cindy","darren","efram","fanny","gordon", "hiram"];
 var I = buildFromSparseMatrix(A, weighted=false, directed=false, names = n);
 writeln(I.names(1));
 writeln(I.names());
+const ssd: domain(int) = {2,5,7};
+const (subG, vertMap) = I.subgraph(ssd);
+writeln(subG.names());

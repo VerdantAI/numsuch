@@ -242,6 +242,7 @@
            subG.Row[newVertMap(v)].ndom = nList.domain;
            subG.Row[newVertMap(v)].neighborList = nList;
            subG.Row[newVertMap(v)].nid = newVertMap(v);
+           subG.Row[newVertMap(v)].name = this.Row(v).name;
          }
          return (subG, newVertMap);
        }
