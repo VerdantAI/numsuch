@@ -30,9 +30,10 @@
        var neighborList: [ndom] nleType;
        var last = 0;
 
-       var nid: int;
+       var nid: int,
+           weight: real,
+           name: string;
        //param nid = 1;  // TODO: Assign a vertex id
-       var weight: real;
 
        proc numNeighbors()  return ndom.numIndices;
  /*
@@ -205,6 +206,15 @@
          return n_Neighbors(v);
        }
 
+       proc names(v: int) {
+         return this.Row[v].name;
+       }
+
+       proc names() {
+         var names = for v in vertices do Row[v].name;
+         return names;
+       }
+
        /* Returns a subgraph from the selected vertices
         modeled after igraph: http://igraph.org/python/doc/igraph.Graph-class.html#subgraph
         */
@@ -334,9 +344,24 @@
       Take a general sparse matrix and turn it into a Graph. Mixed w/ this SO
         https://stackoverflow.com/questions/45846989/how-to-iterate-non-zeroes-in-a-sparse-matrix-in-chapel/46248469#46248469
       */
-     proc buildFromSparseMatrix(A: [], param weighted:bool, param directed:bool) {
+     proc buildFromSparseMatrix(A: [], param weighted:bool
+         , param directed:bool
+         , names:[]) {
        //const n = max reduce A.shape;
        const n = A.shape[1];
+       var namesConfirmed = false;
+       if !names.isEmpty() {
+         if names.size == n {
+           namesConfirmed = true;
+         }
+         if names.size != n {
+           writeln("Not enough names! v: ", n, " names: ", names.size);
+         } else {
+           writeln("Assigning names to vertices");
+         }
+       } else {
+         writeln("Empty Names!");
+       }
 
        const vertices: domain(1) = {1..n};
        var G = new Graph(nodeIdType = int.type,
@@ -350,6 +375,9 @@
          forall v in vertices {
            next$[v].write(G.initialFirstAvail);
            G.Row[v].nid = v;
+           if namesConfirmed {
+             G.Row[v].name = names[v];
+           }
          }
          // Increase the domain size at the right nodes
          for (u,v) in A.domain {
@@ -398,6 +426,12 @@
          }
        }
        return G;
+     }
+
+     proc buildFromSparseMatrix(A: [], param weighted:bool
+              , param directed:bool) {
+       const n:[1..0] string;
+       return buildFromSparseMatrix(A, weighted, directed, n);
      }
 
  }

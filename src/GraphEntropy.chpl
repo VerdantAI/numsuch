@@ -7,6 +7,12 @@ module GraphEntropy {
       Core;
   config const v = false;  // verbosity for logging
 
+  class Crystal {
+    var id: int,
+        energy: real,
+        originalElements: [1..0] string,
+        crystalElements: [1..0] string;
+  }
   /*
     Find the entropy of a given subgraph
    */
