@@ -24,3 +24,4 @@ writeln(I.names());
 const ssd: domain(int) = {2,5,7};
 const (subG, vertMap) = I.subgraph(ssd);
 writeln(subG.names());
+writeln(I.degree("alice"));

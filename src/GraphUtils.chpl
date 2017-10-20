@@ -206,6 +206,19 @@
          return n_Neighbors(v);
        }
 
+       /*
+       Get the vertex degree by vertex name.
+        */
+       proc degree(n: string) {
+         var r: [{1..0}] int;
+         for i in Row.domain {
+           if Row[i].name == n {
+             r.push_back(degree(i));
+           }
+         }
+         return r;
+       }
+
        proc names(v: int) {
          return this.Row[v].name;
        }
