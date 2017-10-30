@@ -9,6 +9,7 @@ module GraphEntropy {
 
   class Crystal {
     var id: int,
+        initialEntropy: real,
         entropy: real,
         originalElements: [1..0] string,
         crystalElements: [1..0] string;
