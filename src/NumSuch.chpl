@@ -17,8 +17,4 @@ module NumSuch{
       PeelPropagation,
       GraphEntropy,
       Stats;
-
-  proc main() {
-    writeln("don't expect much...");
-  }
 }
