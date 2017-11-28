@@ -7,6 +7,8 @@ module GraphEntropy {
       Core;
   config const v = false;  // verbosity for logging
 
+  /*
+   Moved to GraphUtils
   class Crystal {
     var id: int,
         initialEntropy: real,
@@ -14,6 +16,8 @@ module GraphEntropy {
         originalElements: [1..0] string,
         crystalElements: [1..0] string;
   }
+   */
+   
   /*
     Find the entropy of a given subgraph
    */

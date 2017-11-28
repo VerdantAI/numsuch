@@ -7,6 +7,16 @@
  module GraphUtils {
    use Core;
 
+   /* For the entropy models */
+   class Crystal {
+     var id: int,
+         name: string,
+         initialEntropy: real,
+         entropy: real,
+         originalElements: [1..0] string,
+         crystalElements: [1..0] string;
+   }
+
      //
      // VertexData: stores the neighbor list of a vertex.
      //
@@ -368,13 +378,6 @@
          if names.size == n {
            namesConfirmed = true;
          }
-         if names.size != n {
-           writeln("Not enough names! v: ", n, " names: ", names.size);
-         } else {
-           writeln("Assigning names to vertices");
-         }
-       } else {
-         writeln("Empty Names!");
        }
 
        const vertices: domain(1) = {1..n};
