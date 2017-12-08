@@ -75,6 +75,9 @@ module Stats {
     return r;
   }
 
+  /*
+    Generate a single Poisson random variable
+   */
   proc rpois(l: real) {
     var L: real = exp(-l),
         k: int = 0,
@@ -87,4 +90,13 @@ module Stats {
     } while p > L;
     return k - 1;
   }
+
+  /*
+   The Gamma distribution
+   */
+   proc dgamma(x: real, shape: real, scale: real) {
+     var y = (x**(shape-1) * exp(-x / scale)) / (scale**shape * tgamma(shape));
+     return y;
+   }
+
 }
