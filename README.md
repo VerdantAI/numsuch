@@ -10,6 +10,9 @@ Let's be bold.  Let's do [NumPy](https://github.com/numpy/numpy) + [SciPy](https
 
 Hopefully we can get the algorithms documented in the [tex](tex/) directory.  Trust the raw TeX for recency, not the PDFs.
 
+Please contribute to this project!  I've tried to make it easy by (1) being generally friendly and
+(2) providing a [Contributor's Guide](CONTRIBUTING.md).  I'm very open to being told "Ur doin it wrong!"
+
 ## Why Chapel?
 
 Because it works. I'm finding myself laughing out loud at 2 AM saying "I can't believe that worked the first time!".  And it feels like the love child of Python (mom) and Fortran (dad), the two greatest languages
