@@ -7,11 +7,11 @@ proc verticesFromPG(con: Connection, edgeTable: string, fromField: string, toFie
 }
 
 /*
- :arg n: number of distinct vertices.  If none provide, it will look into the table for the max of the feature ids.
+ :arg n: number of distinct vertices.  If not provided, it will look into the table for the max of the feature ids.
  */
 proc wFromPG(con: Connection, edgeTable: string
     , fromField: string, toField: string, wField: string, n: int) {
-  var q = "SELECT %s, %s, %s FROM %s ORDER BY 1, 2 LIMIT 10;";
+  var q = "SELECT %s, %s, %s FROM %s ORDER BY 1, 2;";
   var cursor = con.cursor();
   cursor.query(q,(fromField, toField, wField, edgeTable));
   const D: domain(2) = {1..n, 1..n};

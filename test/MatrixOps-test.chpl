@@ -16,3 +16,7 @@ var edgeTable = "r.cho_edges",
 // Should have loaded the data from test/reference/entropy_base_graph_schema.sql
 var W = wFromPG(con=con, edgeTable=edgeTable, fromField, toField, wField, n=n);
 writeln(W);
+
+/* completes in about 160 seconds
+var W2 = wFromPG(con=con, edgeTable="r.yummly_edges", fromField, toField, wField, n=6714);
+*/
