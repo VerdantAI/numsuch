@@ -14,5 +14,6 @@ module NumSuch{
   use LinearAlgebra,
       Core,
       PeelPropagation,
+      MatrixOps,
       Stats;
 }
