@@ -14,11 +14,13 @@ module Core {
         trainingLabelDom: sparse subdomain(ldom);   // Which labels are training labels, for error analysis
 
     /*
-    Loads a label file into a Matrix.  Labels should be binary indicators
-    useCols: use columns for the labels, as in an indicator for each column.
-             default is to have an integer representing the label
-             <TAB> separated
+Loads a label file into a Matrix.  Labels should be binary indicators
+:arg useCols: use columns for the labels, as in an indicator for each column. default is to have an integer representing the label <TAB> separated
+
+::
+
     <record id: string> <category 1 indicator> ... <category L indicator>
+     
      */
     proc readFromFile(fn: string, addDummy: bool = false, useCols=false) {
       var lFile = open(fn, iomode.r).reader(),
