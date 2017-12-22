@@ -1,7 +1,8 @@
-# NumSuch
-Porting little bits of code I need from NumPy over to Chapel
+# NumSuch v 0.1.1
+Porting little bits of code I need from NumPy over to Chapel.
 
-Documents, such as they are, should be available [here](https://buddha314.github.io/numsuch/).
+Documents, such as they are, should be available [here](https://buddha314.github.io/numsuch/) as are the
+[Release Notes](RELEASE.md).
 
 This is an attempt to collect numerical tools into [Chapel](https://github.com/chapel-lang/chapel) libraries.
 It's a purely amateur effort, since I am by no means a numerical programmer.
@@ -9,6 +10,9 @@ It's a purely amateur effort, since I am by no means a numerical programmer.
 Let's be bold.  Let's do [NumPy](https://github.com/numpy/numpy) + [SciPy](https://github.com/scipy/scipy) + [Keras](https://keras.io/) all at once.
 
 Hopefully we can get the algorithms documented in the [tex](tex/) directory.  Trust the raw TeX for recency, not the PDFs.
+
+Please contribute to this project!  I've tried to make it easy by (1) being generally friendly and
+(2) providing a [Contributor's Guide](CONTRIBUTING.md).  I'm very open to being told "Ur doin it wrong!"
 
 ## Why Chapel?
 

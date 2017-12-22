@@ -3,9 +3,9 @@
 Template pilfered from [here](https://gist.github.com/PurpleBooth/b24679402957c63ec426)
 
 When contributing to this repository, please first discuss the change you wish to make via issue,
-email, or any other method with the owners of this repository before making a change. 
+email, or any other method with the owners of this repository before making a change.
 
-A good place to discuss NumSuch is on [Freenode IRC](http://webchat.freenode.net/) in `#chapel` or `#chapel-developers`.  I (Brian) am 
+A good place to discuss NumSuch is on [Freenode IRC](http://webchat.freenode.net/) in `#chapel` or `#chapel-developers`.  I (Brian) am
 usually available as `Buddha314` in one or both during the day.
 
 We are striving to conform to the Chapel conventions, so please review the Chapel [Contributing Guide](https://github.com/chapel-lang/chapel/blob/master/.github/CONTRIBUTING.md)
@@ -15,19 +15,24 @@ as well
 
 Until [this ticket](https://github.com/chapel-lang/chapel/issues/7417) is closed, please refer to [this issue](https://github.com/chapel-lang/chapel/issues/6698)
 
+### Git Flow
+
+Try to use [git flow](http://nvie.com/posts/a-successful-git-branching-model/) if you can for branching.
+I find it a bit hard to follow, but people who think more about this than I do swear by it.  What an awkward sentence.
+
 Now, on to the boilerplate...
 
 Please note we have a code of conduct, please follow it in all your interactions with the project.
 
 ## Pull Request Process
 
-1. Ensure any install or build dependencies are removed before the end of the layer when doing a 
+1. Ensure any install or build dependencies are removed before the end of the layer when doing a
    build.
-2. Update the README.md with details of changes to the interface, this includes new environment 
+2. Update the README.md with details of changes to the interface, this includes new environment
    variables, exposed ports, useful file locations and container parameters.
 3. Increase the version numbers in any examples files and the README.md to the new version that this
    Pull Request would represent. The versioning scheme we use is [SemVer](http://semver.org/).
-4. You may merge the Pull Request in once you have the sign-off of two other developers, or if you 
+4. You may merge the Pull Request in once you have the sign-off of two other developers, or if you
    do not have permission to do that, you may request the second reviewer to merge it for you.
 
 ## Code of Conduct

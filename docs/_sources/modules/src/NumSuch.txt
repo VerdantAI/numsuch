@@ -24,5 +24,3 @@ Let's try out a code block:
 
 
 
-.. function:: proc main()
-
