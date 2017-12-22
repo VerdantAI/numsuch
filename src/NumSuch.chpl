@@ -15,6 +15,5 @@ module NumSuch{
       Core,
       GraphUtils,
       PeelPropagation,
-      GraphEntropy,
       Stats;
 }
