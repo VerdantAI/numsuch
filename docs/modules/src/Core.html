@@ -1,0 +1,313 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Core &mdash; chpldoc 0.0.1 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="chpldoc 0.0.1 documentation" href="../../index.html"/>
+        <link rel="next" title="NN" href="NN.html"/>
+        <link rel="prev" title="chpldoc documentation" href="../../index.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> chpldoc
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">chpldoc documentation</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="">Core</a></li>
+<li class="toctree-l1"><a class="reference internal" href="NN.html">NN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="NumSuch.html">NumSuch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PeelPropagation.html">PeelPropagation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Stats.html">Stats</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../index.html">chpldoc</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+      
+    <li>Core</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../_sources/modules/src/Core.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <span class="target" id="module-Core"></span><div class="section" id="core">
+<h1>Core<a class="headerlink" href="#core" title="Permalink to this headline">¶</a></h1>
+<p><strong>Usage</strong></p>
+<div class="highlight-chapel"><div class="highlight"><pre><span></span><span class="k">use</span> <span class="nx">Core</span><span class="p">;</span>
+</pre></div>
+</div>
+<dl class="enum">
+<dt id="Core.labelReplacementType">
+<em class="property">enum </em><code class="descname">labelReplacementType</code> { none, inverseDegree }<a class="headerlink" href="#Core.labelReplacementType" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="Core.LabelMatrix">
+<em class="property">class </em><code class="descname">LabelMatrix</code><a class="headerlink" href="#Core.LabelMatrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class to hold labels for data.  Has names in names</p>
+<dl class="attribute">
+<dt id="Core.LabelMatrix.ldom">
+<em class="property">var </em><code class="descname">ldom</code>: domain(1) = {1..0}<a class="headerlink" href="#Core.LabelMatrix.ldom" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="Core.LabelMatrix.dataDom">
+<em class="property">var </em><code class="descname">dataDom</code>: domain(2)<a class="headerlink" href="#Core.LabelMatrix.dataDom" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="Core.LabelMatrix.nLabelValues">
+<em class="property">var </em><code class="descname">nLabelValues</code>: int = 0<a class="headerlink" href="#Core.LabelMatrix.nLabelValues" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="Core.LabelMatrix.data">
+<em class="property">var </em><code class="descname">data</code>: [dataDom] real<a class="headerlink" href="#Core.LabelMatrix.data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="Core.LabelMatrix.names">
+<em class="property">var </em><code class="descname">names</code>: [ldom] string<a class="headerlink" href="#Core.LabelMatrix.names" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="Core.LabelMatrix.trainingLabelDom">
+<em class="property">var </em><code class="descname">trainingLabelDom</code>: ldom.defaultSparseDistchpl__buildSparseDomainRuntimeTypeldom<a class="headerlink" href="#Core.LabelMatrix.trainingLabelDom" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="Core.LabelMatrix.readFromFile">
+<em class="property">proc </em><code class="descname">readFromFile</code><span class="sig-paren">(</span><em>fn: string</em>, <em>addDummy: bool = false</em>, <em>useCols = false</em><span class="sig-paren">)</span><a class="headerlink" href="#Core.LabelMatrix.readFromFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads a label file into a Matrix.  Labels should be binary indicators
+:arg useCols: use columns for the labels, as in an indicator for each column. default is to have an integer representing the label &lt;TAB&gt; separated</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>&lt;record id: string&gt; &lt;category 1 indicator&gt; ... &lt;category L indicator&gt;
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="Core.LabelMatrix.fromMatrix">
+<em class="property">proc </em><code class="descname">fromMatrix</code><span class="sig-paren">(</span><em>y: []</em><span class="sig-paren">)</span><a class="headerlink" href="#Core.LabelMatrix.fromMatrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="Core.cosineDistance">
+<em class="property">proc </em><code class="descname">cosineDistance</code><span class="sig-paren">(</span><em>X: [?Xdom], denseOutput = true</em><span class="sig-paren">)</span><a class="headerlink" href="#Core.cosineDistance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Does the pairwise cosine distance between rows of X.
+Dimensions must be conformable</p>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<em class="property">proc </em><code class="descname">cosineDistance</code><span class="sig-paren">(</span><em>X: [?Xdom], Y: [?Ydom], denseOutput = true</em><span class="sig-paren">)</span></dt>
+<dd><p>Does the pairwise cosine distance between rows of X and rows of Y.
+Dimensions must be conformable</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="Core.subSampleLabels">
+<em class="property">proc </em><code class="descname">subSampleLabels</code><span class="sig-paren">(</span><em>L: LabelMatrix</em>, <em>sampleSize: int</em>, <em>replacementMethod: labelReplacementType = labelReplacementType.none</em><span class="sig-paren">)</span><a class="headerlink" href="#Core.subSampleLabels" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="Core.argmax1d">
+<em class="property">proc </em><code class="descname">argmax1d</code><span class="sig-paren">(</span><em>x: []</em><span class="sig-paren">)</span><a class="headerlink" href="#Core.argmax1d" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="Core.argmax">
+<em class="property">proc </em><code class="descname">argmax</code><span class="sig-paren">(</span><em>x: []</em>, <em>axis: int = 0</em><span class="sig-paren">)</span><a class="headerlink" href="#Core.argmax" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>axis = 0: argmax over whole object array (default)</dt>
+<dd>1: argmax for every row
+2: argmax for every column</dd>
+</dl>
+<p>returns: tuple.  In the case of axis=0 this is the (i,j) coordinate of the max.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="Core.xlog2x">
+<em class="property">proc </em><code class="descname">xlog2x</code><span class="sig-paren">(</span><em>x: real</em><span class="sig-paren">)</span><a class="headerlink" href="#Core.xlog2x" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="NN.html" class="btn btn-neutral float-right" title="NN" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../../index.html" class="btn btn-neutral" title="chpldoc documentation" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, .
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+  
+ 
+
+
+
+</body>
+</html>

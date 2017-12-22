@@ -2,7 +2,7 @@ module Stats {
   use Sort, BigInteger, Math, Random;
 
   /*
-  Trying to make this as close as possible to the `SciPy Version<http://www.statsmodels.org/stable/_modules/statsmodels/distributions/empirical_distribution.html#ECDF`_
+  Trying to make this as close as possible to the `SciPy Version <http://www.statsmodels.org/stable/_modules/statsmodels/distributions/empirical_distribution.html#ECDF>`_
    */
   class ECDF {
     var nobs: int,
@@ -104,7 +104,7 @@ module Stats {
 
     From this paper? https://arxiv.org/pdf/1304.3800.pdf
     Or maybe this one, includes C code: http://www.hongliangjie.com/2012/12/19/how-to-generate-gamma-random-variables/
-    
+
     :TODO: Finish the Gamma distribution
     */
     proc rgamma() {
