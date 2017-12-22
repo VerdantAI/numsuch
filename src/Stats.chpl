@@ -92,11 +92,23 @@ module Stats {
   }
 
   /*
-   The Gamma distribution
+   The Gamma distribution, density function
    */
    proc dgamma(x: real, shape: real, scale: real) {
      var y = (x**(shape-1) * exp(-x / scale)) / (scale**shape * tgamma(shape));
      return y;
    }
+
+   /*
+    The Gamma distribution, random generation.
+
+    From this paper? https://arxiv.org/pdf/1304.3800.pdf
+    Or maybe this one, includes C code: http://www.hongliangjie.com/2012/12/19/how-to-generate-gamma-random-variables/
+    
+    :TODO: Finish the Gamma distribution
+    */
+    proc rgamma() {
+      return 0;
+    }
 
 }
