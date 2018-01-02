@@ -24,3 +24,27 @@ proc wFromPG(con: Connection, edgeTable: string
   }
    return W;
 }
+
+proc vNamesFromPG(con: Connection, nameTable: string
+  , nameField: string, idField: string ) {
+
+  var cursor = con.cursor();
+  var q1 = "SELECT max(%s) AS n FROM %s";
+  cursor.query(q1, (idField, nameTable));
+  var n:int= cursor.fetchone()['n']: int;
+  var vertexNames: [1..n] string;
+
+  var q2 = "SELECT %s, %s FROM %s ORDER BY 1";
+  cursor.query(q2, (idField, nameField, nameTable));
+  for row in cursor {
+      vertexNames[row[idField]:int ] = row[nameField];
+  }
+
+  /*
+  var q = "SELECT %s, %s, FROM %s ORDER BY 2"
+  cursor.query(q, (nameField, idField, nameTable));
+  */
+
+  return vertexNames;
+
+}
