@@ -25,6 +25,15 @@ proc wFromPG(con: Connection, edgeTable: string
    return W;
 }
 
+/*
+
+ :arg con: A connection to a Postgres database containing a table with <ftr_id>, <vertex_name> pairs
+ :arg nameTable: The name of the Postgres table containing the pairs
+ :arg nameField: The name of the field in the nameTable containing the names
+ :arg idField: The name of the field in the nameTable containing the feature ids
+
+ :returns: An array of strings in order of feature id
+ */
 proc vNamesFromPG(con: Connection, nameTable: string
   , nameField: string, idField: string ) {
 
@@ -39,12 +48,5 @@ proc vNamesFromPG(con: Connection, nameTable: string
   for row in cursor {
       vertexNames[row[idField]:int ] = row[nameField];
   }
-
-  /*
-  var q = "SELECT %s, %s, FROM %s ORDER BY 2"
-  cursor.query(q, (nameField, idField, nameTable));
-  */
-
   return vertexNames;
-
 }
