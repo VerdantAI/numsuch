@@ -2,12 +2,13 @@ use Cdo,
     LinearAlgebra,
     LinearAlgebra.Sparse;
 
-proc verticesFromPG(con: Connection, edgeTable: string, fromField: string, toField: string, wField: string) {
-  return 0;
-}
-
 /*
- :arg n: number of distinct vertices.  If not provided, it will look into the table for the max of the feature ids.
+  :arg con: A CDO Connection to Postgres
+  :arg edgeTable: The table in PG of edges
+  :arg fromField: The field of edgeTable containing the id of the head vertex
+  :arg toField: the field of edgeTable containing the id of the tail vertex
+  :arg wField: The field of edgeTable containing the weight of the edge
+  :arg n: number of distinct vertices. In practice, this may be gives and the number of names
  */
 proc wFromPG(con: Connection, edgeTable: string
     , fromField: string, toField: string, wField: string, n: int) {
