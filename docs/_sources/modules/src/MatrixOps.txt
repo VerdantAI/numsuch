@@ -1,0 +1,35 @@
+.. default-domain:: chpl
+
+.. module:: MatrixOps
+
+MatrixOps
+=========
+**Usage**
+
+.. code-block:: chapel
+
+   use MatrixOps;
+
+.. function:: proc wFromPG(con: Connection, edgeTable: string, fromField: string, toField: string, wField: string, n: int)
+
+   
+   :arg con: A CDO Connection to Postgres
+   :arg edgeTable: The table in PG of edges
+   :arg fromField: The field of edgeTable containing the id of the head vertex
+   :arg toField: the field of edgeTable containing the id of the tail vertex
+   :arg wField: The field of edgeTable containing the weight of the edge
+   :arg n: number of distinct vertices. In practice, this may be gives and the number of names
+   
+
+.. function:: proc vNamesFromPG(con: Connection, nameTable: string, nameField: string, idField: string)
+
+   
+   
+   :arg con: A connection to a Postgres database containing a table with <ftr_id>, <vertex_name> pairs
+   :arg nameTable: The name of the Postgres table containing the pairs
+   :arg nameField: The name of the field in the nameTable containing the names
+   :arg idField: The name of the field in the nameTable containing the feature ids
+   
+   :returns: An array of strings in order of feature id
+   
+
