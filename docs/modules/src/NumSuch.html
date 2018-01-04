@@ -151,7 +151,7 @@
 <dt id="NumSuch.indexSort">
 <em class="property">iter </em><code class="descname">indexSort</code><span class="sig-paren">(</span><em>arr</em>, <em>idx</em>, <em>reverse = false</em><span class="sig-paren">)</span><a class="headerlink" href="#NumSuch.indexSort" title="Permalink to this definition">¶</a></dt>
 <dd><blockquote>
-<div><p>Sort an array <cite>arr</cite> according to the values in the array <cite>idx</cite></p>
+<div><p>Sort an array <code class="docutils literal"><span class="pre">arr</span></code> according to the values in the array <code class="docutils literal"><span class="pre">idx</span></code></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -160,9 +160,9 @@
 </tr>
 <tr class="field-even field"><th class="field-name">arg idx:</th><td class="field-body">The indexing array</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">arg reverse:</th><td class="field-body">Boolean indicating whether <cite>idx</cite> should be considered in reverse order. Default is <cite>false</cite></td>
+<tr class="field-odd field"><th class="field-name">arg reverse:</th><td class="field-body">Boolean indicating whether <code class="docutils literal"><span class="pre">idx</span></code> should be considered in reverse order. Default is <code class="docutils literal"><span class="pre">false</span></code></td>
 </tr>
-<tr class="field-even field"><th class="field-name">returns:</th><td class="field-body">An iterator producing elements of <cite>arr</cite> sorted by values in <cite>idx</cite></td>
+<tr class="field-even field"><th class="field-name">returns:</th><td class="field-body">An iterator producing elements of <code class="docutils literal"><span class="pre">arr</span></code> sorted by values in <code class="docutils literal"><span class="pre">idx</span></code></td>
 </tr>
 </tbody>
 </table>
@@ -171,7 +171,7 @@
 <div class="highlight-python"><div class="highlight"><pre><span></span>const Arr = [7, 10, 23, 1];
 const Idx = [2.2, 3.3, 1.1, 4.4];
 
-for a in indexSort(arr=B, idx=A) {
+for a in indexSort(arr=Arr, idx=Idx) {
   writeln(a);
 }
 &gt; 23
@@ -179,7 +179,7 @@ for a in indexSort(arr=B, idx=A) {
 &gt; 10
 &gt; 1
 
-for a in indexSort(arr=B, idx=A, reverse=true) {
+for a in indexSort(arr=Arr, idx=Idx, reverse=true) {
   writeln(a);
 }
 

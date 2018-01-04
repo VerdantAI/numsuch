@@ -18,13 +18,13 @@ module NumSuch{
       Stats;
 
   /*
-  Sort an array `arr` according to the values in the array `idx`
+  Sort an array ``arr`` according to the values in the array ``idx``
 
   :arg arr: The array to be sorted
   :arg idx: The indexing array
-  :arg reverse: Boolean indicating whether `idx` should be considered in reverse order. Default is `false`
+  :arg reverse: Boolean indicating whether ``idx`` should be considered in reverse order. Default is ``false``
 
-  :returns: An iterator producing elements of `arr` sorted by values in `idx`
+  :returns: An iterator producing elements of ``arr`` sorted by values in ``idx``
 
 examples::
 
