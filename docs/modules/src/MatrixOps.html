@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>NumSuch &mdash; chpldoc 0.0.1 documentation</title>
+  <title>MatrixOps &mdash; chpldoc 0.0.1 documentation</title>
   
 
   
@@ -31,8 +31,8 @@
 
   
     <link rel="top" title="chpldoc 0.0.1 documentation" href="../../index.html"/>
-        <link rel="next" title="PeelPropagation" href="PeelPropagation.html"/>
-        <link rel="prev" title="NN" href="NN.html"/> 
+        <link rel="next" title="NN" href="NN.html"/>
+        <link rel="prev" title="Core" href="Core.html"/> 
 
   
   <script src="../../_static/js/modernizr.min.js"></script>
@@ -86,9 +86,9 @@
 </ul>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="Core.html">Core</a></li>
-<li class="toctree-l1"><a class="reference internal" href="MatrixOps.html">MatrixOps</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">MatrixOps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="NN.html">NN</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">NumSuch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="NumSuch.html">NumSuch</a></li>
 <li class="toctree-l1"><a class="reference internal" href="PeelPropagation.html">PeelPropagation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Stats.html">Stats</a></li>
 </ul>
@@ -121,11 +121,11 @@
   <ul class="wy-breadcrumbs">
     <li><a href="../../index.html">Docs</a> &raquo;</li>
       
-    <li>NumSuch</li>
+    <li>MatrixOps</li>
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="../../_sources/modules/src/NumSuch.txt" rel="nofollow"> View page source</a>
+            <a href="../../_sources/modules/src/MatrixOps.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -135,60 +135,53 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <span class="target" id="module-NumSuch"></span><div class="section" id="numsuch">
-<h1>NumSuch<a class="headerlink" href="#numsuch" title="Permalink to this headline">¶</a></h1>
+  <span class="target" id="module-MatrixOps"></span><div class="section" id="matrixops">
+<h1>MatrixOps<a class="headerlink" href="#matrixops" title="Permalink to this headline">¶</a></h1>
 <p><strong>Usage</strong></p>
-<div class="highlight-chapel"><div class="highlight"><pre><span></span><span class="k">use</span> <span class="nx">NumSuch</span><span class="p">;</span>
+<div class="highlight-chapel"><div class="highlight"><pre><span></span><span class="k">use</span> <span class="nx">MatrixOps</span><span class="p">;</span>
 </pre></div>
 </div>
-<p>View NumSuch <a class="reference external" href="https://github.com/buddha314/numsuch">on Github</a></p>
-<p>It would be fun to do some math! But not yet I guess</p>
-<p>Let&#8217;s try out a code block:</p>
-<div class="highlight-chapel"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">d</span><span class="p">:</span> <span class="k">domain</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="o">..</span><span class="mi">71</span><span class="p">};</span>
-</pre></div>
-</div>
-<dl class="iterfunction">
-<dt id="NumSuch.indexSort">
-<em class="property">iter </em><code class="descname">indexSort</code><span class="sig-paren">(</span><em>arr</em>, <em>idx</em>, <em>reverse = false</em><span class="sig-paren">)</span><a class="headerlink" href="#NumSuch.indexSort" title="Permalink to this definition">¶</a></dt>
-<dd><blockquote>
-<div><p>Sort an array <code class="docutils literal"><span class="pre">arr</span></code> according to the values in the array <code class="docutils literal"><span class="pre">idx</span></code></p>
-<table class="docutils field-list" frame="void" rules="none">
+<dl class="function">
+<dt id="MatrixOps.wFromPG">
+<em class="property">proc </em><code class="descname">wFromPG</code><span class="sig-paren">(</span><em>con: Connection</em>, <em>edgeTable: string</em>, <em>fromField: string</em>, <em>toField: string</em>, <em>wField: string</em>, <em>n: int</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.wFromPG" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">arg arr:</th><td class="field-body">The array to be sorted</td>
-</tr>
-<tr class="field-even field"><th class="field-name">arg idx:</th><td class="field-body">The indexing array</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">arg reverse:</th><td class="field-body">Boolean indicating whether <code class="docutils literal"><span class="pre">idx</span></code> should be considered in reverse order. Default is <code class="docutils literal"><span class="pre">false</span></code></td>
-</tr>
-<tr class="field-even field"><th class="field-name">returns:</th><td class="field-body">An iterator producing elements of <code class="docutils literal"><span class="pre">arr</span></code> sorted by values in <code class="docutils literal"><span class="pre">idx</span></code></td>
+<tr class="field-odd field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first last simple">
+<li><strong>con</strong> &#8211; A CDO Connection to Postgres</li>
+<li><strong>edgeTable</strong> &#8211; The table in PG of edges</li>
+<li><strong>fromField</strong> &#8211; The field of edgeTable containing the id of the head vertex</li>
+<li><strong>toField</strong> &#8211; the field of edgeTable containing the id of the tail vertex</li>
+<li><strong>wField</strong> &#8211; The field of edgeTable containing the weight of the edge</li>
+<li><strong>n</strong> &#8211; number of distinct vertices. In practice, this may be gives and the number of names</li>
+</ul>
+</td>
 </tr>
 </tbody>
 </table>
-</div></blockquote>
-<p>examples:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>const Arr = [7, 10, 23, 1];
-const Idx = [2.2, 3.3, 1.1, 4.4];
+</dd></dl>
 
-for a in indexSort(arr=Arr, idx=Idx) {
-  writeln(a);
-}
-&gt; 23
-&gt; 7
-&gt; 10
-&gt; 1
-
-for a in indexSort(arr=Arr, idx=Idx, reverse=true) {
-  writeln(a);
-}
-
-&gt; 1
-&gt; 10
-&gt; 7
-&gt; 23
-</pre></div>
-</div>
+<dl class="function">
+<dt id="MatrixOps.vNamesFromPG">
+<em class="property">proc </em><code class="descname">vNamesFromPG</code><span class="sig-paren">(</span><em>con: Connection</em>, <em>nameTable: string</em>, <em>nameField: string</em>, <em>idField: string</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.vNamesFromPG" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first simple">
+<li><strong>con</strong> &#8211; A connection to a Postgres database containing a table with &lt;ftr_id&gt;, &lt;vertex_name&gt; pairs</li>
+<li><strong>nameTable</strong> &#8211; The name of the Postgres table containing the pairs</li>
+<li><strong>nameField</strong> &#8211; The name of the field in the nameTable containing the names</li>
+<li><strong>idField</strong> &#8211; The name of the field in the nameTable containing the feature ids</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">An array of strings in order of feature id</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </div>
@@ -200,10 +193,10 @@ for a in indexSort(arr=Arr, idx=Idx, reverse=true) {
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="PeelPropagation.html" class="btn btn-neutral float-right" title="PeelPropagation" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="NN.html" class="btn btn-neutral float-right" title="NN" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="NN.html" class="btn btn-neutral" title="NN" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="Core.html" class="btn btn-neutral" title="Core" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
