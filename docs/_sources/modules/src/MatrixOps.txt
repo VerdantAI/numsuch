@@ -10,7 +10,7 @@ MatrixOps
 
    use MatrixOps;
 
-.. function:: proc wFromPG(con: Connection, edgeTable: string, fromField: string, toField: string, wField: string, n: int)
+.. function:: proc wFromPG(con: Connection, edgeTable: string, fromField: string, toField: string, wField: string, n: int, weights = true)
 
    
    :arg con: A CDO Connection to Postgres
@@ -19,6 +19,7 @@ MatrixOps
    :arg toField: the field of edgeTable containing the id of the tail vertex
    :arg wField: The field of edgeTable containing the weight of the edge
    :arg n: number of distinct vertices. In practice, this may be gives and the number of names
+   :arg weights: Boolean on whether to use the weights in the table or a 1 (indicator)
    
 
 .. function:: proc vNamesFromPG(con: Connection, nameTable: string, nameField: string, idField: string)

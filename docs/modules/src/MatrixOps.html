@@ -143,7 +143,7 @@
 </div>
 <dl class="function">
 <dt id="MatrixOps.wFromPG">
-<em class="property">proc </em><code class="descname">wFromPG</code><span class="sig-paren">(</span><em>con: Connection</em>, <em>edgeTable: string</em>, <em>fromField: string</em>, <em>toField: string</em>, <em>wField: string</em>, <em>n: int</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.wFromPG" title="Permalink to this definition">¶</a></dt>
+<em class="property">proc </em><code class="descname">wFromPG</code><span class="sig-paren">(</span><em>con: Connection</em>, <em>edgeTable: string</em>, <em>fromField: string</em>, <em>toField: string</em>, <em>wField: string</em>, <em>n: int</em>, <em>weights = true</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.wFromPG" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -155,6 +155,7 @@
 <li><strong>toField</strong> &#8211; the field of edgeTable containing the id of the tail vertex</li>
 <li><strong>wField</strong> &#8211; The field of edgeTable containing the weight of the edge</li>
 <li><strong>n</strong> &#8211; number of distinct vertices. In practice, this may be gives and the number of names</li>
+<li><strong>weights</strong> &#8211; Boolean on whether to use the weights in the table or a 1 (indicator)</li>
 </ul>
 </td>
 </tr>

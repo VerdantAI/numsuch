@@ -9,9 +9,10 @@ use Cdo,
   :arg toField: the field of edgeTable containing the id of the tail vertex
   :arg wField: The field of edgeTable containing the weight of the edge
   :arg n: number of distinct vertices. In practice, this may be gives and the number of names
+  :arg weights: Boolean on whether to use the weights in the table or a 1 (indicator)
  */
 proc wFromPG(con: Connection, edgeTable: string
-    , fromField: string, toField: string, wField: string, n: int) {
+    , fromField: string, toField: string, wField: string, n: int, weights=true) {
   var q = "SELECT %s, %s, %s FROM %s ORDER BY 1, 2;";
   var cursor = con.cursor();
   cursor.query(q,(fromField, toField, wField, edgeTable));
@@ -21,7 +22,11 @@ proc wFromPG(con: Connection, edgeTable: string
 
   for row in cursor {
     SD += (row[fromField]: int, row[toField]:int);
-    W[row[fromField]:int, row[toField]:int] = row[wField]: real;
+    if weights {
+      W[row[fromField]:int, row[toField]:int] = row[wField]: real;
+    } else {
+      W[row[fromField]:int, row[toField]:int] = 1;
+    }
   }
    return W;
 }
