@@ -31,7 +31,7 @@
 
   
     <link rel="top" title="chpldoc 0.0.1 documentation" href="../../index.html"/>
-        <link rel="next" title="NN" href="NN.html"/>
+        <link rel="next" title="MatrixOps" href="MatrixOps.html"/>
         <link rel="prev" title="chpldoc documentation" href="../../index.html"/> 
 
   
@@ -86,10 +86,12 @@
 </ul>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="">Core</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MatrixOps.html">MatrixOps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="NN.html">NN</a></li>
 <li class="toctree-l1"><a class="reference internal" href="NumSuch.html">NumSuch</a></li>
 <li class="toctree-l1"><a class="reference internal" href="PeelPropagation.html">PeelPropagation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Stats.html">Stats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Viterbi.html">Viterbi</a></li>
 </ul>
 
             
@@ -223,12 +225,27 @@ Dimensions must be conformable</p>
 <dl class="function">
 <dt id="Core.argmax">
 <em class="property">proc </em><code class="descname">argmax</code><span class="sig-paren">(</span><em>x: []</em>, <em>axis: int = 0</em><span class="sig-paren">)</span><a class="headerlink" href="#Core.argmax" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
-<dt>axis = 0: argmax over whole object array (default)</dt>
-<dd>1: argmax for every row
-2: argmax for every column</dd>
-</dl>
-<p>returns: tuple.  In the case of axis=0 this is the (i,j) coordinate of the max.</p>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first simple">
+<li><strong>x</strong> &#8211; 1 or 2D numeric array</li>
+<li><strong>axis</strong> &#8211; integer indicting dimension of the object.</li>
+<li><strong>axis=0</strong> &#8211; (default) argmax over whole object</li>
+<li><strong>axis=1</strong> &#8211; integer indicting dimension of the object.</li>
+<li><strong>axis=1</strong> &#8211; integer indicting dimension of the object.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">In the case of axis=0 this is the (i,j) coordinate of the max.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tuple</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
@@ -245,7 +262,7 @@ Dimensions must be conformable</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="NN.html" class="btn btn-neutral float-right" title="NN" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="MatrixOps.html" class="btn btn-neutral float-right" title="MatrixOps" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="../../index.html" class="btn btn-neutral" title="chpldoc documentation" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>

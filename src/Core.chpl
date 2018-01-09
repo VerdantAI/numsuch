@@ -20,7 +20,7 @@ Loads a label file into a Matrix.  Labels should be binary indicators
 ::
 
     <record id: string> <category 1 indicator> ... <category L indicator>
-     
+
      */
     proc readFromFile(fn: string, addDummy: bool = false, useCols=false) {
       var lFile = open(fn, iomode.r).reader(),
@@ -129,19 +129,11 @@ Loads a label file into a Matrix.  Labels should be binary indicators
    Dimensions must be conformable
    */
   proc cosineDistance(X:[?Xdom], Y:[?Ydom], denseOutput=true) {
-    // TODO
     if !denseOutput then halt('denseOutput=false not yet supported');
-
-    if X.shape[2] != Y.shape[2] {
-      halt(" dimension mismatch: X = (%n,%n)  Y = (%n,%n)".format(X.shape[1], X.shape[2], Y.shape[1], Y.shape[2]));
-    }
+    try! X.shape[2] == Y.shape[2];
 
     var cosDistDom: domain(2) = {Xdom.dim(1), Ydom.dim(1)},
         cosDist: [cosDistDom] real;
-
-    // TODO: verbose output
-    //writeln(" Got V: ", V.shape);
-    //writeln(" cosDistDom.dims(1) ", cosDistDom.dims());
 
     // Pre-compute norms
     var Xii: [Xdom.dim(1)] real;
@@ -199,13 +191,16 @@ Loads a label file into a Matrix.  Labels should be binary indicators
 
 
   /*
-   axis = 0: argmax over whole object array (default)
-          1: argmax for every row
-          2: argmax for every column
 
-   returns: tuple.  In the case of axis=0 this is the (i,j) coordinate of the max.
+
+   :arg x: 1 or 2D numeric array
+   :arg axis: integer indicting dimension of the object.
+   :arg axis=0: (default) argmax over whole object
+   :arg axis=1: integer indicting dimension of the object.
+   :arg axis=1: integer indicting dimension of the object.
+   :return: In the case of axis=0 this is the (i,j) coordinate of the max.
+   :rtype: tuple
    */
-
   proc argmax(x: [], axis:int = 0 ) {
     //writeln(x.domain);
     //writeln(x.shape.size);

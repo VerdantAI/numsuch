@@ -1,0 +1,26 @@
+.. default-domain:: chpl
+
+.. module:: Viterbi
+
+Viterbi
+=======
+**Usage**
+
+.. code-block:: chapel
+
+   use Viterbi;
+
+.. function:: proc Viterbi(observations: [], states: [], initialProbabilities: [], transitionProbabilities: [], emissionProbabilities: [])
+
+   
+   Basic implementation of the [Viterbi Algorithm](https://en.wikipedia.org/wiki/Viterbi_algorithm)
+   Note the ``observations`` and ``states`` are assume to be an array of strings.  Future implementations
+   may send a flag
+   
+   :arg observations: A sequence of observed states. Assumed to be an array of strings.
+   :arg states: An array of hidden state names, assumed to be strings
+   :arg initialProbabilities: A probability distribution over the hidden states
+   :arg transitionProbabilities: Transition matrix for hidden state to hidden state
+   :arg emissionProbabilities: Probabilites mapping hidden state -> observed state
+    
+

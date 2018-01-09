@@ -40,7 +40,7 @@ Core
       ::
       
           <record id: string> <category 1 indicator> ... <category L indicator>
-           
+      
            
 
    .. method:: proc fromMatrix(y: [])
@@ -69,11 +69,15 @@ Core
 .. function:: proc argmax(x: [], axis: int = 0)
 
    
-   axis = 0: argmax over whole object array (default)
-          1: argmax for every row
-          2: argmax for every column
    
-   returns: tuple.  In the case of axis=0 this is the (i,j) coordinate of the max.
+   
+   :arg x: 1 or 2D numeric array
+   :arg axis: integer indicting dimension of the object.
+   :arg axis=0: (default) argmax over whole object
+   :arg axis=1: integer indicting dimension of the object.
+   :arg axis=1: integer indicting dimension of the object.
+   :return: In the case of axis=0 this is the (i,j) coordinate of the max.
+   :rtype: tuple
    
 
 .. function:: proc xlog2x(x: real)
