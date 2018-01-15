@@ -64,6 +64,7 @@ proc persistSparseMatrix(con:Connection, aTable: string, fromField: string
   const q = "INSERT INTO %s (%s, %s, %s) VALUES (%s, %s, %s);";
   var cur = con.cursor();
   for (i,j) in A.domain {
+    //writeln(" i, j ", ij[1], ", ", ij[2]);
     const d = (aTable, fromField, toField, weightField, i, j, A[i,j]);
     cur.execute(q, d);
   }
