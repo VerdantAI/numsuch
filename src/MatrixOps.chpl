@@ -56,3 +56,15 @@ proc vNamesFromPG(con: Connection, nameTable: string
   }
   return vertexNames;
 }
+
+/*
+ */
+proc persistSparseMatrix(con:Connection, aTable: string, fromField: string
+  , toField: string, weightField: string, A) {
+  const q = "INSERT INTO %s (%s, %s, %s) VALUES (%s, %s, %s);";
+  var cur = con.cursor();
+  for (i,j) in A.domain {
+    const d = (aTable, fromField, toField, weightField, i, j, A[i,j]);
+    cur.execute(q, d);
+  }
+}
