@@ -23,7 +23,7 @@ Loads a label file into a Matrix.  Labels should be binary indicators
 
      */
     proc readFromFile(fn: string, addDummy: bool = false, useCols=false) {
-      var lFile = open(fn, iomode.r).reader(),
+      var lFile = try! open(fn, iomode.r).reader(),
           x: [1..0] real,
           nFields: int,
           line: string,
