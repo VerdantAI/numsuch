@@ -1,0 +1,20 @@
+.. default-domain:: chpl
+
+.. module:: labelmatrix-from-file
+
+labelmatrix-from-file
+=====================
+**Usage**
+
+.. code-block:: chapel
+
+   use labelmatrix-from-file;
+
+.. data:: var labelFile = "data/webkb_labels.txt"
+
+.. data:: var vectorFile = "data/webkb_vectors.mtx"
+
+.. data:: var L = new LabelMatrix()
+
+.. data:: var t: Timer
+

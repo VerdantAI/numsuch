@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Viterbi &mdash; chpldoc 0.0.1 documentation</title>
+  <title>labelmatrix-from-file &mdash; chpldoc 0.0.1 documentation</title>
   
 
   
@@ -33,7 +33,8 @@
 
   
     <link rel="top" title="chpldoc 0.0.1 documentation" href="../../index.html"/>
-        <link rel="prev" title="Stats" href="Stats.html"/> 
+        <link rel="next" title="Core" href="../src/Core.html"/>
+        <link rel="prev" title="cosineDistance" href="cosineDistance.html"/> 
 
   
   <script src="../../_static/js/modernizr.min.js"></script>
@@ -90,15 +91,15 @@
 <li class="toctree-l1"><a class="reference internal" href="../../index.html">chpldoc documentation</a></li>
 </ul>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../examples/cosineDistance.html">cosineDistance</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples/labelmatrix-from-file.html">labelmatrix-from-file</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Core.html">Core</a></li>
-<li class="toctree-l1"><a class="reference internal" href="MatrixOps.html">MatrixOps</a></li>
-<li class="toctree-l1"><a class="reference internal" href="NN.html">NN</a></li>
-<li class="toctree-l1"><a class="reference internal" href="NumSuch.html">NumSuch</a></li>
-<li class="toctree-l1"><a class="reference internal" href="PeelPropagation.html">PeelPropagation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Stats.html">Stats</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Viterbi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cosineDistance.html">cosineDistance</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">labelmatrix-from-file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../src/Core.html">Core</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../src/MatrixOps.html">MatrixOps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../src/NN.html">NN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../src/NumSuch.html">NumSuch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../src/PeelPropagation.html">PeelPropagation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../src/Stats.html">Stats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../src/Viterbi.html">Viterbi</a></li>
 </ul>
 
             
@@ -143,13 +144,13 @@
     
       <li><a href="../../index.html">Docs</a> &raquo;</li>
         
-      <li>Viterbi</li>
+      <li>labelmatrix-from-file</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../../_sources/modules/src/Viterbi.txt" rel="nofollow"> View page source</a>
+            <a href="../../_sources/modules/examples/labelmatrix-from-file.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -162,34 +163,31 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <span class="target" id="module-Viterbi"></span><div class="section" id="viterbi">
-<h1>Viterbi<a class="headerlink" href="#viterbi" title="Permalink to this headline">¶</a></h1>
+  <span class="target" id="module-labelmatrix-from-file"></span><div class="section" id="labelmatrix-from-file">
+<h1>labelmatrix-from-file<a class="headerlink" href="#labelmatrix-from-file" title="Permalink to this headline">¶</a></h1>
 <p><strong>Usage</strong></p>
-<div class="highlight-chapel"><div class="highlight"><pre><span></span><span class="k">use</span> <span class="nx">Viterbi</span><span class="p">;</span>
+<div class="highlight-chapel"><div class="highlight"><pre><span></span><span class="k">use</span> <span class="nx">labelmatrix</span><span class="o">-</span><span class="nx">from</span><span class="o">-</span><span class="nx">file</span><span class="p">;</span>
 </pre></div>
 </div>
-<dl class="function">
-<dt id="Viterbi.Viterbi">
-<em class="property">proc </em><tt class="descname">Viterbi</tt><big>(</big><em>observations: []</em>, <em>states: []</em>, <em>initialProbabilities: []</em>, <em>transitionProbabilities: []</em>, <em>emissionProbabilities: []</em><big>)</big><a class="headerlink" href="#Viterbi.Viterbi" title="Permalink to this definition">¶</a></dt>
-<dd><p>Basic implementation of the [Viterbi Algorithm](<a class="reference external" href="https://en.wikipedia.org/wiki/Viterbi_algorithm">https://en.wikipedia.org/wiki/Viterbi_algorithm</a>)
-Note the <tt class="docutils literal"><span class="pre">observations</span></tt> and <tt class="docutils literal"><span class="pre">states</span></tt> are assume to be an array of strings.  Future implementations
-may send a flag</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first last simple">
-<li><strong>observations</strong> &#8211; A sequence of observed states. Assumed to be an array of strings.</li>
-<li><strong>states</strong> &#8211; An array of hidden state names, assumed to be strings</li>
-<li><strong>initialProbabilities</strong> &#8211; A probability distribution over the hidden states</li>
-<li><strong>transitionProbabilities</strong> &#8211; Transition matrix for hidden state to hidden state</li>
-<li><strong>emissionProbabilities</strong> &#8211; Probabilites mapping hidden state -&gt; observed state</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
+<dl class="data">
+<dt id="labelmatrix-from-file.labelFile">
+<em class="property">var </em><tt class="descname">labelFile</tt> = &quot;data/webkb_labels.txt&quot;<a class="headerlink" href="#labelmatrix-from-file.labelFile" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
+<dt id="labelmatrix-from-file.vectorFile">
+<em class="property">var </em><tt class="descname">vectorFile</tt> = &quot;data/webkb_vectors.mtx&quot;<a class="headerlink" href="#labelmatrix-from-file.vectorFile" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
+<dt id="labelmatrix-from-file.L">
+<em class="property">var </em><tt class="descname">L</tt> = new LabelMatrix()<a class="headerlink" href="#labelmatrix-from-file.L" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
+<dt id="labelmatrix-from-file.t">
+<em class="property">var </em><tt class="descname">t</tt>: Timer<a class="headerlink" href="#labelmatrix-from-file.t" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </div>
 
@@ -203,8 +201,10 @@ may send a flag</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
+        <a href="../src/Core.html" class="btn btn-neutral float-right" title="Core" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
-        <a href="Stats.html" class="btn btn-neutral" title="Stats" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+        <a href="cosineDistance.html" class="btn btn-neutral" title="cosineDistance" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
