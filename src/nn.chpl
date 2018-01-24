@@ -76,13 +76,13 @@ module NN {
           for l in layers.domain {
             ref currentLayer = layers[l];
             if l == layers.domain.first {
-              currentLayer.a = matPlus(currentLayer.bias, dot(X, currentLayer.W));
+              currentLayer.a = currentLayer.bias.plus(dot(X, currentLayer.W));
               currentLayer.h = currentLayer.activation.f(currentLayer.a);
               continue;
             }
             //writeln("** FORWARDS : On layer %i".format(currentLayer.layerId));
             ref lowerLayer = layers[l-1];
-            currentLayer.a = matPlus(currentLayer.bias, dot(lowerLayer.h, currentLayer.W));
+            currentLayer.a = currentLayer.bias.plus(dot(lowerLayer.h, currentLayer.W));
             currentLayer.h = currentLayer.activation.f(currentLayer.a);
           }
           /*
@@ -179,7 +179,7 @@ module NN {
     proc L(y:[], x:[]) {
       var yd: [x.domain] real;
       yd[..,1] = y;
-      var e = matMinus(yd, x);
+      var e = yd.minus(x);
       return e;
     }
   }
