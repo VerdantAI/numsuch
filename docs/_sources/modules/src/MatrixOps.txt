@@ -34,3 +34,8 @@ MatrixOps
    :returns: An array of strings in order of feature id
    
 
+.. function:: proc persistSparseMatrix(con: Connection, aTable: string, fromField: string, toField: string, weightField: string, A)
+
+   
+   
+

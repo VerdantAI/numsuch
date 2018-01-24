@@ -48,7 +48,7 @@ module PeelPropagation {
           F = dot(Lnorm.T, F);
         }
         F = (1-alpha) * L.data + alpha * F;
-        err = + reduce abs(matMinus(F, Fold));
+        err = + reduce abs(F.minus(Fold));
         e += 1;
         Fold = F;
         //writeln("  epoch %n  error %n".format(e, err));
@@ -64,7 +64,7 @@ module PeelPropagation {
    Calculates error on unlabled data
    */
   proc calculateError(Ygold: LabelMatrix, Ypred: LabelMatrix) {
-    var mm: [Ypred.dataDom] real = abs(matMinus(Ygold.data, Ypred.data));
+    var mm: [Ypred.dataDom] real = abs(Ygold.data.minus(Ypred.data));
     var e = 0.0;
     for s in Ypred.trainingLabelDom {
       e += + reduce mm[s,..];

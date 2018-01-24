@@ -7,3 +7,8 @@ Removed all graph routines from the main module. These are being ported to [Chin
 ## Version 0.1.2
 
 Added Viterbi code and some probability distributions.
+
+
+## Version 0.1.3
+
+Removed deprecated functions matPlus() and matMinus()

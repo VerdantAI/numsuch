@@ -10,7 +10,7 @@ var labelFile= "data/karate-fac_labels.txt";
 var t: Timer;
 var X = mmread(real, edgeFile);
 // Data in file is only sub-diagonal, so add back super
-X = matPlus(X,transpose(X));
+X = X.plus(transpose(X));
 //writeln(X);
 var Y = new LabelMatrix();
 Y.readFromFile(labelFile);
