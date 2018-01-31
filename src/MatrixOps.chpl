@@ -57,15 +57,28 @@ proc vNamesFromPG(con: Connection, nameTable: string
   return vertexNames;
 }
 
+config param batchsize = 10000;
 /*
  */
-proc persistSparseMatrix(con:Connection, aTable: string, fromField: string
-  , toField: string, weightField: string, A) {
-  const q = "INSERT INTO %s (%s, %s, %s) VALUES (%s, %s, %s);";
-  var cur = con.cursor();
-  for (i,j) in A.domain {
-    //writeln(" i, j ", ij[1], ", ", ij[2]);
-    const d = (aTable, fromField, toField, weightField, i, j, A[i,j]);
-    cur.execute(q, d);
-  }
-}
+
+
+
+
+ proc bulkInsertMatrix(con: Connection, aTable: string, fromField: string, toField: string, weightField: string, A:[?D] real) {
+   const q = "INSERT INTO %s (%s, %s, %s) VALUES (%s, %s, %s);";
+   var cur = con.cursor();
+   var count: int = 0;
+   var dom: domain(1, int, false) = {1..0};
+   var ts: [dom] (string, string, string, string, int, int, real);
+   for ij in A.domain {
+     ts.push_back((aTable, fromField, toField, weightField, ij(1), ij(2), A(ij)));
+     count += 1;
+     if count == batchsize {
+       cur.execute(q, ts);
+       count = 0;
+       var reset: [dom] (string, string, string, string, int, int, real);
+       ts = reset;
+     }
+   }
+   cur.execute(q,ts);
+ }

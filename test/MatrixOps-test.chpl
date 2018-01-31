@@ -23,7 +23,7 @@ writeln(vnames);
 var W = wFromPG(con=con, edgeTable=edgeTable, fromField, toField, wField, n=vnames.size);
 writeln(W);
 
-persistSparseMatrix(con, aTable=wTable, fromField=fromField, toField=toField, weightField=wField, A=W); 
+bulkInsertMatrix(con, aTable=wTable, fromField=fromField, toField=toField, weightField=wField, A=W);
 /* completes in about 160 seconds
 var W2 = wFromPG(con=con, edgeTable="r.yummly_edges", fromField, toField, wField, n=6714);
 */
