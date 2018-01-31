@@ -13,8 +13,6 @@
 
   
   
-  
-  
 
   
 
@@ -43,7 +41,6 @@
 
 <body class="wy-body-for-nav" role="document">
 
-   
   <div class="wy-grid-for-nav">
 
     
@@ -84,10 +81,7 @@
           
             
             
-              
-            
-            
-              <ul>
+                <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../index.html">chpldoc documentation</a></li>
 </ul>
 <ul class="current">
@@ -112,10 +106,8 @@
 
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../index.html">chpldoc</a>
-        
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../index.html">chpldoc</a>
       </nav>
 
 
@@ -128,36 +120,19 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
 <div role="navigation" aria-label="breadcrumbs navigation">
-
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="../../index.html">Docs</a> &raquo;</li>
-        
-      <li>MatrixOps</li>
-    
-    
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+      
+    <li>MatrixOps</li>
       <li class="wy-breadcrumbs-aside">
         
-            
+          
             <a href="../../_sources/modules/src/MatrixOps.txt" rel="nofollow"> View page source</a>
           
         
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -171,7 +146,7 @@
 </div>
 <dl class="function">
 <dt id="MatrixOps.wFromPG">
-<em class="property">proc </em><tt class="descname">wFromPG</tt><big>(</big><em>con: Connection</em>, <em>edgeTable: string</em>, <em>fromField: string</em>, <em>toField: string</em>, <em>wField: string</em>, <em>n: int</em>, <em>weights = true</em><big>)</big><a class="headerlink" href="#MatrixOps.wFromPG" title="Permalink to this definition">¶</a></dt>
+<em class="property">proc </em><code class="descname">wFromPG</code><span class="sig-paren">(</span><em>con: Connection</em>, <em>edgeTable: string</em>, <em>fromField: string</em>, <em>toField: string</em>, <em>wField: string</em>, <em>n: int</em>, <em>weights = true</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.wFromPG" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -193,7 +168,7 @@
 
 <dl class="function">
 <dt id="MatrixOps.vNamesFromPG">
-<em class="property">proc </em><tt class="descname">vNamesFromPG</tt><big>(</big><em>con: Connection</em>, <em>nameTable: string</em>, <em>nameField: string</em>, <em>idField: string</em><big>)</big><a class="headerlink" href="#MatrixOps.vNamesFromPG" title="Permalink to this definition">¶</a></dt>
+<em class="property">proc </em><code class="descname">vNamesFromPG</code><span class="sig-paren">(</span><em>con: Connection</em>, <em>nameTable: string</em>, <em>nameField: string</em>, <em>idField: string</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.vNamesFromPG" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -213,27 +188,29 @@
 </table>
 </dd></dl>
 
+<dl class="data">
+<dt id="MatrixOps.batchsize">
+<em class="property">config param </em><code class="descname">batchsize</code> = 10000<a class="headerlink" href="#MatrixOps.batchsize" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="function">
-<dt id="MatrixOps.persistSparseMatrix">
-<em class="property">proc </em><tt class="descname">persistSparseMatrix</tt><big>(</big><em>con: Connection</em>, <em>aTable: string</em>, <em>fromField: string</em>, <em>toField: string</em>, <em>weightField: string</em>, <em>A</em><big>)</big><a class="headerlink" href="#MatrixOps.persistSparseMatrix" title="Permalink to this definition">¶</a></dt>
+<dt id="MatrixOps.bulkInsertMatrix">
+<em class="property">proc </em><code class="descname">bulkInsertMatrix</code><span class="sig-paren">(</span><em>con: Connection</em>, <em>aTable: string</em>, <em>fromField: string</em>, <em>toField: string</em>, <em>weightField: string</em>, <em>A: [?D] real</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.bulkInsertMatrix" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="NN.html" class="btn btn-neutral float-right" title="NN" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="NN.html" class="btn btn-neutral float-right" title="NN" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="Core.html" class="btn btn-neutral" title="Core" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="Core.html" class="btn btn-neutral" title="Core" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -267,14 +244,13 @@
             VERSION:'0.0.1',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            HAS_SOURCE:  true
         };
     </script>
       <script type="text/javascript" src="../../_static/jquery.js"></script>
       <script type="text/javascript" src="../../_static/underscore.js"></script>
       <script type="text/javascript" src="../../_static/doctools.js"></script>
-      <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

@@ -13,8 +13,6 @@
 
   
   
-  
-  
 
   
 
@@ -43,7 +41,6 @@
 
 <body class="wy-body-for-nav" role="document">
 
-   
   <div class="wy-grid-for-nav">
 
     
@@ -84,10 +81,7 @@
           
             
             
-              
-            
-            
-              <ul>
+                <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../index.html">chpldoc documentation</a></li>
 </ul>
 <ul class="current">
@@ -112,10 +106,8 @@
 
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../index.html">chpldoc</a>
-        
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../index.html">chpldoc</a>
       </nav>
 
 
@@ -128,36 +120,19 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
 <div role="navigation" aria-label="breadcrumbs navigation">
-
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="../../index.html">Docs</a> &raquo;</li>
-        
-      <li>Core</li>
-    
-    
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+      
+    <li>Core</li>
       <li class="wy-breadcrumbs-aside">
         
-            
+          
             <a href="../../_sources/modules/src/Core.txt" rel="nofollow"> View page source</a>
           
         
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -171,46 +146,46 @@
 </div>
 <dl class="enum">
 <dt id="Core.labelReplacementType">
-<em class="property">enum </em><tt class="descname">labelReplacementType</tt> { none, inverseDegree }<a class="headerlink" href="#Core.labelReplacementType" title="Permalink to this definition">¶</a></dt>
+<em class="property">enum </em><code class="descname">labelReplacementType</code> { none, inverseDegree }<a class="headerlink" href="#Core.labelReplacementType" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="class">
 <dt id="Core.LabelMatrix">
-<em class="property">class </em><tt class="descname">LabelMatrix</tt><a class="headerlink" href="#Core.LabelMatrix" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">LabelMatrix</code><a class="headerlink" href="#Core.LabelMatrix" title="Permalink to this definition">¶</a></dt>
 <dd><p>Class to hold labels for data.  Has names in names</p>
 <dl class="attribute">
 <dt id="Core.LabelMatrix.ldom">
-<em class="property">var </em><tt class="descname">ldom</tt>: domain(1) = {1..0}<a class="headerlink" href="#Core.LabelMatrix.ldom" title="Permalink to this definition">¶</a></dt>
+<em class="property">var </em><code class="descname">ldom</code>: domain(1) = {1..0}<a class="headerlink" href="#Core.LabelMatrix.ldom" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="Core.LabelMatrix.dataDom">
-<em class="property">var </em><tt class="descname">dataDom</tt>: domain(2)<a class="headerlink" href="#Core.LabelMatrix.dataDom" title="Permalink to this definition">¶</a></dt>
+<em class="property">var </em><code class="descname">dataDom</code>: domain(2)<a class="headerlink" href="#Core.LabelMatrix.dataDom" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="Core.LabelMatrix.nLabelValues">
-<em class="property">var </em><tt class="descname">nLabelValues</tt>: int = 0<a class="headerlink" href="#Core.LabelMatrix.nLabelValues" title="Permalink to this definition">¶</a></dt>
+<em class="property">var </em><code class="descname">nLabelValues</code>: int = 0<a class="headerlink" href="#Core.LabelMatrix.nLabelValues" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="Core.LabelMatrix.data">
-<em class="property">var </em><tt class="descname">data</tt>: [dataDom] real<a class="headerlink" href="#Core.LabelMatrix.data" title="Permalink to this definition">¶</a></dt>
+<em class="property">var </em><code class="descname">data</code>: [dataDom] real<a class="headerlink" href="#Core.LabelMatrix.data" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="Core.LabelMatrix.names">
-<em class="property">var </em><tt class="descname">names</tt>: [ldom] string<a class="headerlink" href="#Core.LabelMatrix.names" title="Permalink to this definition">¶</a></dt>
+<em class="property">var </em><code class="descname">names</code>: [ldom] string<a class="headerlink" href="#Core.LabelMatrix.names" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="Core.LabelMatrix.trainingLabelDom">
-<em class="property">var </em><tt class="descname">trainingLabelDom</tt>: ldom.defaultSparseDistchpl__buildSparseDomainRuntimeTypeldom<a class="headerlink" href="#Core.LabelMatrix.trainingLabelDom" title="Permalink to this definition">¶</a></dt>
+<em class="property">var </em><code class="descname">trainingLabelDom</code>: ldom.defaultSparseDistchpl__buildSparseDomainRuntimeTypeldom<a class="headerlink" href="#Core.LabelMatrix.trainingLabelDom" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="Core.LabelMatrix.readFromFile">
-<em class="property">proc </em><tt class="descname">readFromFile</tt><big>(</big><em>fn: string</em>, <em>addDummy: bool = false</em>, <em>useCols = false</em><big>)</big><a class="headerlink" href="#Core.LabelMatrix.readFromFile" title="Permalink to this definition">¶</a></dt>
+<em class="property">proc </em><code class="descname">readFromFile</code><span class="sig-paren">(</span><em>fn: string</em>, <em>addDummy: bool = false</em>, <em>useCols = false</em><span class="sig-paren">)</span><a class="headerlink" href="#Core.LabelMatrix.readFromFile" title="Permalink to this definition">¶</a></dt>
 <dd><p>Loads a label file into a Matrix.  Labels should be binary indicators
 :arg useCols: use columns for the labels, as in an indicator for each column. default is to have an integer representing the label &lt;TAB&gt; separated</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span>&lt;record id: string&gt; &lt;category 1 indicator&gt; ... &lt;category L indicator&gt;
@@ -220,38 +195,38 @@
 
 <dl class="method">
 <dt id="Core.LabelMatrix.fromMatrix">
-<em class="property">proc </em><tt class="descname">fromMatrix</tt><big>(</big><em>y: []</em><big>)</big><a class="headerlink" href="#Core.LabelMatrix.fromMatrix" title="Permalink to this definition">¶</a></dt>
+<em class="property">proc </em><code class="descname">fromMatrix</code><span class="sig-paren">(</span><em>y: []</em><span class="sig-paren">)</span><a class="headerlink" href="#Core.LabelMatrix.fromMatrix" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="function">
 <dt id="Core.cosineDistance">
-<em class="property">proc </em><tt class="descname">cosineDistance</tt><big>(</big><em>X: [?Xdom], denseOutput = true</em><big>)</big><a class="headerlink" href="#Core.cosineDistance" title="Permalink to this definition">¶</a></dt>
+<em class="property">proc </em><code class="descname">cosineDistance</code><span class="sig-paren">(</span><em>X: [?Xdom], denseOutput = true</em><span class="sig-paren">)</span><a class="headerlink" href="#Core.cosineDistance" title="Permalink to this definition">¶</a></dt>
 <dd><p>Does the pairwise cosine distance between rows of X.
 Dimensions must be conformable</p>
 </dd></dl>
 
 <dl class="function">
 <dt>
-<em class="property">proc </em><tt class="descname">cosineDistance</tt><big>(</big><em>X: [?Xdom], Y: [?Ydom], denseOutput = true</em><big>)</big></dt>
+<em class="property">proc </em><code class="descname">cosineDistance</code><span class="sig-paren">(</span><em>X: [?Xdom], Y: [?Ydom], denseOutput = true</em><span class="sig-paren">)</span></dt>
 <dd><p>Does the pairwise cosine distance between rows of X and rows of Y.
 Dimensions must be conformable</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="Core.subSampleLabels">
-<em class="property">proc </em><tt class="descname">subSampleLabels</tt><big>(</big><em>L: LabelMatrix</em>, <em>sampleSize: int</em>, <em>replacementMethod: labelReplacementType = labelReplacementType.none</em><big>)</big><a class="headerlink" href="#Core.subSampleLabels" title="Permalink to this definition">¶</a></dt>
+<em class="property">proc </em><code class="descname">subSampleLabels</code><span class="sig-paren">(</span><em>L: LabelMatrix</em>, <em>sampleSize: int</em>, <em>replacementMethod: labelReplacementType = labelReplacementType.none</em><span class="sig-paren">)</span><a class="headerlink" href="#Core.subSampleLabels" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="Core.argmax1d">
-<em class="property">proc </em><tt class="descname">argmax1d</tt><big>(</big><em>x: []</em><big>)</big><a class="headerlink" href="#Core.argmax1d" title="Permalink to this definition">¶</a></dt>
+<em class="property">proc </em><code class="descname">argmax1d</code><span class="sig-paren">(</span><em>x: []</em><span class="sig-paren">)</span><a class="headerlink" href="#Core.argmax1d" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="Core.argmax">
-<em class="property">proc </em><tt class="descname">argmax</tt><big>(</big><em>x: []</em>, <em>axis: int = 0</em><big>)</big><a class="headerlink" href="#Core.argmax" title="Permalink to this definition">¶</a></dt>
+<em class="property">proc </em><code class="descname">argmax</code><span class="sig-paren">(</span><em>x: []</em>, <em>axis: int = 0</em><span class="sig-paren">)</span><a class="headerlink" href="#Core.argmax" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -277,25 +252,22 @@ Dimensions must be conformable</p>
 
 <dl class="function">
 <dt id="Core.xlog2x">
-<em class="property">proc </em><tt class="descname">xlog2x</tt><big>(</big><em>x: real</em><big>)</big><a class="headerlink" href="#Core.xlog2x" title="Permalink to this definition">¶</a></dt>
+<em class="property">proc </em><code class="descname">xlog2x</code><span class="sig-paren">(</span><em>x: real</em><span class="sig-paren">)</span><a class="headerlink" href="#Core.xlog2x" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="MatrixOps.html" class="btn btn-neutral float-right" title="MatrixOps" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="MatrixOps.html" class="btn btn-neutral float-right" title="MatrixOps" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../examples/labelmatrix-from-file.html" class="btn btn-neutral" title="labelmatrix-from-file" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="../examples/labelmatrix-from-file.html" class="btn btn-neutral" title="labelmatrix-from-file" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -329,14 +301,13 @@ Dimensions must be conformable</p>
             VERSION:'0.0.1',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            HAS_SOURCE:  true
         };
     </script>
       <script type="text/javascript" src="../../_static/jquery.js"></script>
       <script type="text/javascript" src="../../_static/underscore.js"></script>
       <script type="text/javascript" src="../../_static/doctools.js"></script>
-      <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

@@ -12,3 +12,7 @@ Added Viterbi code and some probability distributions.
 ## Version 0.1.3
 
 Removed deprecated functions matPlus() and matMinus()
+
+## Version 0.1.4
+
+Replaced persistSparseMatrix() with bulkInsertMatrix()
