@@ -13,8 +13,6 @@
 
   
   
-  
-  
 
   
 
@@ -43,7 +41,6 @@
 
 <body class="wy-body-for-nav" role="document">
 
-   
   <div class="wy-grid-for-nav">
 
     
@@ -84,10 +81,7 @@
           
             
             
-              
-            
-            
-              <ul>
+                <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../index.html">chpldoc documentation</a></li>
 </ul>
 <ul class="current">
@@ -112,10 +106,8 @@
 
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../index.html">chpldoc</a>
-        
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../index.html">chpldoc</a>
       </nav>
 
 
@@ -128,36 +120,19 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
 <div role="navigation" aria-label="breadcrumbs navigation">
-
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="../../index.html">Docs</a> &raquo;</li>
-        
-      <li>Stats</li>
-    
-    
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+      
+    <li>Stats</li>
       <li class="wy-breadcrumbs-aside">
         
-            
+          
             <a href="../../_sources/modules/src/Stats.txt" rel="nofollow"> View page source</a>
           
         
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -171,85 +146,85 @@
 </div>
 <dl class="class">
 <dt id="Stats.ECDF">
-<em class="property">class </em><tt class="descname">ECDF</tt><a class="headerlink" href="#Stats.ECDF" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">ECDF</code><a class="headerlink" href="#Stats.ECDF" title="Permalink to this definition">¶</a></dt>
 <dd><p>Trying to make this as close as possible to the <a class="reference external" href="http://www.statsmodels.org/stable/_modules/statsmodels/distributions/empirical_distribution.html#ECDF">SciPy Version</a></p>
 <dl class="attribute">
 <dt id="Stats.ECDF.nobs">
-<em class="property">var </em><tt class="descname">nobs</tt>: int<a class="headerlink" href="#Stats.ECDF.nobs" title="Permalink to this definition">¶</a></dt>
+<em class="property">var </em><code class="descname">nobs</code>: int<a class="headerlink" href="#Stats.ECDF.nobs" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="Stats.ECDF.odom">
-<em class="property">var </em><tt class="descname">odom</tt> = {1..nobs}<a class="headerlink" href="#Stats.ECDF.odom" title="Permalink to this definition">¶</a></dt>
+<em class="property">var </em><code class="descname">odom</code> = {1..nobs}<a class="headerlink" href="#Stats.ECDF.odom" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="Stats.ECDF.dist">
-<em class="property">var </em><tt class="descname">dist</tt>: [odom] real<a class="headerlink" href="#Stats.ECDF.dist" title="Permalink to this definition">¶</a></dt>
+<em class="property">var </em><code class="descname">dist</code>: [odom] real<a class="headerlink" href="#Stats.ECDF.dist" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="Stats.ECDF.mx">
-<em class="property">var </em><tt class="descname">mx</tt>: real<a class="headerlink" href="#Stats.ECDF.mx" title="Permalink to this definition">¶</a></dt>
+<em class="property">var </em><code class="descname">mx</code>: real<a class="headerlink" href="#Stats.ECDF.mx" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="Stats.ECDF.init">
-<em class="property">proc </em><tt class="descname">init</tt><big>(</big><em>x: []</em><big>)</big><a class="headerlink" href="#Stats.ECDF.init" title="Permalink to this definition">¶</a></dt>
+<em class="property">proc </em><code class="descname">init</code><span class="sig-paren">(</span><em>x: []</em><span class="sig-paren">)</span><a class="headerlink" href="#Stats.ECDF.init" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="Stats.ECDF.this">
-<em class="property">proc </em><tt class="descname">this</tt><big>(</big><em>x: []</em><big>)</big><a class="headerlink" href="#Stats.ECDF.this" title="Permalink to this definition">¶</a></dt>
+<em class="property">proc </em><code class="descname">this</code><span class="sig-paren">(</span><em>x: []</em><span class="sig-paren">)</span><a class="headerlink" href="#Stats.ECDF.this" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt>
-<em class="property">proc </em><tt class="descname">this</tt><big>(</big><em>x: real</em><big>)</big></dt>
+<em class="property">proc </em><code class="descname">this</code><span class="sig-paren">(</span><em>x: real</em><span class="sig-paren">)</span></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="Stats.ECDF.findPosition">
-<em class="property">proc </em><tt class="descname">findPosition</tt><big>(</big><em>y</em><big>)</big><a class="headerlink" href="#Stats.ECDF.findPosition" title="Permalink to this definition">¶</a></dt>
+<em class="property">proc </em><code class="descname">findPosition</code><span class="sig-paren">(</span><em>y</em><span class="sig-paren">)</span><a class="headerlink" href="#Stats.ECDF.findPosition" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="function">
 <dt id="Stats.factorial">
-<em class="property">proc </em><tt class="descname">factorial</tt><big>(</big><em>k: int</em><big>)</big><a class="headerlink" href="#Stats.factorial" title="Permalink to this definition">¶</a></dt>
+<em class="property">proc </em><code class="descname">factorial</code><span class="sig-paren">(</span><em>k: int</em><span class="sig-paren">)</span><a class="headerlink" href="#Stats.factorial" title="Permalink to this definition">¶</a></dt>
 <dd><p>Wrapper for BigInt.fac provided by Chapel.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="Stats.dpois">
-<em class="property">proc </em><tt class="descname">dpois</tt><big>(</big><em>n: int</em>, <em>l: real</em><big>)</big><a class="headerlink" href="#Stats.dpois" title="Permalink to this definition">¶</a></dt>
+<em class="property">proc </em><code class="descname">dpois</code><span class="sig-paren">(</span><em>n: int</em>, <em>l: real</em><span class="sig-paren">)</span><a class="headerlink" href="#Stats.dpois" title="Permalink to this definition">¶</a></dt>
 <dd><p>The Poisson distribution.  Designed after <a class="reference external" href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Poisson.html">https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Poisson.html</a></p>
 <p>Find the the density of an integer n from a random Poisson X with lambda = l</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="Stats.rpois">
-<em class="property">proc </em><tt class="descname">rpois</tt><big>(</big><em>n: int</em>, <em>l: real</em><big>)</big><a class="headerlink" href="#Stats.rpois" title="Permalink to this definition">¶</a></dt>
+<em class="property">proc </em><code class="descname">rpois</code><span class="sig-paren">(</span><em>n: int</em>, <em>l: real</em><span class="sig-paren">)</span><a class="headerlink" href="#Stats.rpois" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generate n random values from a Poisson rv with intensity lambda = l
 based on the first version here: <a class="reference external" href="https://en.wikipedia.org/wiki/Poisson_distribution#Generating_Poisson-distributed_random_variables">https://en.wikipedia.org/wiki/Poisson_distribution#Generating_Poisson-distributed_random_variables</a></p>
 </dd></dl>
 
 <dl class="function">
 <dt>
-<em class="property">proc </em><tt class="descname">rpois</tt><big>(</big><em>l: real</em><big>)</big></dt>
+<em class="property">proc </em><code class="descname">rpois</code><span class="sig-paren">(</span><em>l: real</em><span class="sig-paren">)</span></dt>
 <dd><p>Generate a single Poisson random variable</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="Stats.dgamma">
-<em class="property">proc </em><tt class="descname">dgamma</tt><big>(</big><em>x: real</em>, <em>shape: real</em>, <em>scale: real</em><big>)</big><a class="headerlink" href="#Stats.dgamma" title="Permalink to this definition">¶</a></dt>
+<em class="property">proc </em><code class="descname">dgamma</code><span class="sig-paren">(</span><em>x: real</em>, <em>shape: real</em>, <em>scale: real</em><span class="sig-paren">)</span><a class="headerlink" href="#Stats.dgamma" title="Permalink to this definition">¶</a></dt>
 <dd><p>The Gamma distribution, density function</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="Stats.rgamma">
-<em class="property">proc </em><tt class="descname">rgamma</tt><big>(</big><big>)</big><a class="headerlink" href="#Stats.rgamma" title="Permalink to this definition">¶</a></dt>
+<em class="property">proc </em><code class="descname">rgamma</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Stats.rgamma" title="Permalink to this definition">¶</a></dt>
 <dd><p>The Gamma distribution, random generation.</p>
 <p>From this paper? <a class="reference external" href="https://arxiv.org/pdf/1304.3800.pdf">https://arxiv.org/pdf/1304.3800.pdf</a>
 Or maybe this one, includes C code: <a class="reference external" href="http://www.hongliangjie.com/2012/12/19/how-to-generate-gamma-random-variables/">http://www.hongliangjie.com/2012/12/19/how-to-generate-gamma-random-variables/</a></p>
@@ -267,18 +242,15 @@ Or maybe this one, includes C code: <a class="reference external" href="http://w
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="Viterbi.html" class="btn btn-neutral float-right" title="Viterbi" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="Viterbi.html" class="btn btn-neutral float-right" title="Viterbi" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="PeelPropagation.html" class="btn btn-neutral" title="PeelPropagation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="PeelPropagation.html" class="btn btn-neutral" title="PeelPropagation" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -312,14 +284,13 @@ Or maybe this one, includes C code: <a class="reference external" href="http://w
             VERSION:'0.0.1',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            HAS_SOURCE:  true
         };
     </script>
       <script type="text/javascript" src="../../_static/jquery.js"></script>
       <script type="text/javascript" src="../../_static/underscore.js"></script>
       <script type="text/javascript" src="../../_static/doctools.js"></script>
-      <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

@@ -13,8 +13,6 @@
 
   
   
-  
-  
 
   
 
@@ -43,7 +41,6 @@
 
 <body class="wy-body-for-nav" role="document">
 
-   
   <div class="wy-grid-for-nav">
 
     
@@ -84,10 +81,7 @@
           
             
             
-              
-            
-            
-              <ul>
+                <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../index.html">chpldoc documentation</a></li>
 </ul>
 <ul class="current">
@@ -112,10 +106,8 @@
 
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../index.html">chpldoc</a>
-        
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../index.html">chpldoc</a>
       </nav>
 
 
@@ -128,36 +120,19 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
 <div role="navigation" aria-label="breadcrumbs navigation">
-
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="../../index.html">Docs</a> &raquo;</li>
-        
-      <li>PeelPropagation</li>
-    
-    
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+      
+    <li>PeelPropagation</li>
       <li class="wy-breadcrumbs-aside">
         
-            
+          
             <a href="../../_sources/modules/src/PeelPropagation.txt" rel="nofollow"> View page source</a>
           
         
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -171,50 +146,50 @@
 </div>
 <dl class="class">
 <dt id="PeelPropagation.PeelPropagationModel">
-<em class="property">class </em><tt class="descname">PeelPropagationModel</tt><a class="headerlink" href="#PeelPropagation.PeelPropagationModel" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">PeelPropagationModel</code><a class="headerlink" href="#PeelPropagation.PeelPropagationModel" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="attribute">
 <dt id="PeelPropagation.PeelPropagationModel.ldom">
-<em class="property">var </em><tt class="descname">ldom</tt>: domain(1)<a class="headerlink" href="#PeelPropagation.PeelPropagationModel.ldom" title="Permalink to this definition">¶</a></dt>
+<em class="property">var </em><code class="descname">ldom</code>: domain(1)<a class="headerlink" href="#PeelPropagation.PeelPropagationModel.ldom" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="PeelPropagation.PeelPropagationModel.dataDom">
-<em class="property">var </em><tt class="descname">dataDom</tt>: domain(2)<a class="headerlink" href="#PeelPropagation.PeelPropagationModel.dataDom" title="Permalink to this definition">¶</a></dt>
+<em class="property">var </em><code class="descname">dataDom</code>: domain(2)<a class="headerlink" href="#PeelPropagation.PeelPropagationModel.dataDom" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="PeelPropagation.PeelPropagationModel.D">
-<em class="property">var </em><tt class="descname">D</tt>: [dataDom] real<a class="headerlink" href="#PeelPropagation.PeelPropagationModel.D" title="Permalink to this definition">¶</a></dt>
+<em class="property">var </em><code class="descname">D</code>: [dataDom] real<a class="headerlink" href="#PeelPropagation.PeelPropagationModel.D" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="PeelPropagation.PeelPropagationModel.Lnorm">
-<em class="property">var </em><tt class="descname">Lnorm</tt>: [dataDom] real<a class="headerlink" href="#PeelPropagation.PeelPropagationModel.Lnorm" title="Permalink to this definition">¶</a></dt>
+<em class="property">var </em><code class="descname">Lnorm</code>: [dataDom] real<a class="headerlink" href="#PeelPropagation.PeelPropagationModel.Lnorm" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="PeelPropagation.PeelPropagationModel.Predictions">
-<em class="property">var </em><tt class="descname">Predictions</tt>: LabelMatrix = new LabelMatrix()<a class="headerlink" href="#PeelPropagation.PeelPropagationModel.Predictions" title="Permalink to this definition">¶</a></dt>
+<em class="property">var </em><code class="descname">Predictions</code>: LabelMatrix = new LabelMatrix()<a class="headerlink" href="#PeelPropagation.PeelPropagationModel.Predictions" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="PeelPropagation.PeelPropagationModel.compiled">
-<em class="property">var </em><tt class="descname">compiled</tt>: bool = false<a class="headerlink" href="#PeelPropagation.PeelPropagationModel.compiled" title="Permalink to this definition">¶</a></dt>
+<em class="property">var </em><code class="descname">compiled</code>: bool = false<a class="headerlink" href="#PeelPropagation.PeelPropagationModel.compiled" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="PeelPropagation.PeelPropagationModel.fit">
-<em class="property">proc </em><tt class="descname">fit</tt><big>(</big><em>X: [] real</em>, <em>L: LabelMatrix</em><big>)</big><a class="headerlink" href="#PeelPropagation.PeelPropagationModel.fit" title="Permalink to this definition">¶</a></dt>
+<em class="property">proc </em><code class="descname">fit</code><span class="sig-paren">(</span><em>X: [] real</em>, <em>L: LabelMatrix</em><span class="sig-paren">)</span><a class="headerlink" href="#PeelPropagation.PeelPropagationModel.fit" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="PeelPropagation.PeelPropagationModel.compile">
-<em class="property">proc </em><tt class="descname">compile</tt><big>(</big><em>X: [] real</em>, <em>L: LabelMatrix</em><big>)</big><a class="headerlink" href="#PeelPropagation.PeelPropagationModel.compile" title="Permalink to this definition">¶</a></dt>
+<em class="property">proc </em><code class="descname">compile</code><span class="sig-paren">(</span><em>X: [] real</em>, <em>L: LabelMatrix</em><span class="sig-paren">)</span><a class="headerlink" href="#PeelPropagation.PeelPropagationModel.compile" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="PeelPropagation.PeelPropagationModel.iterate">
-<em class="property">proc </em><tt class="descname">iterate</tt><big>(</big><em>L: LabelMatrix</em><big>)</big><a class="headerlink" href="#PeelPropagation.PeelPropagationModel.iterate" title="Permalink to this definition">¶</a></dt>
+<em class="property">proc </em><code class="descname">iterate</code><span class="sig-paren">(</span><em>L: LabelMatrix</em><span class="sig-paren">)</span><a class="headerlink" href="#PeelPropagation.PeelPropagationModel.iterate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Runs the iterations and returns the predictions</p>
 </dd></dl>
 
@@ -222,7 +197,7 @@
 
 <dl class="function">
 <dt id="PeelPropagation.calculateError">
-<em class="property">proc </em><tt class="descname">calculateError</tt><big>(</big><em>Ygold: LabelMatrix</em>, <em>Ypred: LabelMatrix</em><big>)</big><a class="headerlink" href="#PeelPropagation.calculateError" title="Permalink to this definition">¶</a></dt>
+<em class="property">proc </em><code class="descname">calculateError</code><span class="sig-paren">(</span><em>Ygold: LabelMatrix</em>, <em>Ypred: LabelMatrix</em><span class="sig-paren">)</span><a class="headerlink" href="#PeelPropagation.calculateError" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates error on unlabled data</p>
 </dd></dl>
 
@@ -230,18 +205,15 @@
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="Stats.html" class="btn btn-neutral float-right" title="Stats" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="Stats.html" class="btn btn-neutral float-right" title="Stats" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="NumSuch.html" class="btn btn-neutral" title="NumSuch" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="NumSuch.html" class="btn btn-neutral" title="NumSuch" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -275,14 +247,13 @@
             VERSION:'0.0.1',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            HAS_SOURCE:  true
         };
     </script>
       <script type="text/javascript" src="../../_static/jquery.js"></script>
       <script type="text/javascript" src="../../_static/underscore.js"></script>
       <script type="text/javascript" src="../../_static/doctools.js"></script>
-      <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 
