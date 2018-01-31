@@ -73,7 +73,7 @@ config param batchsize = 10000;
    for ij in A.domain {
      ts.push_back((aTable, fromField, toField, weightField, ij(1), ij(2), A(ij)));
      count += 1;
-     if count == batchsize {
+     if count >= batchsize {
        cur.execute(q, ts);
        count = 0;
        var reset: [dom] (string, string, string, string, int, int, real);
