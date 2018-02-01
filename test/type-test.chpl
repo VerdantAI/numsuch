@@ -30,12 +30,18 @@ var X = Matrix(
    [1.0,0.0,1.0,1.0]);
 
 //writeln(generateRandomSparseMatrix(10,0.5));
-writeln(floor((1 - .6666)*100));
 
+var number = floor((1 - .6666)*100);
+
+writeln(number);
+writeln(number.type:string);
 writeln(X);
 writeln("Something is a foot");
 writeln(X.domain);
 writeln(batchsize);
+
+writeln(generateRandomSparseMatrix(100,0.8));
+
 
 
 var vnames = vNamesFromPG(con=con, nameTable=nameTable, nameField=nameField, idField=idField);
