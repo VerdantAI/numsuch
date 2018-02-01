@@ -1,6 +1,7 @@
 use Cdo,
     LinearAlgebra,
-    LinearAlgebra.Sparse;
+    LinearAlgebra.Sparse,
+    Random;
 
 /*
   :arg con: A CDO Connection to Postgres
@@ -23,16 +24,23 @@ proc wFromPG(con: Connection, edgeTable: string
   const D: domain(2) = {1..n, 1..n};
   var SD: sparse subdomain(D) dmapped CS();
   var W: [SD] real;
+  var dom1: domain(1) = {1..0};
+  var dom2: domain(1) = {1..0};
+  var indices: [dom1] (int, int);
+  var values: [dom2] real;
   forall row in cursor {
-    SD += (row[fromField]: int, row[toField]: int);
+    indices.push_back((row[fromField]: int,row[toField]: int));
+    values.push_back(row[wField]: real);
+  }
+  SD.bulkAdd(indices);
+  forall (ij, a) in zip(indices, values) {
     if weights {
-      W(row[fromField], row[toField]) = row[wField]: real;
+      W(ij) = a;
     } else {
-      W(row[fromField], row[toField]) = 1;
+      W(ij) = 1;
     }
   }
-//  SD.bulkAdd(indices);
-//  return W.domain;
+//  return W.domain;*/
   return W;
 }
 
@@ -66,6 +74,18 @@ proc vNamesFromPG(con: Connection, nameTable: string
 /*
  */
 
+proc generateRandomSparseMatrix(size: int, sparsity: real) {
+  const D: domain(2) = {1..size, 1..size};
+  var SD: sparse subdomain(D) dmapped CS();
+  var R: [SD] real;
+  const array = [1..size];
+  const N: int = floor((1 - sparsity)*size);
+  forall (i,j) in zip(permutation(array),permutation(array)) {
+    SD += (i,j);
+    W(i,j) = 1.0;
+  }
+  return R;
+}
 
 
 
