@@ -23,20 +23,12 @@ proc wFromPG(con: Connection, edgeTable: string
   const D: domain(2) = {1..n, 1..n};
   var SD: sparse subdomain(D) dmapped CS();
   var W: [SD] real;
-  var dom1: domain(1, int, false) = {1..0};
-  var dom2: domain(1, int, false) = {1..0};
-  var indices: [dom1] 2*int;
-  var values: [dom2] real;
-  for row in cursor {
-    indices.push_back((row[fromField]: int, row[toField]: int));
-    values.push_back(row[wField]: real);
-  }
-  SD.bulkAdd(indices);
-  forall (ij, w) in zip(indices, values) {
+  forall row in cursor {
+    SD += (row[fromField]: int, row[toField]: int);
     if weights {
-      W((ij(1),ij(2))) = w;
+      W(row[fromField], row[toField]) = row[wField]: real;
     } else {
-      W((ij(1),ij(2))) = 1;
+      W(row[fromField], row[toField]) = 1;
     }
   }
 //  SD.bulkAdd(indices);
