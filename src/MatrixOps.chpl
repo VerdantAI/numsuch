@@ -11,6 +11,10 @@ use Cdo,
   :arg n: number of distinct vertices. In practice, this may be gives and the number of names
   :arg weights: Boolean on whether to use the weights in the table or a 1 (indicator)
  */
+
+
+config param batchsize = 10000;
+
 proc wFromPG(con: Connection, edgeTable: string
     , fromField: string, toField: string, wField: string, n: int, weights=true) {
   var q = "SELECT %s, %s, %s FROM %s ORDER BY 1, 2;";
@@ -19,16 +23,25 @@ proc wFromPG(con: Connection, edgeTable: string
   const D: domain(2) = {1..n, 1..n};
   var SD: sparse subdomain(D) dmapped CS();
   var W: [SD] real;
-
+  var dom1: domain(1, int, false) = {1..0};
+  var dom2: domain(1, int, false) = {1..0};
+  var indices: [dom1] 2*int;
+  var values: [dom2] real;
   for row in cursor {
-    SD += (row[fromField]: int, row[toField]:int);
+    indices.push_back((row[fromField]: int, row[toField]: int));
+    values.push_back(row[wField]: real);
+  }
+  SD.bulkAdd(indices);
+  forall (ij, w) in zip(indices, values) {
     if weights {
-      W[row[fromField]:int, row[toField]:int] = row[wField]: real;
+      W((ij(1),ij(2))) = w;
     } else {
-      W[row[fromField]:int, row[toField]:int] = 1;
+      W((ij(1),ij(2))) = 1;
     }
   }
-   return W;
+//  SD.bulkAdd(indices);
+//  return W.domain;
+  return W;
 }
 
 /*
@@ -57,14 +70,14 @@ proc vNamesFromPG(con: Connection, nameTable: string
   return vertexNames;
 }
 
-config param batchsize = 10000;
+
 /*
  */
 
 
 
 
- proc bulkInsertMatrix(con: Connection, aTable: string, fromField: string, toField: string, weightField: string, A:[?D] real) {
+ proc persistSparseMatrix(con: Connection, aTable: string, fromField: string, toField: string, weightField: string, A:[?D] real) {
    const q = "INSERT INTO %s (%s, %s, %s) VALUES (%s, %s, %s);";
    var cur = con.cursor();
    var count: int = 0;
