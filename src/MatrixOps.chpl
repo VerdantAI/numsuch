@@ -78,13 +78,27 @@ proc generateRandomSparseMatrix(size: int, sparsity: real) {
   const D: domain(2) = {1..size, 1..size};
   var SD: sparse subdomain(D) dmapped CS();
   var R: [SD] real;
-  const array = [1..size];
-  const N: int = floor((1 - sparsity)*size);
-  forall (i,j) in zip(permutation(array),permutation(array)) {
-    SD += (i,j);
-    W(i,j) = 1.0;
+  var da: domain(1) = {1..size};
+  var array1: [da] int = 1..size;
+  var array2: [da] int = 1..size;
+  var dom: domain(1) = {1..0};
+  permutation(array1);
+  permutation(array2);
+  var indices: [dom] 2*int;
+  var N = floor(size*(1-sparsity)): int;
+  forall i in array1 {
+    forall j in array2{
+      indices.push_back((i,j));
+    }
   }
-  return R;
+  shuffle(indices);
+  var sparseids = indices[1..N];
+  SD.bulkAdd(sparseids);
+  forall (i,j) in sparseids {
+    R(i,j) = 1;
+  }
+  //ndices = zip(array1, array2)
+  return R.domain;
 }
 
 
