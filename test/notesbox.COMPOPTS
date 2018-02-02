@@ -1,0 +1,1 @@
+-M../src -M/home/buddha314/cdo/src -L/usr/local/Cellar/openblas/0.2.20/lib -lblas -I/usr/local/Cellar/openblas/0.2.20/include -I/usr/include/postgresql
