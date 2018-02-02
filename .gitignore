@@ -118,3 +118,6 @@ test/*.tmp
 
 # Docs
 docs/build
+
+# Local make file params
+local.mk

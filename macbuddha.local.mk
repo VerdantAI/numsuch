@@ -1,3 +1,2 @@
-include Makefile
 ZMQ_BASE=/usr/local/Cellar/zeromq/4.2.2
 BLAS_HOME= /usr/local/Cellar/openblas/0.2.20
