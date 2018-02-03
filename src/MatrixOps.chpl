@@ -44,6 +44,28 @@ proc wFromPG(con: Connection, edgeTable: string
   return W;
 }
 
+//SERIAL EXTRACTION FUNCTION FOR PERFORMANCE COMPARISONS
+proc wFromPG_(con: Connection, edgeTable: string
+    , fromField: string, toField: string, wField: string, n: int, weights=true) {
+  var q = "SELECT %s, %s, %s FROM %s ORDER BY 1, 2;";
+  var cursor = con.cursor();
+  cursor.query(q,(fromField, toField, wField, edgeTable));
+  const D: domain(2) = {1..n, 1..n};
+  var SD: sparse subdomain(D) dmapped CS();
+  var W: [SD] real;
+
+  for row in cursor {
+    SD += (row[fromField]: int, row[toField]:int);
+    if weights {
+      W[row[fromField]:int, row[toField]:int] = row[wField]: real;
+    } else {
+      W[row[fromField]:int, row[toField]:int] = 1;
+    }
+  }
+   return W;
+}
+
+
 /*
 
  :arg con: A connection to a Postgres database containing a table with <ftr_id>, <vertex_name> pairs
@@ -79,15 +101,12 @@ proc generateRandomSparseMatrix(size: int, sparsity: real) {
   var SD: sparse subdomain(D) dmapped CS();
   var R: [SD] real;
   var da: domain(1) = {1..size};
-  var array1: [da] int = 1..size;
-  var array2: [da] int = 1..size;
+  var array: [da] int = 1..size;
   var dom: domain(1) = {1..0};
-  permutation(array1);
-  permutation(array2);
   var indices: [dom] 2*int;
   var N = floor(size*(1-sparsity)): int;
-  forall i in array1 {
-    forall j in array2{
+  forall i in array {
+    forall j in array {
       indices.push_back((i,j));
     }
   }
@@ -98,7 +117,7 @@ proc generateRandomSparseMatrix(size: int, sparsity: real) {
     R(i,j) = 1;
   }
   //ndices = zip(array1, array2)
-  return R.domain;
+  return R;
 }
 
 
@@ -120,4 +139,16 @@ proc generateRandomSparseMatrix(size: int, sparsity: real) {
      }
    }
    cur.execute(q,ts);
+ }
+
+//SERIAL PERSISTANCE FUNCTION FOR PERFORMANCE COMPARISONS
+ proc persistSparseMatrix_(con: Connection, aTable: string, fromField: string, toField: string, weightField: string, A:[?D] real) {
+   const q = "INSERT INTO %s (%s, %s, %s) VALUES (%s, %s, %s);";
+   var cur = con.cursor();
+   for ij in A.domain {
+     const d: domain(1) = {1..0};
+     var t: [d] (string, string, string, string, int, int, real);
+     t.push_back((aTable, fromField, toField, weightField, ij(1), ij(2), A(ij)));
+     cur.execute(q, t);
+   }
  }
