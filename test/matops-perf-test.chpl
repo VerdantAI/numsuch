@@ -15,25 +15,35 @@ config const DB_NAME: string = "matops";
 config const DB_PWD: string = "noether";
 var con = PgConnectionFactory(host=DB_HOST, user=DB_USER, database=DB_NAME, passwd=DB_PWD);
 
-var nameTable1 = "perftest1",
+var nameTable1 = "perftest3",
     idField = "ftr_id",
     nameField = "name",
-    edgeTable1 = "perftest1",
+    edgeTable1 = "perftest3",
     fromField = "from_id",
     toField = "to_id",
     wField = "w",
     wTable1 = "perftest1",
     n = 8;
 
-var nameTable2 = "perftest2",
+var nameTable2 = "perftest4",
 //    idField = "ftr_id",
 //    nameField = "name",
-    edgeTable2 = "perftest2",
+    edgeTable2 = "perftest4",
 //    fromField = "from_id",
 //    toField = "to_id",
 //    wField = "w",
-    wTable2 = "perftest2";
-//    n = 8;
+    wTable2 = "perftest4";
+    //    n = 8;
+
+var nameTable3 = "perftest5",
+//    idField = "ftr_id",
+//    nameField = "name",
+    edgeTable3 = "perftest5",
+    //    fromField = "from_id",
+    //    toField = "to_id",
+    //    wField = "w",
+    wTable3 = "perftest5";
+    //    n = 8;
 
 config param batchsize: int = 1000;
 
@@ -52,18 +62,29 @@ t1.start();
 persistSparseMatrix(con, aTable=wTable1, fromField=fromField, toField=toField, weightField=wField, A=X);
 t1.stop();
 writeln("  Batch Persistence time %n".format(t1.elapsed()));
-//OTHER COPY GETS PERSISTED TO AN EMPTY TABLE 2
+
+//SECOND COPY GETS PERSISTED TO AN EMPTY TABLE 2
 var t2: Timer;
 t2.start();
-persistSparseMatrix_(con, aTable=wTable1, fromField=fromField, toField=toField, weightField=wField, A=X);
+persistSparseMatrix_(con, aTable=wTable2, fromField=fromField, toField=toField, weightField=wField, A=X);
 t2.stop();
 writeln("  Regular Persistence time %n".format(t2.elapsed()));
 
+// LAST COPY GETS PERSISTED TO AN EMPTY TABLE 3
+var t6: Timer;
+t6.start();
+persistSparseMatrix_(con, aTable=wTable3, fromField=fromField, toField=toField, weightField=wField, A=X);
+t6.stop();
+writeln("  Regular Persistence time %n".format(t6.elapsed()));
+
+
 //INSERTION PERFORMANCE QUOTIENT
 const delta1 = t1.elapsed()/t2.elapsed();
+const delta3 = t6.elapsed()/t2.elapsed();
 
 writeln("\n");
-writeln("  ParallelBatch/Serial = %n".format(delta1));
+writeln("  Batch/Serial = %n".format(delta1));
+writeln("  Parallel/Serial = %n".format(delta3));
 writeln("\n");
 writeln("\n");
 
@@ -77,7 +98,7 @@ writeln("  Parallel Extraction time %n".format(t3.elapsed()));
 // SERIAL EXTRACTION TIME
 var t4: Timer;
 t4.start();
-wFromPG_(con=con, edgeTable=edgeTable1, fromField, toField, wField, n=10000);
+wFromPG_(con=con, edgeTable=edgeTable2, fromField, toField, wField, n=10000);
 t4.stop();
 writeln("  Serial Extraction time %n".format(t4.elapsed()));
 
@@ -93,12 +114,15 @@ writeln("\n");
 
 /*
 [Execution output was as follows:]
-  Generation time 86.1432
-  Batch Persistence time 0.599748
-  Serial Persistence time 0.570497
+  Generation time 89.0169
+  Batch Persistence time 0.634107
+  Serial Persistence time 0.607571
+  Parallel Persistence time 0.566482
 
 
-  ParallelBatch/Serial = 1.05127
+  Batch/Serial = 1.04368
+  Parallel/Serial = 0.932372
+
 
 
 

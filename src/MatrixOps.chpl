@@ -121,7 +121,7 @@ proc generateRandomSparseMatrix(size: int, sparsity: real) {
 }
 
 
-
+// BATCH PERSISTENCE
  proc persistSparseMatrix(con: Connection, aTable: string, fromField: string, toField: string, weightField: string, A:[?D] real) {
    const q = "INSERT INTO %s (%s, %s, %s) VALUES (%s, %s, %s);";
    var cur = con.cursor();
@@ -142,13 +142,26 @@ proc generateRandomSparseMatrix(size: int, sparsity: real) {
  }
 
 //SERIAL PERSISTANCE FUNCTION FOR PERFORMANCE COMPARISONS
- proc persistSparseMatrix_(con: Connection, aTable: string, fromField: string, toField: string, weightField: string, A:[?D] real) {
-   const q = "INSERT INTO %s (%s, %s, %s) VALUES (%s, %s, %s);";
-   var cur = con.cursor();
-   for ij in A.domain {
-     const d: domain(1) = {1..0};
-     var t: [d] (string, string, string, string, int, int, real);
-     t.push_back((aTable, fromField, toField, weightField, ij(1), ij(2), A(ij)));
-     cur.execute(q, t);
-   }
- }
+proc persistSparseMatrix_(con: Connection, aTable: string, fromField: string, toField: string, weightField: string, A:[?D] real) {
+  const q = "INSERT INTO %s (%s, %s, %s) VALUES (%s, %s, %s);";
+  var cur = con.cursor();
+  for ij in A.domain {
+    const d: domain(1) = {1..0};
+    var t: [d] (string, string, string, string, int, int, real);
+    t.push_back((aTable, fromField, toField, weightField, ij(1), ij(2), A(ij)));
+    cur.execute(q, t);
+  }
+}
+
+
+// PARALLEL PERSISTENCE FUNCTION FOR PERFORMANCE COMPARISONS
+proc persistSparseMatrix_P(con: Connection, aTable: string, fromField: string, toField: string, weightField: string, A:[?D] real) {
+  const q = "INSERT INTO %s (%s, %s, %s) VALUES (%s, %s, %s);";
+  var cur = con.cursor();
+  forall ij in A.domain {
+    const d: domain(1) = {1..0};
+    var t: [d] (string, string, string, string, int, int, real);
+    t.push_back((aTable, fromField, toField, weightField, ij(1), ij(2), A(ij)));
+    cur.execute(q, t);
+  }
+}
