@@ -110,7 +110,9 @@ writeln("  Parallel/Serial %n".format(delta2));
 writeln("\n");
 writeln("\n");
 
-
+// IT APPEARS THAT POSTGRES IS THE BOTTLENECK IN INSERTION PERFORMANCE
+// AS THERE ISN'T MUCH OF A DIFFERENCE IN PERFORMANCE REGARDLESS OF
+// HOW IT IS DONE.
 
 /*
 [Execution output was as follows:]
