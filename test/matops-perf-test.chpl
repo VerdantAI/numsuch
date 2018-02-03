@@ -15,34 +15,34 @@ config const DB_NAME: string = "matops";
 config const DB_PWD: string = "noether";
 var con = PgConnectionFactory(host=DB_HOST, user=DB_USER, database=DB_NAME, passwd=DB_PWD);
 
-var nameTable1 = "perftest3",
+var nameTable1 = "perftest6",
     idField = "ftr_id",
     nameField = "name",
-    edgeTable1 = "perftest3",
+    edgeTable1 = "perftest6",
     fromField = "from_id",
     toField = "to_id",
     wField = "w",
-    wTable1 = "perftest1",
+    wTable1 = "perftest6",
     n = 8;
 
-var nameTable2 = "perftest4",
+var nameTable2 = "perftest7",
 //    idField = "ftr_id",
 //    nameField = "name",
-    edgeTable2 = "perftest4",
+    edgeTable2 = "perftest7",
 //    fromField = "from_id",
 //    toField = "to_id",
 //    wField = "w",
-    wTable2 = "perftest4";
+    wTable2 = "perftest7";
     //    n = 8;
 
-var nameTable3 = "perftest5",
+var nameTable3 = "perftest8",
 //    idField = "ftr_id",
 //    nameField = "name",
-    edgeTable3 = "perftest5",
+    edgeTable3 = "perftest8",
     //    fromField = "from_id",
     //    toField = "to_id",
     //    wField = "w",
-    wTable3 = "perftest5";
+    wTable3 = "perftest8";
     //    n = 8;
 
 config param batchsize: int = 1000;
@@ -116,25 +116,25 @@ writeln("\n");
 
 /*
 [Execution output was as follows:]
-  Generation time 89.0169
-  Batch Persistence time 0.634107
-  Serial Persistence time 0.607571
-  Parallel Persistence time 0.566482
+  Generation time 110.895
+  Batch Persistence time 0.622507
+  Serial Persistence time 0.572663
+  Parallel Persistence time 0.607646
 
 
-  Batch/Serial = 1.04368
-  Parallel/Serial = 0.932372
-
+  Batch/Serial = 1.08704
+  Parallel/Serial = 1.06109
 
 
 
 
 In these() standalone, creating 1 tasks
-task 0 owns 0..1996===================
-  Parallel Extraction time 0.064831
-  Serial Extraction time 0.181858
+task 0 owns 0..997===================
+  Parallel Extraction time 0.03788
+  Serial Extraction time 0.170498
 
 
-  Parallel/Serial 0.356492
+  Parallel/Serial 0.222173
+
 
 */
