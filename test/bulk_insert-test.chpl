@@ -20,7 +20,7 @@ config param batchsize: int = 3;
 
 if DB_HOST == "" {
   var msg = """
-Cannot find the file 'db_creds.txt'.  Please create it in the current directory wit the fields
+Cannot find the file 'db_creds.txt'.  Please create it in the current directory with the fields
 
 DB_HOST=
 DB_USER=
