@@ -1,11 +1,10 @@
 use NumSuch,
     Postgres;
 
-config const DB_HOST: string = "localhost";
-config const DB_USER: string = "postgres";
-config const DB_NAME: string = "research";
-config const DB_PWD: string = "noether";
-var con = PgConnectionFactory(host=DB_HOST, user=DB_USER, database=DB_NAME, passwd=DB_PWD);
+config const DB_HOST: string = "";
+config const DB_USER: string = "";
+config const DB_NAME: string = "";
+config const DB_PWD: string = "";
 
 var nameTable = "r.cho_names",
     idField = "ftr_id",
@@ -19,6 +18,22 @@ var nameTable = "r.cho_names",
 
 config param batchsize: int = 3;
 
+if DB_HOST == "" {
+  var msg = """
+Cannot find the file 'db_creds.txt'.  Please create it in the current directory wit the fields
+
+DB_HOST=
+DB_USER=
+DB_NAME=
+DB_PWD=
+
+And DO NOT check it into GitHub. (In fact, Git will try to ignore it.)
+  """;
+  writeln(msg);
+  halt();
+}
+
+var con = PgConnectionFactory(host=DB_HOST, user=DB_USER, database=DB_NAME, passwd=DB_PWD);
 
 var X = Matrix(
    [1.0,0.0,1.0,0.0],
