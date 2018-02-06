@@ -11,7 +11,8 @@ config param batchsize = 10000;
 class NamedMatrix {
   var D: domain(2),
       SD = CSRDomain(D),
-      X: [SD] real;  // the actual data
+      X: [SD] real,  // the actual data
+      rowNames: [1..0] string;
 
    proc init(X) {
      this.D = {X.domain.dim(1), X.domain.dim(2)};
@@ -20,11 +21,38 @@ class NamedMatrix {
    }
 }
 
+/*
+Loads the data from X into the internal array, also called X.  We call them all X to keep it clear.
+
+:arg real[]: Array representing the matrix
+ */
 proc NamedMatrix.loadX(X:[]) {
   for (i,j) in X.domain {
     this.SD += (i,j);
     this.X(i,j) = X(i,j);
   }
+}
+
+/*
+Sets the row names for the matrix X
+ */
+proc NamedMatrix.setRowNames(rn:[]): string throws {
+  if rn.size != X.domain.dim(1).size then throw new Error();
+  for i in 1..rn.size {
+    this.rowNames.push_back(rn[i]);
+  }
+  return this.rowNames;
+}
+
+/*
+Sets the column names for the matrix X
+ */
+proc NamedMatrix.setColNames(cn:[]): string throws {
+  if cn.size != X.domain.dim(2).size then throw new Error();
+  for i in 1..cn.size {
+    this.colNames.push_back(cn[i]);
+  }
+  return this.colNames;
 }
 
 /*
@@ -56,9 +84,9 @@ proc wFromPG(con: Connection, edgeTable: string
   SD.bulkAdd(indices);
   forall (ij, a) in zip(indices, values) {
     if weights {
-      WXij) = a;
+      X(ij) = a;
     } else {
-      WXij) = 1;
+      X(ij) = 1;
     }
   }
   return X;
