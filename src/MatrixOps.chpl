@@ -3,7 +3,32 @@ use Cdo,
     LinearAlgebra.Sparse,
     Random;
 
+config param batchsize = 10000;
+
 /*
+ A matrix of data with named rows and columns.
+ */
+class NamedMatrix {
+  var D: domain(2),
+      SD = CSRDomain(D),
+      X: [SD] real;  // the actual data
+
+   proc init(X) {
+     this.D = {X.domain.dim(1), X.domain.dim(2)};
+     super.init();
+     this.loadX(X);
+   }
+}
+
+proc NamedMatrix.loadX(X:[]) {
+  for (i,j) in X.domain {
+    this.SD += (i,j);
+    this.X(i,j) = X(i,j);
+  }
+}
+
+/*
+
   :arg con: A CDO Connection to Postgres
   :arg edgeTable: The table in PG of edges
   :arg fromField: The field of edgeTable containing the id of the head vertex
@@ -12,10 +37,6 @@ use Cdo,
   :arg n: number of distinct vertices. In practice, this may be gives and the number of names
   :arg weights: Boolean on whether to use the weights in the table or a 1 (indicator)
  */
-
-
-config param batchsize = 10000;
-
 proc wFromPG(con: Connection, edgeTable: string
     , fromField: string, toField: string, wField: string, n: int, weights=true) {
   var q = "SELECT %s, %s, %s FROM %s ORDER BY 1, 2;";
@@ -23,7 +44,7 @@ proc wFromPG(con: Connection, edgeTable: string
   cursor.query(q,(fromField, toField, wField, edgeTable));
   const D: domain(2) = {1..n, 1..n};
   var SD: sparse subdomain(D) dmapped CS();
-  var W: [SD] real;
+  var X: [SD] real;
   var dom1: domain(1) = {1..0};
   var dom2: domain(1) = {1..0};
   var indices: [dom1] (int, int);
@@ -35,13 +56,12 @@ proc wFromPG(con: Connection, edgeTable: string
   SD.bulkAdd(indices);
   forall (ij, a) in zip(indices, values) {
     if weights {
-      W(ij) = a;
+      WXij) = a;
     } else {
-      W(ij) = 1;
+      WXij) = 1;
     }
   }
-//  return W.domain;*/
-  return W;
+  return X;
 }
 
 /*
