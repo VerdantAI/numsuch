@@ -12,7 +12,8 @@ class NamedMatrix {
   var D: domain(2),
       SD = CSRDomain(D),
       X: [SD] real,  // the actual data
-      rowNames: [1..0] string;
+      rowNames: [1..0] string,
+      colNames: [1..0] string;
 
    proc init(X) {
      this.D = {X.domain.dim(1), X.domain.dim(2)};

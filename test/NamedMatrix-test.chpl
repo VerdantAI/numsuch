@@ -27,6 +27,7 @@ SD += (6,8); X[6,8] = 1;
 SD += (7,8); X[7,8] = 1;
 
 var nm = new NamedMatrix(X=X);
+
 /* Should Error out, too few names */
 try {
   nm.setRowNames(vn);
@@ -37,6 +38,12 @@ try {
 try {
   vn.push_back("nebula");
   writeln(nm.setRowNames(vn));
+} catch {
+  writeln("Aww snap");
+}
+
+try {
+  writeln(nm.setColNames(vn));
 } catch {
   writeln("Aww snap");
 }
