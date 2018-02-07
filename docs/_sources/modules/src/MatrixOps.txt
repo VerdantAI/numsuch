@@ -10,8 +10,50 @@ MatrixOps
 
    use MatrixOps;
 
+.. data:: config param batchsize = 10000
+
+.. class:: NamedMatrix
+
+   
+   A matrix of data with named rows and columns.
+   
+
+
+   .. attribute:: var D: domain(2)
+
+   .. attribute:: var SD = CSRDomain(D)
+
+   .. attribute:: var X: [SD] real
+
+   .. attribute:: var rowNames: [1..0] string
+
+   .. attribute:: var colNames: [1..0] string
+
+   .. method:: proc init(X)
+
+.. method:: proc NamedMatrix.loadX(X: [])
+
+   
+   Loads the data from X into the internal array, also called X.  We call them all X to keep it clear.
+   
+   :arg real[]: Array representing the matrix
+    
+
+.. method:: proc NamedMatrix.setRowNames(rn: []): string throws
+
+   
+   Sets the row names for the matrix X
+    
+
+.. method:: proc NamedMatrix.setColNames(cn: []): string throws
+
+   
+   Sets the column names for the matrix X
+    
+
 .. function:: proc wFromPG(con: Connection, edgeTable: string, fromField: string, toField: string, wField: string, n: int, weights = true)
 
+   
    
    :arg con: A CDO Connection to Postgres
    :arg edgeTable: The table in PG of edges
@@ -21,6 +63,8 @@ MatrixOps
    :arg n: number of distinct vertices. In practice, this may be gives and the number of names
    :arg weights: Boolean on whether to use the weights in the table or a 1 (indicator)
    
+
+.. function:: proc wFromPG_(con: Connection, edgeTable: string, fromField: string, toField: string, wField: string, n: int, weights = true)
 
 .. function:: proc vNamesFromPG(con: Connection, nameTable: string, nameField: string, idField: string)
 
@@ -34,10 +78,14 @@ MatrixOps
    :returns: An array of strings in order of feature id
    
 
-.. data:: config param batchsize = 10000
-
-.. function:: proc bulkInsertMatrix(con: Connection, aTable: string, fromField: string, toField: string, weightField: string, A: [?D] real)
+.. function:: proc generateRandomSparseMatrix(size: int, sparsity: real)
 
    
    
+
+.. function:: proc persistSparseMatrix(con: Connection, aTable: string, fromField: string, toField: string, weightField: string, A: [?D] real)
+
+.. function:: proc persistSparseMatrix_(con: Connection, aTable: string, fromField: string, toField: string, weightField: string, A: [?D] real)
+
+.. function:: proc persistSparseMatrix_P(con: Connection, aTable: string, fromField: string, toField: string, weightField: string, A: [?D] real)
 
