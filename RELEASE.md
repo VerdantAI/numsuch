@@ -16,3 +16,7 @@ Removed deprecated functions matPlus() and matMinus()
 ## Version 0.1.4
 
 Replaced persistSparseMatrix() with bulkInsertMatrix()
+
+## Version 0.1.5
+
+Some performance updates and beginning of the NamedMatrix class
