@@ -12,8 +12,16 @@ class NamedMatrix {
   var D: domain(2),
       SD = CSRDomain(D),
       X: [SD] real,  // the actual data
-      rowNames: [1..0] string,
-      colNames: [1..0] string;
+      rowNames: domain(string),
+      rowIds: [rowNames] int,
+      rowNameIndex:[1..0] string,
+      colNames: domain(string),
+      colIds: [colNames] int,
+      colNameIndex:[1..0] string;
+
+   proc init() {
+     super.init();
+   }
 
    proc init(X) {
      this.D = {X.domain.dim(1), X.domain.dim(2)};
@@ -40,7 +48,9 @@ Sets the row names for the matrix X
 proc NamedMatrix.setRowNames(rn:[]): string throws {
   if rn.size != X.domain.dim(1).size then throw new Error();
   for i in 1..rn.size {
-    this.rowNames.push_back(rn[i]);
+    this.rowNames += (rn[i]);
+    this.rowIds[rn[i]] = this.rowNames.size;
+    this.rowNameIndex.push_back(rn[i]);
   }
   return this.rowNames;
 }
@@ -51,9 +61,79 @@ Sets the column names for the matrix X
 proc NamedMatrix.setColNames(cn:[]): string throws {
   if cn.size != X.domain.dim(2).size then throw new Error();
   for i in 1..cn.size {
-    this.colNames.push_back(cn[i]);
+    this.colNames += (cn[i]);
+    this.colIds[cn[i]] = this.colNames.size;
+    this.colNameIndex.push_back(cn[i]);
   }
   return this.colNames;
+}
+
+/*
+ Creates a NamedMatrix from a table in Postgres.  Does not optimize for square matrices.  This assumption
+ is that the matrix is sparse.
+
+ :arg string edgeTable: The SQL table holding the values of the matrix.
+ :arg string fromField: The table column representing rows, e.g. `i`.
+ :arg string toField: The table column representing columns, e.g. 'j'.
+ :arg string wField: `default=NONE` the table column containing the values of cell `(i,j)``
+ */
+proc NamedMatrix.fromPG(con: Connection
+  , edgeTable: string
+  , fromField: string, toField: string, wField: string = "NONE") {
+
+  var q = """
+  SELECT ftr, t, row_number() OVER(PARTITION BY t ORDER BY ftr ) AS ftr_id
+  FROM (
+    SELECT distinct(%s) AS ftr, 'r' AS t FROM %s
+    UNION
+    SELECT distinct(%s) AS ftr, 'c' AS t FROM %s
+  ) AS a
+  GROUP BY ftr, t
+  ORDER BY ftr_id, t ;
+  """;
+
+  var cursor = con.cursor();
+  cursor.query(q, (fromField, edgeTable, toField, edgeTable));
+  for row in cursor {
+    if row['t'] == 'r' {
+      this.rowNames += row['ftr'];
+      this.rowIds[row['ftr']] = row['ftr_id']:int;
+      this.rowNameIndex.push_back(row['ftr']);
+    } else if row['t'] == 'c' {
+      this.colNames += row['ftr'];
+      this.colIds[row['ftr']] = row['ftr_id']:int;
+      this.colNameIndex.push_back(row['ftr']);
+    }
+  }
+
+  var D: domain(2) = {1..this.rowIds.size, 1..this.colIds.size},
+      SD: sparse subdomain(D) dmapped CS(),
+      X: [SD] real;
+
+  var r = """
+  SELECT %s, %s
+  FROM %s
+  ORDER BY %s, %s ;
+  """;
+  cursor.query(r, (fromField, toField, edgeTable, fromField, toField));
+  var dom1: domain(1) = {1..0},
+      dom2: domain(1) = {1..0},
+      indices: [dom1] (int, int),
+      values: [dom2] real;
+  forall row in cursor {
+    indices.push_back((
+       this.rowIds[row[fromField]]: int
+      ,this.colIds[row[toField]]: int));
+    if wField == "NONE" {
+      values.push_back(1);
+    } else {
+      values.push_back(row[wField]: real);
+    }
+  }
+  SD.bulkAdd(indices);
+  forall (ij, a) in zip(indices, values) {
+    X(ij) = a;
+  }
 }
 
 /*
@@ -143,8 +223,8 @@ proc vNamesFromPG(con: Connection, nameTable: string
 
 
 /*
+ Build a random sparse matrix.  Good for testing;
  */
-
 proc generateRandomSparseMatrix(size: int, sparsity: real) {
   const D: domain(2) = {1..size, 1..size};
   var SD: sparse subdomain(D) dmapped CS();
@@ -171,14 +251,16 @@ proc generateRandomSparseMatrix(size: int, sparsity: real) {
 
 
 // BATCH PERSISTENCE
- proc persistSparseMatrix(con: Connection, aTable: string, fromField: string, toField: string, weightField: string, A:[?D] real) {
+ proc persistSparseMatrix(con: Connection, aTable: string
+   , fromField: string, toField: string, weightField: string
+   , X:[?D] real) {
    const q = "INSERT INTO %s (%s, %s, %s) VALUES (%s, %s, %s);";
    var cur = con.cursor();
    var count: int = 0;
    var dom: domain(1, int, false) = {1..0};
    var ts: [dom] (string, string, string, string, int, int, real);
-   for ij in A.domain {
-     ts.push_back((aTable, fromField, toField, weightField, ij(1), ij(2), A(ij)));
+   for ij in X.domain {
+     ts.push_back((aTable, fromField, toField, weightField, ij(1), ij(2), X(ij)));
      count += 1;
      if count >= batchsize {
        cur.execute(q, ts);
@@ -191,26 +273,39 @@ proc generateRandomSparseMatrix(size: int, sparsity: real) {
  }
 
 //SERIAL PERSISTANCE FUNCTION FOR PERFORMANCE COMPARISONS
-proc persistSparseMatrix_(con: Connection, aTable: string, fromField: string, toField: string, weightField: string, A:[?D] real) {
+proc persistSparseMatrix_(con: Connection, aTable: string
+  , fromField: string, toField: string, weightField: string
+  , X:[?D] real) {
   const q = "INSERT INTO %s (%s, %s, %s) VALUES (%s, %s, %s);";
   var cur = con.cursor();
-  for ij in A.domain {
+  for ij in X.domain {
     const d: domain(1) = {1..0};
     var t: [d] (string, string, string, string, int, int, real);
-    t.push_back((aTable, fromField, toField, weightField, ij(1), ij(2), A(ij)));
+    t.push_back((aTable, fromField, toField, weightField, ij(1), ij(2), X(ij)));
     cur.execute(q, t);
   }
 }
 
 
 // PARALLEL PERSISTENCE FUNCTION FOR PERFORMANCE COMPARISONS
-proc persistSparseMatrix_P(con: Connection, aTable: string, fromField: string, toField: string, weightField: string, A:[?D] real) {
+proc persistSparseMatrix_P(con: Connection, aTable: string
+  , fromField: string, toField: string, weightField: string
+  , X:[?D] real) {
   const q = "INSERT INTO %s (%s, %s, %s) VALUES (%s, %s, %s);";
   var cur = con.cursor();
-  forall ij in A.domain {
+  forall ij in X.domain {
     const d: domain(1) = {1..0};
     var t: [d] (string, string, string, string, int, int, real);
-    t.push_back((aTable, fromField, toField, weightField, ij(1), ij(2), A(ij)));
+    t.push_back((aTable, fromField, toField, weightField, ij(1), ij(2), X(ij)));
     cur.execute(q, t);
   }
+}
+
+proc sparsity(X:[]) {
+  const d = X.shape[1]:real * X.shape[2]: real;
+  var i: real = 0.0;
+  for ij in X.domain {
+    i += 1.0;
+  }
+  return i / d;
 }

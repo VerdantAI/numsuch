@@ -25,9 +25,19 @@ MatrixOps
 
    .. attribute:: var X: [SD] real
 
-   .. attribute:: var rowNames: [1..0] string
+   .. attribute:: var rowNames: domain(string)
 
-   .. attribute:: var colNames: [1..0] string
+   .. attribute:: var rowIds: [rowNames] int
+
+   .. attribute:: var rowNameIndex: [1..0] string
+
+   .. attribute:: var colNames: domain(string)
+
+   .. attribute:: var colIds: [colNames] int
+
+   .. attribute:: var colNameIndex: [1..0] string
+
+   .. method:: proc init()
 
    .. method:: proc init(X)
 
@@ -50,6 +60,18 @@ MatrixOps
    
    Sets the column names for the matrix X
     
+
+.. method:: proc NamedMatrix.fromPG(con: Connection, edgeTable: string, fromField: string, toField: string, wField: string = "NONE")
+
+   
+   Creates a NamedMatrix from a table in Postgres.  Does not optimize for square matrices.  This assumption
+   is that the matrix is sparse.
+   
+   :arg string edgeTable: The SQL table holding the values of the matrix.
+   :arg string fromField: The table column representing rows, e.g. `i`.
+   :arg string toField: The table column representing columns, e.g. 'j'.
+   :arg string wField: `default=NONE` the table column containing the values of cell `(i,j)``
+   
 
 .. function:: proc wFromPG(con: Connection, edgeTable: string, fromField: string, toField: string, wField: string, n: int, weights = true)
 
@@ -81,11 +103,14 @@ MatrixOps
 .. function:: proc generateRandomSparseMatrix(size: int, sparsity: real)
 
    
+   Build a random sparse matrix.  Good for testing;
    
 
-.. function:: proc persistSparseMatrix(con: Connection, aTable: string, fromField: string, toField: string, weightField: string, A: [?D] real)
+.. function:: proc persistSparseMatrix(con: Connection, aTable: string, fromField: string, toField: string, weightField: string, X: [?D] real)
 
-.. function:: proc persistSparseMatrix_(con: Connection, aTable: string, fromField: string, toField: string, weightField: string, A: [?D] real)
+.. function:: proc persistSparseMatrix_(con: Connection, aTable: string, fromField: string, toField: string, weightField: string, X: [?D] real)
 
-.. function:: proc persistSparseMatrix_P(con: Connection, aTable: string, fromField: string, toField: string, weightField: string, A: [?D] real)
+.. function:: proc persistSparseMatrix_P(con: Connection, aTable: string, fromField: string, toField: string, weightField: string, X: [?D] real)
+
+.. function:: proc sparsity(X: [])
 
