@@ -36,10 +36,11 @@ var nameTable = "r.cho_names",
 // Should have loaded the data from test/reference/entropy_base_graph_schema.sql
 var vnames = vNamesFromPG(con=con, nameTable=nameTable, nameField=nameField, idField=idField);
 writeln(vnames);
-var W = wFromPG(con=con, edgeTable=edgeTable, fromField, toField, wField, n=vnames.size);
-writeln(W);
+var X = wFromPG(con=con, edgeTable=edgeTable, fromField=fromField, toField=toField
+  , wField=wField, n=vnames.size);
+writeln(X);
 
-persistSparseMatrix(con, aTable=wTable, fromField=fromField, toField=toField, weightField=wField, A=W);
+persistSparseMatrix(con, aTable=wTable, fromField=fromField, toField=toField, weightField=wField, X=X);
 /* completes in about 160 seconds
 var W2 = wFromPG(con=con, edgeTable="r.yummly_edges", fromField, toField, wField, n=6714);
 */

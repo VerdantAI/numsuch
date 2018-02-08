@@ -115,6 +115,7 @@ Mason.lock
 webkb_labels.txt
 webkb_vectors.mtx
 test/*.tmp
+*.swp
 
 # Docs
 docs/build

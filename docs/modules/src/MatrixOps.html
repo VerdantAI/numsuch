@@ -85,6 +85,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../../index.html">chpldoc documentation</a></li>
 </ul>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../examples/cosineDistance.html">cosineDistance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/labelmatrix-from-file.html">labelmatrix-from-file</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Core.html">Core</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">MatrixOps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="NN.html">NN</a></li>
@@ -168,17 +170,42 @@
 
 <dl class="attribute">
 <dt id="MatrixOps.NamedMatrix.rowNames">
-<em class="property">var </em><code class="descname">rowNames</code>: [1..0] string<a class="headerlink" href="#MatrixOps.NamedMatrix.rowNames" title="Permalink to this definition">¶</a></dt>
+<em class="property">var </em><code class="descname">rowNames</code>: domain(string)<a class="headerlink" href="#MatrixOps.NamedMatrix.rowNames" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="MatrixOps.NamedMatrix.rowIds">
+<em class="property">var </em><code class="descname">rowIds</code>: [rowNames] int<a class="headerlink" href="#MatrixOps.NamedMatrix.rowIds" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="MatrixOps.NamedMatrix.rowNameIndex">
+<em class="property">var </em><code class="descname">rowNameIndex</code>: [1..0] string<a class="headerlink" href="#MatrixOps.NamedMatrix.rowNameIndex" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="MatrixOps.NamedMatrix.colNames">
-<em class="property">var </em><code class="descname">colNames</code>: [1..0] string<a class="headerlink" href="#MatrixOps.NamedMatrix.colNames" title="Permalink to this definition">¶</a></dt>
+<em class="property">var </em><code class="descname">colNames</code>: domain(string)<a class="headerlink" href="#MatrixOps.NamedMatrix.colNames" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="MatrixOps.NamedMatrix.colIds">
+<em class="property">var </em><code class="descname">colIds</code>: [colNames] int<a class="headerlink" href="#MatrixOps.NamedMatrix.colIds" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="MatrixOps.NamedMatrix.colNameIndex">
+<em class="property">var </em><code class="descname">colNameIndex</code>: [1..0] string<a class="headerlink" href="#MatrixOps.NamedMatrix.colNameIndex" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="MatrixOps.NamedMatrix.init">
-<em class="property">proc </em><code class="descname">init</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.NamedMatrix.init" title="Permalink to this definition">¶</a></dt>
+<em class="property">proc </em><code class="descname">init</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.NamedMatrix.init" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<em class="property">proc </em><code class="descname">init</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -207,6 +234,27 @@
 <dt id="MatrixOps.NamedMatrix.setColNames">
 <em class="property">proc </em><code class="descclassname">NamedMatrix.</code><code class="descname">setColNames</code><span class="sig-paren">(</span><em>cn: []</em><span class="sig-paren">)</span>: string throws<a class="headerlink" href="#MatrixOps.NamedMatrix.setColNames" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets the column names for the matrix X</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="MatrixOps.NamedMatrix.fromPG">
+<em class="property">proc </em><code class="descclassname">NamedMatrix.</code><code class="descname">fromPG</code><span class="sig-paren">(</span><em>con: Connection</em>, <em>edgeTable: string</em>, <em>fromField: string</em>, <em>toField: string</em>, <em>wField: string = &quot;NONE&quot;</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.NamedMatrix.fromPG" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a NamedMatrix from a table in Postgres.  Does not optimize for square matrices.  This assumption
+is that the matrix is sparse.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first last simple">
+<li><strong>edgeTable</strong> : <em>string</em> &#8211; The SQL table holding the values of the matrix.</li>
+<li><strong>fromField</strong> : <em>string</em> &#8211; The table column representing rows, e.g. <cite>i</cite>.</li>
+<li><strong>toField</strong> : <em>string</em> &#8211; The table column representing columns, e.g. &#8216;j&#8217;.</li>
+<li><strong>wField</strong> : <em>string</em> &#8211; <cite>default=NONE</cite> the table column containing the values of cell <cite>(i,j)`</cite></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
@@ -261,21 +309,27 @@
 <dl class="function">
 <dt id="MatrixOps.generateRandomSparseMatrix">
 <em class="property">proc </em><code class="descname">generateRandomSparseMatrix</code><span class="sig-paren">(</span><em>size: int</em>, <em>sparsity: real</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.generateRandomSparseMatrix" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Build a random sparse matrix.  Good for testing;</p>
+</dd></dl>
 
 <dl class="function">
 <dt id="MatrixOps.persistSparseMatrix">
-<em class="property">proc </em><code class="descname">persistSparseMatrix</code><span class="sig-paren">(</span><em>con: Connection</em>, <em>aTable: string</em>, <em>fromField: string</em>, <em>toField: string</em>, <em>weightField: string</em>, <em>A: [?D] real</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.persistSparseMatrix" title="Permalink to this definition">¶</a></dt>
+<em class="property">proc </em><code class="descname">persistSparseMatrix</code><span class="sig-paren">(</span><em>con: Connection</em>, <em>aTable: string</em>, <em>fromField: string</em>, <em>toField: string</em>, <em>weightField: string</em>, <em>X: [?D] real</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.persistSparseMatrix" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="MatrixOps.persistSparseMatrix_">
-<em class="property">proc </em><code class="descname">persistSparseMatrix_</code><span class="sig-paren">(</span><em>con: Connection</em>, <em>aTable: string</em>, <em>fromField: string</em>, <em>toField: string</em>, <em>weightField: string</em>, <em>A: [?D] real</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.persistSparseMatrix_" title="Permalink to this definition">¶</a></dt>
+<em class="property">proc </em><code class="descname">persistSparseMatrix_</code><span class="sig-paren">(</span><em>con: Connection</em>, <em>aTable: string</em>, <em>fromField: string</em>, <em>toField: string</em>, <em>weightField: string</em>, <em>X: [?D] real</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.persistSparseMatrix_" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="MatrixOps.persistSparseMatrix_P">
-<em class="property">proc </em><code class="descname">persistSparseMatrix_P</code><span class="sig-paren">(</span><em>con: Connection</em>, <em>aTable: string</em>, <em>fromField: string</em>, <em>toField: string</em>, <em>weightField: string</em>, <em>A: [?D] real</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.persistSparseMatrix_P" title="Permalink to this definition">¶</a></dt>
+<em class="property">proc </em><code class="descname">persistSparseMatrix_P</code><span class="sig-paren">(</span><em>con: Connection</em>, <em>aTable: string</em>, <em>fromField: string</em>, <em>toField: string</em>, <em>weightField: string</em>, <em>X: [?D] real</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.persistSparseMatrix_P" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="MatrixOps.sparsity">
+<em class="property">proc </em><code class="descname">sparsity</code><span class="sig-paren">(</span><em>X: []</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.sparsity" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>

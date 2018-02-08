@@ -1,4 +1,5 @@
-use NumSuch;
+use NumSuch,
+    Postgres;
 
 var nv: int = 8,
     D: domain(2) = {1..nv, 1..nv},
@@ -47,3 +48,34 @@ try {
 } catch {
   writeln("Aww snap");
 }
+
+
+/*
+Now test it with Postgres
+ */
+
+config const DB_HOST: string = "";
+config const DB_USER: string = "";
+config const DB_NAME: string = "";
+config const DB_PWD: string = "";
+
+if DB_HOST == "" {
+   var msg = """
+ Cannot find the file 'db_creds.txt'.  Please create it in the current directory with the fields
+
+ DB_HOST=
+ DB_USER=
+ DB_NAME=
+ DB_PWD=
+
+ And DO NOT check it into GitHub. (In fact, Git will try to ignore it.)
+   """;
+   writeln(msg);
+   halt();
+}
+
+
+var con = PgConnectionFactory(host=DB_HOST, user=DB_USER, database=DB_NAME, passwd=DB_PWD);
+
+var nm2 = new NamedMatrix();
+nm2.fromPG(con, edgeTable="r.cui_confabulation", fromField="source_cui", toField="exhibited_cui");
