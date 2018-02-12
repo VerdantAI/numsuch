@@ -1,3 +1,19 @@
+/*
+DROP TABLE IF EXISTS r.cho_named_edges;
+CREATE TABLE r.cho_named_edges
+(
+ from_nm text
+, to_nm text
+);
+INSERT INTO r.cho_named_edges (from_nm, to_nm) VALUES
+  ('star lord', 'gamora') , ('star lord', 'groot')
+, ('star lord', 'drax') , ('gamora', 'drax')
+, ('groot', 'drax') , ('drax', 'rocket')
+, ('rocket', 'mantis') , ('mantis', 'yondu')
+, ('mantis', 'nebula') , ('yondu', 'nebula')
+;
+
+ */
 use NumSuch,
     Postgres;
 
@@ -77,5 +93,12 @@ if DB_HOST == "" {
 
 var con = PgConnectionFactory(host=DB_HOST, user=DB_USER, database=DB_NAME, passwd=DB_PWD);
 
-var nm2 = new NamedMatrix();
-nm2.fromPG(con, edgeTable="r.cui_confabulation", fromField="source_cui", toField="exhibited_cui");
+//var nm2 = new NamedMatrix();
+//nm2.fromPG(con, edgeTable="r.cui_confabulation", fromField="source_cui", toField="exhibited_cui");
+var nm2 = NamedMatrixFromPG(con, edgeTable="r.cho_named_edges", fromField="from_nm", toField="to_nm");
+//nm2.fromPG(con, edgeTable="r.cho_named_edges", fromField="from_nm", toField="to_nm");
+writeln("nm2\n", nm2.X);
+for n in nm2.rowNames {
+  writeln("Row Name: ", n, "\tId: ", nm2.rowIds[n], "\tIndex of this name: ", nm2.rowNameIndex[nm2.rowIds[n]]);
+}
+writeln("nm2 col names: ", nm2.colNames);

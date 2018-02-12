@@ -28,6 +28,30 @@ class NamedMatrix {
      super.init();
      this.loadX(X);
    }
+
+   proc init(X:[]
+     //, rowNames: domain(string), rowIds:[] int, rowNameIndex: [] string
+     , rowNames: domain(string), rowIds:[] int
+     //, colNames: domain(string), colIds:[] int, colNameIndex: [] string) {
+     , colNames: domain(string), colIds:[] int) {
+     this.D = {X.domain.dim(1), X.domain.dim(2)};
+     //this.rowNames = rowNames;
+     this.rowNameIndex: [{1..rowNames.size}] int;
+     super.init();
+     for rown in rowNames {
+       this.rowNames += rown;
+       this.rowIds[rown] = rowIds[rown];
+       //this.rowNameIndex.push_back(rown);
+       this.rowNameIndex[this.rowIds[rown]] = rown;
+     }
+     for coln in colNames {
+       this.colNames += coln;
+       this.colIds[coln] = colIds[coln];
+       this.colNameIndex.push_back(coln);
+     }
+     this.loadX(X);
+   }
+
 }
 
 /*
@@ -35,12 +59,18 @@ Loads the data from X into the internal array, also called X.  We call them all 
 
 :arg real[]: Array representing the matrix
  */
-proc NamedMatrix.loadX(X:[]) {
+proc NamedMatrix.loadX(X:[], shape: 2*int =(-1,-1)) {
+  if shape(1) > 0 && shape(2) > 0 {
+
+    writeln("re-shaping D! ", shape);
+    this.D = {1..shape(1), 1..shape(2)};
+  }
   for (i,j) in X.domain {
     this.SD += (i,j);
     this.X(i,j) = X(i,j);
   }
 }
+
 
 /*
 Sets the row names for the matrix X
@@ -77,7 +107,7 @@ proc NamedMatrix.setColNames(cn:[]): string throws {
  :arg string toField: The table column representing columns, e.g. 'j'.
  :arg string wField: `default=NONE` the table column containing the values of cell `(i,j)``
  */
-proc NamedMatrix.fromPG(con: Connection
+proc NamedMatrixFromPG(con: Connection
   , edgeTable: string
   , fromField: string, toField: string, wField: string = "NONE") {
 
@@ -85,30 +115,49 @@ proc NamedMatrix.fromPG(con: Connection
   SELECT ftr, t, row_number() OVER(PARTITION BY t ORDER BY ftr ) AS ftr_id
   FROM (
     SELECT distinct(%s) AS ftr, 'r' AS t FROM %s
-    UNION
+    UNION ALL
     SELECT distinct(%s) AS ftr, 'c' AS t FROM %s
   ) AS a
   GROUP BY ftr, t
   ORDER BY ftr_id, t ;
   """;
 
+  var rowNames: domain(string),
+      rowIds: [rowNames] int,
+      rowNameIndex:[1..0] string,
+      colNames: domain(string),
+      colIds: [colNames] int,
+      colNameIndex:[1..0] string;
+
+  //var nm = new NamedMatrix();
   var cursor = con.cursor();
   cursor.query(q, (fromField, edgeTable, toField, edgeTable));
   for row in cursor {
     if row['t'] == 'r' {
-      this.rowNames += row['ftr'];
-      this.rowIds[row['ftr']] = row['ftr_id']:int;
-      this.rowNameIndex.push_back(row['ftr']);
+      /*
+      nm.rowNames += row['ftr'];
+      nm.rowIds[row['ftr']] = row['ftr_id']:int;
+      nm.rowNameIndex.push_back(row['ftr']);
+      */
+      rowNames += row['ftr'];
+      rowIds[row['ftr']] = row['ftr_id']:int;
+      rowNameIndex.push_back(row['ftr']);
     } else if row['t'] == 'c' {
-      this.colNames += row['ftr'];
-      this.colIds[row['ftr']] = row['ftr_id']:int;
-      this.colNameIndex.push_back(row['ftr']);
+      /*
+      nm.colNames += row['ftr'];
+      nm.colIds[row['ftr']] = row['ftr_id']:int;
+      nm.colNameIndex.push_back(row['ftr']);
+      */
+      colNames += row['ftr'];
+      colIds[row['ftr']] = row['ftr_id']:int;
+      colNameIndex.push_back(row['ftr']);
     }
   }
 
-  var D: domain(2) = {1..this.rowIds.size, 1..this.colIds.size},
-      SD: sparse subdomain(D) dmapped CS(),
-      X: [SD] real;
+
+  var D: domain(2) = {1..max reduce rowIds, 1..max reduce colIds},
+      SD = CSRDomain(D),
+      X: [SD] real;  // the actual data
 
   var r = """
   SELECT %s, %s
@@ -122,8 +171,14 @@ proc NamedMatrix.fromPG(con: Connection
       values: [dom2] real;
   forall row in cursor {
     indices.push_back((
-       this.rowIds[row[fromField]]: int
-      ,this.colIds[row[toField]]: int));
+       rowIds[row[fromField]]: int
+      ,colIds[row[toField]]: int
+      ));
+      /*
+    indices.push_back((
+       rowIds[row[fromField]]: int
+      ,colIds[row[toField]]: int));
+      */
     if wField == "NONE" {
       values.push_back(1);
     } else {
@@ -131,9 +186,33 @@ proc NamedMatrix.fromPG(con: Connection
     }
   }
   SD.bulkAdd(indices);
+  writeln("rowNames: ", rowNames);
+  writeln("colNames: ", colNames);
+  writeln("this.SD\n", SD);
   forall (ij, a) in zip(indices, values) {
     X(ij) = a;
   }
+
+  const nm = new NamedMatrix(X=X
+    , rowNames = rowNames, rowIds=rowIds
+    //rowNameIndex=rowNameIndex,
+    , colNames=colNames, colIds=colIds
+    //colNameIndex=colNameIndex
+    );
+
+  writeln("X.shape: ", X.shape);
+  //nm.loadX(X, shape=X.shape);
+  /*
+  var nm = new NamedMatrix(X=X);
+  nm.rowNames = rowNames;
+  nm.rowIds = rowIds;
+  nm.rowNameIndex = rowNameIndex;
+  nm.colNames = colNames;
+  nm.colIds = colIds;
+  nm.colNameIndex = colNameIndex;
+  */
+
+  return nm;
 }
 
 /*
