@@ -1,0 +1,2 @@
+Key: bob	ID: 1	Index: bob	Get(string): 1	Get(int): bob
+Key: chuck	ID: 2	Index: chuck	Get(string): 2	Get(int): chuck
