@@ -1,6 +1,7 @@
 use Cdo,
     LinearAlgebra,
     LinearAlgebra.Sparse,
+    NumSuch,
     Random;
 
 config param batchsize = 10000;
@@ -17,7 +18,8 @@ class NamedMatrix {
       rowNameIndex:[1..0] string,
       colNames: domain(string),
       colIds: [colNames] int,
-      colNameIndex:[1..0] string;
+      colNameIndex:[1..0] string,
+      rows: BiMap;
 
    proc init() {
      super.init();
@@ -29,20 +31,17 @@ class NamedMatrix {
      this.loadX(X);
    }
 
+   /*
    proc init(X:[]
-     //, rowNames: domain(string), rowIds:[] int, rowNameIndex: [] string
      , rowNames: domain(string), rowIds:[] int
-     //, colNames: domain(string), colIds:[] int, colNameIndex: [] string) {
      , colNames: domain(string), colIds:[] int) {
      this.D = {X.domain.dim(1), X.domain.dim(2)};
-     //this.rowNames = rowNames;
      this.rowNameIndex: [{1..rowNames.size}] int;
      super.init();
      for rown in rowNames {
        this.rowNames += rown;
        this.rowIds[rown] = rowIds[rown];
-       //this.rowNameIndex.push_back(rown);
-       this.rowNameIndex[this.rowIds[rown]] = rown;
+       //this.rowNameIndex[this.rowIds[rown]] = rown;
      }
      for coln in colNames {
        this.colNames += coln;
@@ -51,6 +50,7 @@ class NamedMatrix {
      }
      this.loadX(X);
    }
+   */
 
 }
 
@@ -127,7 +127,8 @@ proc NamedMatrixFromPG(con: Connection
       rowNameIndex:[1..0] string,
       colNames: domain(string),
       colIds: [colNames] int,
-      colNameIndex:[1..0] string;
+      colNameIndex:[1..0] string,
+      rows: BiMap();
 
   //var nm = new NamedMatrix();
   var cursor = con.cursor();
@@ -142,6 +143,7 @@ proc NamedMatrixFromPG(con: Connection
       rowNames += row['ftr'];
       rowIds[row['ftr']] = row['ftr_id']:int;
       rowNameIndex.push_back(row['ftr']);
+      rows.add(row['ftr'], row['ftr_id']);
     } else if row['t'] == 'c' {
       /*
       nm.colNames += row['ftr'];
@@ -193,14 +195,16 @@ proc NamedMatrixFromPG(con: Connection
     X(ij) = a;
   }
 
+  const nm = new NamedMatrix();
+  /*
   const nm = new NamedMatrix(X=X
     , rowNames = rowNames, rowIds=rowIds
     //rowNameIndex=rowNameIndex,
     , colNames=colNames, colIds=colIds
     //colNameIndex=colNameIndex
     );
-
   writeln("X.shape: ", X.shape);
+    */
   //nm.loadX(X, shape=X.shape);
   /*
   var nm = new NamedMatrix(X=X);

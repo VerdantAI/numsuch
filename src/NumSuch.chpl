@@ -73,8 +73,30 @@ examples::
       Add string key, gives it the id based on when it entered.
      */
     proc add(k:string) {
+      if this.keys.size > 0 {
+        var f = this.keys.find(k);
+        if !f(1) {
+          this.keys += k;
+          this.ids[k] = this.keys.size;
+          this.idx.push_back(k);
+        }
+      } else {
+        this.keys += k;
+        this.ids[k] = this.keys.size;
+        this.idx.push_back(k);
+      }
+    }
+
+    /*
+    Add a key with a given ID.  Must be done in serial.  But it begs the question: Do I need 
+    to have the feature ids if they have to be done in serial?
+     */
+    proc add(k:string, v:int) {
+      if v > this.keys.size +1 {
+        return;
+      }
       this.keys += k;
-      this.ids[k] = this.keys.size;
+      this.ids[k] = v;
       this.idx.push_back(k);
     }
 

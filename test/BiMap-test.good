@@ -1,2 +1,7 @@
 Key: bob	ID: 1	Index: bob	Get(string): 1	Get(int): bob
 Key: chuck	ID: 2	Index: chuck	Get(string): 2	Get(int): chuck
+Key: bob	ID: 1	Index: bob	Get(string): 1	Get(int): bob
+Key: chuck	ID: 2	Index: chuck	Get(string): 2	Get(int): chuck
+Key: bob	ID: 1	Index: bob	Get(string): 1	Get(int): bob
+Key: chuck	ID: 2	Index: chuck	Get(string): 2	Get(int): chuck
+Key: frank	ID: 3	Index: frank	Get(string): 3	Get(int): frank
