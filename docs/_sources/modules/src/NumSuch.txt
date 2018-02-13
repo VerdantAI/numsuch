@@ -53,3 +53,71 @@ In NumSuch, matrices are considered sparse until proven otherwise.
    
      
 
+.. class:: BiMap
+
+   
+   Class to hold a <string, int> bimap.  This class does NOT enforce uniqueness but
+   will skip duplicate keys.
+    
+
+
+   .. attribute:: var keys: domain(string)
+
+   .. attribute:: var ids: [keys] int
+
+   .. attribute:: var idxkey: domain(int)
+
+   .. attribute:: var idx: [idxkey] string
+
+   .. method:: proc init()
+
+      
+      Create an empty BiMap.
+      
+
+   .. method:: proc add(k: string)
+
+      
+      Add string key, gives it the id based on when it entered.
+      
+      
+      :arg k string: The string <e.g. key> to add to the BiMap
+      
+
+   .. method:: proc add(k: string, v: int)
+
+      
+      Add a key with a given ID.  Must be done in serial.  But it begs the question: Do I need
+      to have the feature ids if they have to be done in serial?
+       
+
+   .. method:: proc get(k: string)
+
+      
+      Send in a string, get an integer back.
+       
+
+   .. method:: proc get(v: int)
+
+      
+      Put in an integer, return a string
+       
+
+   .. itermethod:: iter entries()
+
+      
+      Iterator return tuples of (key, value)
+      
+
+   .. method:: proc size()
+
+      
+      How many entries?
+       
+
+   .. method:: proc max()
+
+      
+      Returns the max value for "value", assuming it's a real number
+      
+

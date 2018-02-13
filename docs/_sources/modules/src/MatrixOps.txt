@@ -25,23 +25,15 @@ MatrixOps
 
    .. attribute:: var X: [SD] real
 
-   .. attribute:: var rowNames: domain(string)
+   .. attribute:: var rows: BiMap = new BiMap()
 
-   .. attribute:: var rowIds: [rowNames] int
-
-   .. attribute:: var rowNameIndex: [1..0] string
-
-   .. attribute:: var colNames: domain(string)
-
-   .. attribute:: var colIds: [colNames] int
-
-   .. attribute:: var colNameIndex: [1..0] string
+   .. attribute:: var cols: BiMap = new BiMap()
 
    .. method:: proc init()
 
    .. method:: proc init(X)
 
-.. method:: proc NamedMatrix.loadX(X: [])
+.. method:: proc NamedMatrix.loadX(X: [], shape: 2*(int) = (-1, -1))
 
    
    Loads the data from X into the internal array, also called X.  We call them all X to keep it clear.
@@ -59,13 +51,49 @@ MatrixOps
 
    
    Sets the column names for the matrix X
+
+.. method:: proc NamedMatrix.get(i: int, j: int)
+
+   
+   Gets the value of the (i,j) entry of the matrix X in the NamedMatrix
+   
+
+.. method:: proc NamedMatrix.get(f: string, t: string)
+
+   
+   Get the values using the named rows and columns
     
 
-.. method:: proc NamedMatrix.fromPG(con: Connection, edgeTable: string, fromField: string, toField: string, wField: string = "NONE")
+.. method:: proc NamedMatrix.set(i: int, j: int, w: real)
+
+   
+   Set the value of this.X(i,j) by index row
+   
+
+.. method:: proc NamedMatrix.set(f: string, t: string, w: real)
+
+   
+   Set the values using the row and column names
+
+.. method:: proc NamedMatrix.update(i: int, j: int, w: real)
+
+   
+   Update the value in X(i,j) with `w`
+    
+
+.. method:: proc NamedMatrix.update(f: string, t: string, w: real)
+
+   
+   Update the value in X(i,j) with `w` using the row column names
+    
+
+.. function:: proc NamedMatrixFromPG(con: Connection, edgeTable: string, fromField: string, toField: string, wField: string = "NONE")
 
    
    Creates a NamedMatrix from a table in Postgres.  Does not optimize for square matrices.  This assumption
    is that the matrix is sparse.
+   
+   @TODO Appears that `forall` is causing problems.
    
    :arg string edgeTable: The SQL table holding the values of the matrix.
    :arg string fromField: The table column representing rows, e.g. `i`.
