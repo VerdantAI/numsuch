@@ -46,3 +46,11 @@ cols k: gamora	v: 2	Get(string): 2	Get(int): gamora
 cols k: mantis	v: 4	Get(string): 4	Get(int): mantis
 nm2.get(1,6): 1.0
 nm2.get('star lord', 'gamora'): 1.0
+nm2.set(1,6) -> 3.14: 3.14
+nm2.get(1,6): 3.14
+nm2.set('star lord', 'gamora') -> 2.71: 2.71
+nm2.set(2,5) -> 71.97: 71.97
+nm2.get(2,5): 71.97
+nm2.get('gamora', 'nebula'): 71.97
+nm2.set('yondu', 'groot') -> 13.11: 13.11
+nm2.get('yondu', 'groot'): 13.11

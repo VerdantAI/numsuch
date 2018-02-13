@@ -110,3 +110,11 @@ for c in nm2.cols.entries() {
 
 writeln("nm2.get(1,6): ", nm2.get(1,6));
 writeln("nm2.get('star lord', 'gamora'): ", nm2.get("star lord", "gamora"));
+writeln("nm2.set(1,6) -> 3.14: ", nm2.set(1,6, 3.14));
+writeln("nm2.get(1,6): ", nm2.get(1,6));
+writeln("nm2.set('star lord', 'gamora') -> 2.71: ", nm2.set("star lord", "gamora", 2.71));
+writeln("nm2.set(2,5) -> 71.97: ", nm2.set(2,5, 71.97));
+writeln("nm2.get(2,5): ", nm2.get(2,5));
+writeln("nm2.get('gamora', 'nebula'): ", nm2.get("gamora", "nebula"));
+writeln("nm2.set('yondu', 'groot') -> 13.11: ", nm2.set("yondu", "groot", 13.11));
+writeln("nm2.get('yondu', 'groot'): ", nm2.get("yondu", "groot"));

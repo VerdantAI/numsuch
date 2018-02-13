@@ -70,16 +70,33 @@ proc NamedMatrix.setColNames(cn:[]): string throws {
 /*
  Gets the value of the (i,j) entry of the matrix X in the NamedMatrix
  */
- proc NamedMatrix.get(i: int, j: int) {
+proc NamedMatrix.get(i: int, j: int) {
    return this.X(i,j);
  }
 
  /*
  Get the values using the named rows and columns
   */
- proc NamedMatrix.get(f: string, t: string) {
-    return this.X(rows.get(f), cols.get(t)); 
+proc NamedMatrix.get(f: string, t: string) {
+    return this.X(rows.get(f), cols.get(t));
  }
+
+/*
+ Set the value of this.X(i,j) by index row
+ */
+proc NamedMatrix.set(i: int, j: int, w: real) {
+    if this.SD.member((i,j)) {
+      this.X(i,j) = w;
+    } else {
+      this.SD += (i,j);
+      this.X(i,j) = w;
+    }
+    return w;
+}
+
+proc NamedMatrix.set(f: string, t: string, w: real) {
+  return this.set(rows.get(f), cols.get(t), w);
+}
 
 /*
  Creates a NamedMatrix from a table in Postgres.  Does not optimize for square matrices.  This assumption
