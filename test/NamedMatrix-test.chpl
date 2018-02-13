@@ -1,3 +1,19 @@
+/*
+DROP TABLE IF EXISTS r.cho_named_edges;
+CREATE TABLE r.cho_named_edges
+(
+ from_nm text
+, to_nm text
+);
+INSERT INTO r.cho_named_edges (from_nm, to_nm) VALUES
+  ('star lord', 'gamora') , ('star lord', 'groot')
+, ('star lord', 'drax') , ('gamora', 'drax')
+, ('groot', 'drax') , ('drax', 'rocket')
+, ('rocket', 'mantis') , ('mantis', 'yondu')
+, ('mantis', 'nebula') , ('yondu', 'nebula')
+;
+
+ */
 use NumSuch,
     Postgres;
 
@@ -74,8 +90,35 @@ if DB_HOST == "" {
    halt();
 }
 
-
 var con = PgConnectionFactory(host=DB_HOST, user=DB_USER, database=DB_NAME, passwd=DB_PWD);
+var nm2 = NamedMatrixFromPG(con, edgeTable="r.cho_named_edges", fromField="from_nm", toField="to_nm");
+writeln("nm2\n", nm2.X);
+for ij in nm2.X.domain {
+  writeln("ij: ", ij, "\tfrom: ", nm2.rows.get(ij(1)), "\tto: ", nm2.cols.get(ij(2)));
+}
+for c in nm2.rows.entries() {
+  writeln("rows k: ", c(1), "\tv: ", c(2)
+  ,"\tGet(string): ", nm2.rows.get(c(1))
+  ,"\tGet(int): ", nm2.rows.get(c(2)));
+}
 
-var nm2 = new NamedMatrix();
-nm2.fromPG(con, edgeTable="r.cui_confabulation", fromField="source_cui", toField="exhibited_cui");
+for c in nm2.cols.entries() {
+  writeln("cols k: ", c(1), "\tv: ", c(2)
+  ,"\tGet(string): ", nm2.cols.get(c(1))
+  ,"\tGet(int): ", nm2.cols.get(c(2)));
+}
+
+writeln("nm2.get(1,6): ", nm2.get(1,6));
+writeln("nm2.get('star lord', 'gamora'): ", nm2.get("star lord", "gamora"));
+writeln("nm2.set(1,6) -> 3.14: ", nm2.set(1,6, 3.14));
+writeln("nm2.get(1,6): ", nm2.get(1,6));
+writeln("nm2.set('star lord', 'gamora') -> 2.71: ", nm2.set("star lord", "gamora", 2.71));
+writeln("nm2.set(2,5) -> 71.97: ", nm2.set(2,5, 71.97));
+writeln("nm2.get(2,5): ", nm2.get(2,5));
+writeln("nm2.get('gamora', 'nebula'): ", nm2.get("gamora", "nebula"));
+writeln("nm2.set('yondu', 'groot') -> 13.11: ", nm2.set("yondu", "groot", 13.11));
+writeln("nm2.get('yondu', 'groot'): ", nm2.get("yondu", "groot"));
+writeln("nm2.update(2,5, 0.7): ", nm2.update(2,5, 0.7));
+writeln("nm2.get(2,5): ", nm2.get(2,5));
+writeln("nm2.update('yondu', 'groot', 0.89): ", nm2.update('yondu', 'groot', 0.89));
+writeln("nm2.get('yondu', 'groot'): ", nm2.get('yondu', 'groot'));

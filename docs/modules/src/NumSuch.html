@@ -190,6 +190,90 @@ for a in indexSort(arr=Arr, idx=Idx, reverse=true) {
 </div>
 </dd></dl>
 
+<dl class="class">
+<dt id="NumSuch.BiMap">
+<em class="property">class </em><code class="descname">BiMap</code><a class="headerlink" href="#NumSuch.BiMap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class to hold a &lt;string, int&gt; bimap.  This class does NOT enforce uniqueness but
+will skip duplicate keys.</p>
+<dl class="attribute">
+<dt id="NumSuch.BiMap.keys">
+<em class="property">var </em><code class="descname">keys</code>: domain(string)<a class="headerlink" href="#NumSuch.BiMap.keys" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="NumSuch.BiMap.ids">
+<em class="property">var </em><code class="descname">ids</code>: [keys] int<a class="headerlink" href="#NumSuch.BiMap.ids" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="NumSuch.BiMap.idxkey">
+<em class="property">var </em><code class="descname">idxkey</code>: domain(int)<a class="headerlink" href="#NumSuch.BiMap.idxkey" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="NumSuch.BiMap.idx">
+<em class="property">var </em><code class="descname">idx</code>: [idxkey] string<a class="headerlink" href="#NumSuch.BiMap.idx" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="NumSuch.BiMap.init">
+<em class="property">proc </em><code class="descname">init</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#NumSuch.BiMap.init" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create an empty BiMap.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="NumSuch.BiMap.add">
+<em class="property">proc </em><code class="descname">add</code><span class="sig-paren">(</span><em>k: string</em><span class="sig-paren">)</span><a class="headerlink" href="#NumSuch.BiMap.add" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add string key, gives it the id based on when it entered.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Arguments:</th><td class="field-body"><strong>string</strong> : <em>k</em> &#8211; The string &lt;e.g. key&gt; to add to the BiMap</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<em class="property">proc </em><code class="descname">add</code><span class="sig-paren">(</span><em>k: string</em>, <em>v: int</em><span class="sig-paren">)</span></dt>
+<dd><p>Add a key with a given ID.  Must be done in serial.  But it begs the question: Do I need
+to have the feature ids if they have to be done in serial?</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="NumSuch.BiMap.get">
+<em class="property">proc </em><code class="descname">get</code><span class="sig-paren">(</span><em>k: string</em><span class="sig-paren">)</span><a class="headerlink" href="#NumSuch.BiMap.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Send in a string, get an integer back.</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<em class="property">proc </em><code class="descname">get</code><span class="sig-paren">(</span><em>v: int</em><span class="sig-paren">)</span></dt>
+<dd><p>Put in an integer, return a string</p>
+</dd></dl>
+
+<dl class="itermethod">
+<dt id="NumSuch.BiMap.entries">
+<em class="property">iter </em><code class="descname">entries</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#NumSuch.BiMap.entries" title="Permalink to this definition">¶</a></dt>
+<dd><p>Iterator return tuples of (key, value)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="NumSuch.BiMap.size">
+<em class="property">proc </em><code class="descname">size</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#NumSuch.BiMap.size" title="Permalink to this definition">¶</a></dt>
+<dd><p>How many entries?</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="NumSuch.BiMap.max">
+<em class="property">proc </em><code class="descname">max</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#NumSuch.BiMap.max" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the max value for &#8220;value&#8221;, assuming it&#8217;s a real number</p>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 
 
