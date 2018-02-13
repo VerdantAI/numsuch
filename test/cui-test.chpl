@@ -25,10 +25,10 @@ var nameTable = "r.cui_confabulation",
     wTable = "cc_weight",
     n = 8;
 
-var X = new NamedMatrix();
+//var X = NamedMatrixFromPG();
 var t: Timer;
 t.start();
-X.fromPG(con, edgeTable = edgeTable1, fromField = fromField1, toField = toField1);
+var X = NamedMatrixFromPG(con, edgeTable = edgeTable1, fromField = fromField1, toField = toField1); //X.fromPG(con, edgeTable = edgeTable1, fromField = fromField1, toField = toField1);
 t.stop();
-writeln("Time to load NamedMatrix of CUIs: %n".format(t.elapsed))
+writeln("Time to load NamedMatrix of CUIs: %n".format(t.elapsed()));
 //writeln(X.domain);
