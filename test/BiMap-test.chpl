@@ -25,3 +25,7 @@ for k in bm.keys {
   , "\tGet(int): ", bm.get(bm.ids[k])
   );
 }
+
+for e in bm.entries() {
+  writeln("Bm Entry: ", e);
+}

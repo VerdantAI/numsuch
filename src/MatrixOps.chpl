@@ -13,13 +13,8 @@ class NamedMatrix {
   var D: domain(2),
       SD = CSRDomain(D),
       X: [SD] real,  // the actual data
-      rowNames: domain(string),
-      rowIds: [rowNames] int,
-      rowNameIndex:[1..0] string,
-      colNames: domain(string),
-      colIds: [colNames] int,
-      colNameIndex:[1..0] string,
-      rows: BiMap;
+      rows: BiMap = new BiMap(),
+      cols: BiMap = new BiMap();
 
    proc init() {
      super.init();
@@ -30,28 +25,6 @@ class NamedMatrix {
      super.init();
      this.loadX(X);
    }
-
-   /*
-   proc init(X:[]
-     , rowNames: domain(string), rowIds:[] int
-     , colNames: domain(string), colIds:[] int) {
-     this.D = {X.domain.dim(1), X.domain.dim(2)};
-     this.rowNameIndex: [{1..rowNames.size}] int;
-     super.init();
-     for rown in rowNames {
-       this.rowNames += rown;
-       this.rowIds[rown] = rowIds[rown];
-       //this.rowNameIndex[this.rowIds[rown]] = rown;
-     }
-     for coln in colNames {
-       this.colNames += coln;
-       this.colIds[coln] = colIds[coln];
-       this.colNameIndex.push_back(coln);
-     }
-     this.loadX(X);
-   }
-   */
-
 }
 
 /*
@@ -78,29 +51,27 @@ Sets the row names for the matrix X
 proc NamedMatrix.setRowNames(rn:[]): string throws {
   if rn.size != X.domain.dim(1).size then throw new Error();
   for i in 1..rn.size {
-    this.rowNames += (rn[i]);
-    this.rowIds[rn[i]] = this.rowNames.size;
-    this.rowNameIndex.push_back(rn[i]);
+    this.rows.add(rn[i]);
   }
-  return this.rowNames;
+  return this.rows;
 }
 
 /*
 Sets the column names for the matrix X
- */
+*/
 proc NamedMatrix.setColNames(cn:[]): string throws {
   if cn.size != X.domain.dim(2).size then throw new Error();
   for i in 1..cn.size {
-    this.colNames += (cn[i]);
-    this.colIds[cn[i]] = this.colNames.size;
-    this.colNameIndex.push_back(cn[i]);
+    this.cols.add(cn[i]);
   }
-  return this.colNames;
+  return this.cols;
 }
 
 /*
  Creates a NamedMatrix from a table in Postgres.  Does not optimize for square matrices.  This assumption
  is that the matrix is sparse.
+
+ @TODO Appears that `forall` is causing problems.
 
  :arg string edgeTable: The SQL table holding the values of the matrix.
  :arg string fromField: The table column representing rows, e.g. `i`.
@@ -122,42 +93,20 @@ proc NamedMatrixFromPG(con: Connection
   ORDER BY ftr_id, t ;
   """;
 
-  var rowNames: domain(string),
-      rowIds: [rowNames] int,
-      rowNameIndex:[1..0] string,
-      colNames: domain(string),
-      colIds: [colNames] int,
-      colNameIndex:[1..0] string,
-      rows: BiMap();
+  var rows: BiMap = new BiMap(),
+      cols: BiMap = new BiMap();
 
-  //var nm = new NamedMatrix();
   var cursor = con.cursor();
   cursor.query(q, (fromField, edgeTable, toField, edgeTable));
   for row in cursor {
     if row['t'] == 'r' {
-      /*
-      nm.rowNames += row['ftr'];
-      nm.rowIds[row['ftr']] = row['ftr_id']:int;
-      nm.rowNameIndex.push_back(row['ftr']);
-      */
-      rowNames += row['ftr'];
-      rowIds[row['ftr']] = row['ftr_id']:int;
-      rowNameIndex.push_back(row['ftr']);
-      rows.add(row['ftr'], row['ftr_id']);
+      rows.add(row['ftr'], row['ftr_id']:int);
     } else if row['t'] == 'c' {
-      /*
-      nm.colNames += row['ftr'];
-      nm.colIds[row['ftr']] = row['ftr_id']:int;
-      nm.colNameIndex.push_back(row['ftr']);
-      */
-      colNames += row['ftr'];
-      colIds[row['ftr']] = row['ftr_id']:int;
-      colNameIndex.push_back(row['ftr']);
+      cols.add(row['ftr'], row['ftr_id']:int);
     }
   }
 
-
-  var D: domain(2) = {1..max reduce rowIds, 1..max reduce colIds},
+  var D: domain(2) = {1..rows.size(), 1..cols.size()},
       SD = CSRDomain(D),
       X: [SD] real;  // the actual data
 
@@ -166,21 +115,21 @@ proc NamedMatrixFromPG(con: Connection
   FROM %s
   ORDER BY %s, %s ;
   """;
-  cursor.query(r, (fromField, toField, edgeTable, fromField, toField));
+  var cursor2 = con.cursor();
+  cursor2.query(r, (fromField, toField, edgeTable, fromField, toField));
   var dom1: domain(1) = {1..0},
       dom2: domain(1) = {1..0},
       indices: [dom1] (int, int),
       values: [dom2] real;
-  forall row in cursor {
+
+  //forall row in cursor2 {
+  for row in cursor2 {
+    writeln("row: ", row[fromField], " -> ", row[toField]);
     indices.push_back((
-       rowIds[row[fromField]]: int
-      ,colIds[row[toField]]: int
+       rows.get(row[fromField])
+      ,cols.get(row[toField])
       ));
-      /*
-    indices.push_back((
-       rowIds[row[fromField]]: int
-      ,colIds[row[toField]]: int));
-      */
+
     if wField == "NONE" {
       values.push_back(1);
     } else {
@@ -188,34 +137,13 @@ proc NamedMatrixFromPG(con: Connection
     }
   }
   SD.bulkAdd(indices);
-  writeln("rowNames: ", rowNames);
-  writeln("colNames: ", colNames);
-  writeln("this.SD\n", SD);
   forall (ij, a) in zip(indices, values) {
     X(ij) = a;
   }
 
-  const nm = new NamedMatrix();
-  /*
-  const nm = new NamedMatrix(X=X
-    , rowNames = rowNames, rowIds=rowIds
-    //rowNameIndex=rowNameIndex,
-    , colNames=colNames, colIds=colIds
-    //colNameIndex=colNameIndex
-    );
-  writeln("X.shape: ", X.shape);
-    */
-  //nm.loadX(X, shape=X.shape);
-  /*
-  var nm = new NamedMatrix(X=X);
-  nm.rowNames = rowNames;
-  nm.rowIds = rowIds;
-  nm.rowNameIndex = rowNameIndex;
-  nm.colNames = colNames;
-  nm.colIds = colIds;
-  nm.colNameIndex = colNameIndex;
-  */
-
+  const nm = new NamedMatrix(X=X);
+  nm.rows = rows;
+  nm.cols = cols;
   return nm;
 }
 

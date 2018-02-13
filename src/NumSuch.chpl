@@ -58,19 +58,27 @@ examples::
 
 
   /*
-  Class to hold a <string, int> bimap.  This class does NOT enforce uniqueness.
+  Class to hold a <string, int> bimap.  This class does NOT enforce uniqueness but
+  will skip duplicate keys.
    */
   class BiMap {
     var keys: domain(string),
         ids:  [keys] int,
         idx: [1..0] string;
 
+    /*
+    Create an empty BiMap.
+    */
     proc init() {
       super.init();
     }
 
     /*
       Add string key, gives it the id based on when it entered.
+
+      @TODO This logic is kinda crap.
+
+      :arg k string: The string <e.g. key> to add to the BiMap
      */
     proc add(k:string) {
       if this.keys.size > 0 {
@@ -88,7 +96,7 @@ examples::
     }
 
     /*
-    Add a key with a given ID.  Must be done in serial.  But it begs the question: Do I need 
+    Add a key with a given ID.  Must be done in serial.  But it begs the question: Do I need
     to have the feature ids if they have to be done in serial?
      */
     proc add(k:string, v:int) {
@@ -112,6 +120,19 @@ examples::
      */
     proc get(v:int) {
       return this.idx[v];
+    }
+
+    /*
+     Iterator return tuples of (key, value)
+     */
+    iter entries() {
+      for k in this.keys {
+        yield (k, this.ids[k]);
+      }
+    }
+
+    proc size() {
+      return this.keys.size;
     }
   }
 

@@ -90,15 +90,20 @@ if DB_HOST == "" {
    halt();
 }
 
-
 var con = PgConnectionFactory(host=DB_HOST, user=DB_USER, database=DB_NAME, passwd=DB_PWD);
-
-//var nm2 = new NamedMatrix();
-//nm2.fromPG(con, edgeTable="r.cui_confabulation", fromField="source_cui", toField="exhibited_cui");
 var nm2 = NamedMatrixFromPG(con, edgeTable="r.cho_named_edges", fromField="from_nm", toField="to_nm");
-//nm2.fromPG(con, edgeTable="r.cho_named_edges", fromField="from_nm", toField="to_nm");
 writeln("nm2\n", nm2.X);
-for n in nm2.rowNames {
-  writeln("Row Name: ", n, "\tId: ", nm2.rowIds[n], "\tIndex of this name: ", nm2.rowNameIndex[nm2.rowIds[n]]);
+for ij in nm2.X.domain {
+  writeln("ij: ", ij, "\tfrom: ", nm2.rows.get(ij(1)), "\tto: ", nm2.cols.get(ij(2)));
 }
-writeln("nm2 col names: ", nm2.colNames);
+for c in nm2.rows.entries() {
+  writeln("rows k: ", c(1), "\tv: ", c(2)
+  ,"\tGet(string): ", nm2.rows.get(c(1))
+  ,"\tGet(int): ", nm2.rows.get(c(2)));
+}
+
+for c in nm2.cols.entries() {
+  writeln("cols k: ", c(1), "\tv: ", c(2)
+  ,"\tGet(string): ", nm2.cols.get(c(1))
+  ,"\tGet(int): ", nm2.cols.get(c(2)));
+}
