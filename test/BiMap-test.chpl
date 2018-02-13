@@ -29,3 +29,5 @@ for k in bm.keys {
 for e in bm.entries() {
   writeln("Bm Entry: ", e);
 }
+
+writeln("bm.max(): ", bm.max());

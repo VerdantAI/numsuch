@@ -64,7 +64,8 @@ examples::
   class BiMap {
     var keys: domain(string),
         ids:  [keys] int,
-        idx: [1..0] string;
+        idxkey: domain(int),
+        idx: [idxkey] string;
 
     /*
     Create an empty BiMap.
@@ -76,15 +77,16 @@ examples::
     /*
       Add string key, gives it the id based on when it entered.
 
-      @TODO This logic is kinda crap.
 
       :arg k string: The string <e.g. key> to add to the BiMap
      */
     proc add(k:string) {
       if !this.keys.member(k) {
         this.keys += k;
-        this.ids[k] = this.keys.size;
-        this.idx.push_back(k);
+        const i = this.keys.size;
+        this.ids[k] = i;
+        this.idxkey += i;
+        this.idx[i] = k;
       }
     }
 
@@ -93,12 +95,10 @@ examples::
     to have the feature ids if they have to be done in serial?
      */
     proc add(k:string, v:int) {
-      if v > this.keys.size +1 {
-        return;
-      }
       this.keys += k;
       this.ids[k] = v;
-      this.idx.push_back(k);
+      this.idxkey += v;
+      this.idx[v] = k;
     }
 
     /*
@@ -124,8 +124,18 @@ examples::
       }
     }
 
+    /*
+    How many entries?
+     */
     proc size() {
       return this.keys.size;
+    }
+
+    /*
+    Returns the max value for "value", assuming it's a real number
+    */
+    proc max() {
+      return max reduce this.idxkey;
     }
   }
 
