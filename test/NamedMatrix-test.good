@@ -1,6 +1,6 @@
 throwing to second!
-{keys = {yondu, star lord, rocket, drax, nebula, groot, gamora, mantis}, ids = 7 1 5 4 8 3 2 6, idx = star lord gamora groot drax rocket mantis yondu nebula}
-{keys = {yondu, star lord, rocket, drax, nebula, groot, gamora, mantis}, ids = 7 1 5 4 8 3 2 6, idx = star lord gamora groot drax rocket mantis yondu nebula}
+{keys = {yondu, star lord, rocket, drax, nebula, groot, gamora, mantis}, ids = 7 1 5 4 8 3 2 6, idxkey = {4, 2, 6, 5, 1, 7, 8, 3}, idx = drax gamora mantis rocket star lord yondu nebula groot}
+{keys = {yondu, star lord, rocket, drax, nebula, groot, gamora, mantis}, ids = 7 1 5 4 8 3 2 6, idxkey = {4, 2, 6, 5, 1, 7, 8, 3}, idx = drax gamora mantis rocket star lord yondu nebula groot}
 row: drax -> rocket
 row: gamora -> drax
 row: groot -> drax
@@ -44,3 +44,5 @@ cols k: nebula	v: 5	Get(string): 5	Get(int): nebula
 cols k: groot	v: 3	Get(string): 3	Get(int): groot
 cols k: gamora	v: 2	Get(string): 2	Get(int): gamora
 cols k: mantis	v: 4	Get(string): 4	Get(int): mantis
+nm2.get(1,6): 1.0
+nm2.get('star lord', 'gamora'): 1.0

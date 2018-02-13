@@ -107,3 +107,6 @@ for c in nm2.cols.entries() {
   ,"\tGet(string): ", nm2.cols.get(c(1))
   ,"\tGet(int): ", nm2.cols.get(c(2)));
 }
+
+writeln("nm2.get(1,6): ", nm2.get(1,6));
+writeln("nm2.get('star lord', 'gamora'): ", nm2.get("star lord", "gamora"));

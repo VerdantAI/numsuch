@@ -68,6 +68,20 @@ proc NamedMatrix.setColNames(cn:[]): string throws {
 }
 
 /*
+ Gets the value of the (i,j) entry of the matrix X in the NamedMatrix
+ */
+ proc NamedMatrix.get(i: int, j: int) {
+   return this.X(i,j);
+ }
+
+ /*
+ Get the values using the named rows and columns
+  */
+ proc NamedMatrix.get(f: string, t: string) {
+    return this.X(rows.get(f), cols.get(t)); 
+ }
+
+/*
  Creates a NamedMatrix from a table in Postgres.  Does not optimize for square matrices.  This assumption
  is that the matrix is sparse.
 
