@@ -150,7 +150,7 @@ proc NamedMatrixFromPG(con: Connection
 
   var cursor = con.cursor();
   cursor.query(q, (fromField, edgeTable, toField, edgeTable));
-  for row in cursor {
+  forall row in cursor {
     if row['t'] == 'r' {
       rows.add(row['ftr'], row['ftr_id']:int);
     } else if row['t'] == 'c' {
@@ -175,7 +175,7 @@ proc NamedMatrixFromPG(con: Connection
       values: [dom2] real;
 
   //forall row in cursor2 {
-  for row in cursor2 {
+  forall row in cursor2 {
 //    writeln("row: ", row[fromField], " -> ", row[toField]);
     indices.push_back((
        rows.get(row[fromField])
