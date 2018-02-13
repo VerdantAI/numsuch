@@ -176,7 +176,7 @@ proc NamedMatrixFromPG(con: Connection
 
   //forall row in cursor2 {
   for row in cursor2 {
-    writeln("row: ", row[fromField], " -> ", row[toField]);
+//    writeln("row: ", row[fromField], " -> ", row[toField]);
     indices.push_back((
        rows.get(row[fromField])
       ,cols.get(row[toField])
