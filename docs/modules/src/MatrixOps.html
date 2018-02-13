@@ -169,33 +169,13 @@
 <dd></dd></dl>
 
 <dl class="attribute">
-<dt id="MatrixOps.NamedMatrix.rowNames">
-<em class="property">var </em><code class="descname">rowNames</code>: domain(string)<a class="headerlink" href="#MatrixOps.NamedMatrix.rowNames" title="Permalink to this definition">¶</a></dt>
+<dt id="MatrixOps.NamedMatrix.rows">
+<em class="property">var </em><code class="descname">rows</code>: BiMap = new BiMap()<a class="headerlink" href="#MatrixOps.NamedMatrix.rows" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
-<dt id="MatrixOps.NamedMatrix.rowIds">
-<em class="property">var </em><code class="descname">rowIds</code>: [rowNames] int<a class="headerlink" href="#MatrixOps.NamedMatrix.rowIds" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="MatrixOps.NamedMatrix.rowNameIndex">
-<em class="property">var </em><code class="descname">rowNameIndex</code>: [1..0] string<a class="headerlink" href="#MatrixOps.NamedMatrix.rowNameIndex" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="MatrixOps.NamedMatrix.colNames">
-<em class="property">var </em><code class="descname">colNames</code>: domain(string)<a class="headerlink" href="#MatrixOps.NamedMatrix.colNames" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="MatrixOps.NamedMatrix.colIds">
-<em class="property">var </em><code class="descname">colIds</code>: [colNames] int<a class="headerlink" href="#MatrixOps.NamedMatrix.colIds" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="MatrixOps.NamedMatrix.colNameIndex">
-<em class="property">var </em><code class="descname">colNameIndex</code>: [1..0] string<a class="headerlink" href="#MatrixOps.NamedMatrix.colNameIndex" title="Permalink to this definition">¶</a></dt>
+<dt id="MatrixOps.NamedMatrix.cols">
+<em class="property">var </em><code class="descname">cols</code>: BiMap = new BiMap()<a class="headerlink" href="#MatrixOps.NamedMatrix.cols" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -212,7 +192,7 @@
 
 <dl class="method">
 <dt id="MatrixOps.NamedMatrix.loadX">
-<em class="property">proc </em><code class="descclassname">NamedMatrix.</code><code class="descname">loadX</code><span class="sig-paren">(</span><em>X: []</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.NamedMatrix.loadX" title="Permalink to this definition">¶</a></dt>
+<em class="property">proc </em><code class="descclassname">NamedMatrix.</code><code class="descname">loadX</code><span class="sig-paren">(</span><em>X: []</em>, <em>shape: 2*(int) = (-1</em>, <em>-1)</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.NamedMatrix.loadX" title="Permalink to this definition">¶</a></dt>
 <dd><p>Loads the data from X into the internal array, also called X.  We call them all X to keep it clear.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -237,10 +217,47 @@
 </dd></dl>
 
 <dl class="method">
-<dt id="MatrixOps.NamedMatrix.fromPG">
-<em class="property">proc </em><code class="descclassname">NamedMatrix.</code><code class="descname">fromPG</code><span class="sig-paren">(</span><em>con: Connection</em>, <em>edgeTable: string</em>, <em>fromField: string</em>, <em>toField: string</em>, <em>wField: string = &quot;NONE&quot;</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.NamedMatrix.fromPG" title="Permalink to this definition">¶</a></dt>
+<dt id="MatrixOps.NamedMatrix.get">
+<em class="property">proc </em><code class="descclassname">NamedMatrix.</code><code class="descname">get</code><span class="sig-paren">(</span><em>i: int</em>, <em>j: int</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.NamedMatrix.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of the (i,j) entry of the matrix X in the NamedMatrix</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<em class="property">proc </em><code class="descclassname">NamedMatrix.</code><code class="descname">get</code><span class="sig-paren">(</span><em>f: string</em>, <em>t: string</em><span class="sig-paren">)</span></dt>
+<dd><p>Get the values using the named rows and columns</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="MatrixOps.NamedMatrix.set">
+<em class="property">proc </em><code class="descclassname">NamedMatrix.</code><code class="descname">set</code><span class="sig-paren">(</span><em>i: int</em>, <em>j: int</em>, <em>w: real</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.NamedMatrix.set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the value of this.X(i,j) by index row</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<em class="property">proc </em><code class="descclassname">NamedMatrix.</code><code class="descname">set</code><span class="sig-paren">(</span><em>f: string</em>, <em>t: string</em>, <em>w: real</em><span class="sig-paren">)</span></dt>
+<dd><p>Set the values using the row and column names</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="MatrixOps.NamedMatrix.update">
+<em class="property">proc </em><code class="descclassname">NamedMatrix.</code><code class="descname">update</code><span class="sig-paren">(</span><em>i: int</em>, <em>j: int</em>, <em>w: real</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.NamedMatrix.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the value in X(i,j) with <cite>w</cite></p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<em class="property">proc </em><code class="descclassname">NamedMatrix.</code><code class="descname">update</code><span class="sig-paren">(</span><em>f: string</em>, <em>t: string</em>, <em>w: real</em><span class="sig-paren">)</span></dt>
+<dd><p>Update the value in X(i,j) with <cite>w</cite> using the row column names</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="MatrixOps.NamedMatrixFromPG">
+<em class="property">proc </em><code class="descname">NamedMatrixFromPG</code><span class="sig-paren">(</span><em>con: Connection</em>, <em>edgeTable: string</em>, <em>fromField: string</em>, <em>toField: string</em>, <em>wField: string = &quot;NONE&quot;</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.NamedMatrixFromPG" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a NamedMatrix from a table in Postgres.  Does not optimize for square matrices.  This assumption
 is that the matrix is sparse.</p>
+<p>&#64;TODO Appears that <cite>forall</cite> is causing problems.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />

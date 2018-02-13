@@ -20,3 +20,7 @@ Replaced persistSparseMatrix() with bulkInsertMatrix()
 ## Version 0.1.5
 
 Some performance updates and beginning of the NamedMatrix class
+
+## Version 0.2.0
+
+The NamedMatrix class has setters and getters, should be actually useful now.
