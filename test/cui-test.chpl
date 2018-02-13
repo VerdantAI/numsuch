@@ -7,7 +7,7 @@ use NumSuch,
 // RESULTS ARE AT THE BOTTOM OF THE FILE IN A MULTILINE COMMENT
 
 
-// postgresql://buddha:D6Adisco!!@172.18.0.6/loch_brian
+
 
 config const DB_HOST: string = "";
 config const DB_USER: string = "";
