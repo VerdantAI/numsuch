@@ -94,9 +94,30 @@ proc NamedMatrix.set(i: int, j: int, w: real) {
     return w;
 }
 
+/*
+Set the values using the row and column names
+*/
 proc NamedMatrix.set(f: string, t: string, w: real) {
   return this.set(rows.get(f), cols.get(t), w);
 }
+
+/*
+Update the value in X(i,j) with `w`
+ */
+proc NamedMatrix.update(i: int, j: int, w: real) {
+  const x = this.get(i,j);
+  return this.set(i,j, x + w);
+}
+
+/*
+Update the value in X(i,j) with `w` using the row column names
+ */
+proc NamedMatrix.update(f: string, t: string, w: real) {
+  const x = this.get(rows.get(f),cols.get(t));
+  return this.set(rows.get(f),cols.get(t), x + w);
+}
+
+
 
 /*
  Creates a NamedMatrix from a table in Postgres.  Does not optimize for square matrices.  This assumption

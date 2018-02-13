@@ -118,3 +118,7 @@ writeln("nm2.get(2,5): ", nm2.get(2,5));
 writeln("nm2.get('gamora', 'nebula'): ", nm2.get("gamora", "nebula"));
 writeln("nm2.set('yondu', 'groot') -> 13.11: ", nm2.set("yondu", "groot", 13.11));
 writeln("nm2.get('yondu', 'groot'): ", nm2.get("yondu", "groot"));
+writeln("nm2.update(2,5, 0.7): ", nm2.update(2,5, 0.7));
+writeln("nm2.get(2,5): ", nm2.get(2,5));
+writeln("nm2.update('yondu', 'groot', 0.89): ", nm2.update('yondu', 'groot', 0.89));
+writeln("nm2.get('yondu', 'groot'): ", nm2.get('yondu', 'groot'));

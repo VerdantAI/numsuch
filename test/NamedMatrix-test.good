@@ -54,3 +54,7 @@ nm2.get(2,5): 71.97
 nm2.get('gamora', 'nebula'): 71.97
 nm2.set('yondu', 'groot') -> 13.11: 13.11
 nm2.get('yondu', 'groot'): 13.11
+nm2.update(2,5, 0.7): 72.67
+nm2.get(2,5): 72.67
+nm2.update('yondu', 'groot', 0.89): 14.0
+nm2.get('yondu', 'groot'): 14.0
