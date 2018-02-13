@@ -81,14 +81,7 @@ examples::
       :arg k string: The string <e.g. key> to add to the BiMap
      */
     proc add(k:string) {
-      if this.keys.size > 0 {
-        var f = this.keys.find(k);
-        if !f(1) {
-          this.keys += k;
-          this.ids[k] = this.keys.size;
-          this.idx.push_back(k);
-        }
-      } else {
+      if !this.keys.member(k) {
         this.keys += k;
         this.ids[k] = this.keys.size;
         this.idx.push_back(k);
