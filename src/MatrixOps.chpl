@@ -150,6 +150,75 @@ proc NamedMatrixFromPG(con: Connection
 
   var cursor = con.cursor();
   cursor.query(q, (fromField, edgeTable, toField, edgeTable));
+  forall row in cursor {
+    if row['t'] == 'r' {
+      rows.add(row['ftr'], row['ftr_id']:int);
+    } else if row['t'] == 'c' {
+      cols.add(row['ftr'], row['ftr_id']:int);
+    }
+  }
+
+  var D: domain(2) = {1..rows.size(), 1..cols.size()},
+      SD = CSRDomain(D),
+      X: [SD] real;  // the actual data
+
+  var r = """
+  SELECT %s, %s
+  FROM %s
+  ORDER BY %s, %s ;
+  """;
+  var cursor2 = con.cursor();
+  cursor2.query(r, (fromField, toField, edgeTable, fromField, toField));
+  var dom1: domain(1) = {1..0},
+      dom2: domain(1) = {1..0},
+      indices: [dom1] (int, int),
+      values: [dom2] real;
+
+  //forall row in cursor2 {
+  forall row in cursor2 {
+//    writeln("row: ", row[fromField], " -> ", row[toField]);
+    indices.push_back((
+       rows.get(row[fromField])
+      ,cols.get(row[toField])
+      ));
+
+    if wField == "NONE" {
+      values.push_back(1);
+    } else {
+      values.push_back(row[wField]: real);
+    }
+  }
+  SD.bulkAdd(indices);
+  forall (ij, a) in zip(indices, values) {
+    X(ij) = a;
+  }
+
+  const nm = new NamedMatrix(X=X);
+  nm.rows = rows;
+  nm.cols = cols;
+  return nm;
+}
+
+proc NamedMatrixFromPG_(con: Connection
+  , edgeTable: string
+  , fromField: string, toField: string, wField: string = "NONE") {
+
+  var q = """
+  SELECT ftr, t, row_number() OVER(PARTITION BY t ORDER BY ftr ) AS ftr_id
+  FROM (
+    SELECT distinct(%s) AS ftr, 'r' AS t FROM %s
+    UNION ALL
+    SELECT distinct(%s) AS ftr, 'c' AS t FROM %s
+  ) AS a
+  GROUP BY ftr, t
+  ORDER BY ftr_id, t ;
+  """;
+
+  var rows: BiMap = new BiMap(),
+      cols: BiMap = new BiMap();
+
+  var cursor = con.cursor();
+  cursor.query(q, (fromField, edgeTable, toField, edgeTable));
   for row in cursor {
     if row['t'] == 'r' {
       rows.add(row['ftr'], row['ftr_id']:int);
@@ -176,7 +245,7 @@ proc NamedMatrixFromPG(con: Connection
 
   //forall row in cursor2 {
   for row in cursor2 {
-    writeln("row: ", row[fromField], " -> ", row[toField]);
+//    writeln("row: ", row[fromField], " -> ", row[toField]);
     indices.push_back((
        rows.get(row[fromField])
       ,cols.get(row[toField])
@@ -189,7 +258,7 @@ proc NamedMatrixFromPG(con: Connection
     }
   }
   SD.bulkAdd(indices);
-  forall (ij, a) in zip(indices, values) {
+  for (ij, a) in zip(indices, values) {
     X(ij) = a;
   }
 
@@ -198,6 +267,7 @@ proc NamedMatrixFromPG(con: Connection
   nm.cols = cols;
   return nm;
 }
+
 
 /*
 

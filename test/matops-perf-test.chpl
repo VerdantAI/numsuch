@@ -15,34 +15,34 @@ config const DB_NAME: string = "matops";
 config const DB_PWD: string = "noether";
 var con = PgConnectionFactory(host=DB_HOST, user=DB_USER, database=DB_NAME, passwd=DB_PWD);
 
-var nameTable1 = "perftest6",
+var nameTable1 = "test1",
     idField = "ftr_id",
     nameField = "name",
-    edgeTable1 = "perftest6",
+    edgeTable1 = "test1",
     fromField = "from_id",
     toField = "to_id",
     wField = "w",
-    wTable1 = "perftest6",
-    n = 8;
+    wTable1 = "test1",
+    n = 10000;
 
-var nameTable2 = "perftest7",
+var nameTable2 = "test2",
 //    idField = "ftr_id",
 //    nameField = "name",
-    edgeTable2 = "perftest7",
+    edgeTable2 = "test2",
 //    fromField = "from_id",
 //    toField = "to_id",
 //    wField = "w",
-    wTable2 = "perftest7";
+    wTable2 = "test2";
     //    n = 8;
 
-var nameTable3 = "perftest8",
+var nameTable3 = "test3",
 //    idField = "ftr_id",
 //    nameField = "name",
-    edgeTable3 = "perftest8",
+    edgeTable3 = "test3",
     //    fromField = "from_id",
     //    toField = "to_id",
     //    wField = "w",
-    wTable3 = "perftest8";
+    wTable3 = "test3";
     //    n = 8;
 
 config param batchsize: int = 1000;
@@ -52,28 +52,28 @@ config param batchsize: int = 1000;
 
 var t5: Timer;
 t5.start();
-var X = generateRandomSparseMatrix(10000,0.90);
+var W = generateRandomSparseMatrix(n,0.90);
 t5.stop();
 writeln("  Generation time %n".format(t5.elapsed()));
 
 //ONE COPY OF THE MATRIX GETS PERSISTED TO AN EMPTY TABLE 1
 var t1: Timer;
 t1.start();
-persistSparseMatrix(con, aTable=wTable1, fromField=fromField, toField=toField, weightField=wField, A=X);
+persistSparseMatrix(con, aTable=wTable1, fromField=fromField, toField=toField, weightField=wField, A=W);
 t1.stop();
 writeln("  Batch Persistence time %n".format(t1.elapsed()));
 
 //SECOND COPY GETS PERSISTED TO AN EMPTY TABLE 2
 var t2: Timer;
 t2.start();
-persistSparseMatrix_(con, aTable=wTable2, fromField=fromField, toField=toField, weightField=wField, A=X);
+persistSparseMatrix_(con, aTable=wTable2, fromField=fromField, toField=toField, weightField=wField, A=W);
 t2.stop();
 writeln("  Regular Persistence time %n".format(t2.elapsed()));
 
 // LAST COPY GETS PERSISTED TO AN EMPTY TABLE 3
 var t6: Timer;
 t6.start();
-persistSparseMatrix_(con, aTable=wTable3, fromField=fromField, toField=toField, weightField=wField, A=X);
+persistSparseMatrix_(con, aTable=wTable3, fromField=fromField, toField=toField, weightField=wField, A=W);
 t6.stop();
 writeln("  Regular Persistence time %n".format(t6.elapsed()));
 
@@ -91,14 +91,14 @@ writeln("\n");
 // PARALLEL EXTRACTION TIME
 var t3: Timer;
 t3.start();
-wFromPG(con=con, edgeTable=edgeTable1, fromField, toField, wField, n=10000);
+wFromPG(con=con, edgeTable=edgeTable1, fromField, toField, wField, n);
 t3.stop();
 writeln("  Parallel Extraction time %n".format(t3.elapsed()));
 
 // SERIAL EXTRACTION TIME
 var t4: Timer;
 t4.start();
-wFromPG_(con=con, edgeTable=edgeTable2, fromField, toField, wField, n=10000);
+wFromPG_(con=con, edgeTable=edgeTable2, fromField, toField, wField, n);
 t4.stop();
 writeln("  Serial Extraction time %n".format(t4.elapsed()));
 
