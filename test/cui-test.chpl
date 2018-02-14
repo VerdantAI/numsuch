@@ -9,10 +9,27 @@ use NumSuch,
 
 
 
-config const DB_HOST: string = "52.176.63.131";
-config const DB_USER: string = "buddha";
-config const DB_NAME: string = "loch_brian";
-config const DB_PWD: string = "D6Adisco!!";
+config const DB_HOST: string = "";
+config const DB_USER: string = "";
+config const DB_NAME: string = "";
+config const DB_PWD: string = "";
+
+if DB_HOST == "" { var msg =
+  """
+Cannot find the file 'db_creds.txt'. Please create it in the current directory with the fields
+
+DB_HOST=
+DB_USER=
+DB_NAME=
+DB_PWD=
+
+And DO NOT check it into GitHub. (In fact, Git will try to ignore it.)
+  """;
+  writeln(msg);
+  halt();
+}
+
+
 var con = PgConnectionFactory(host=DB_HOST, user=DB_USER, database=DB_NAME, passwd=DB_PWD);
 
 var nameTable = "r.cui_confabulation",
@@ -24,6 +41,9 @@ var nameTable = "r.cui_confabulation",
     wField1 = "NONE",
     wTable = "cc_weight",
     n = 8;
+
+
+
 
 //var X = NamedMatrixFromPG();
 var t: Timer;
