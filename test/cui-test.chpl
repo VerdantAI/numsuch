@@ -9,10 +9,10 @@ use NumSuch,
 
 
 
-config const DB_HOST: string = "";
-config const DB_USER: string = "";
-config const DB_NAME: string = "";
-config const DB_PWD: string = "";
+config const DB_HOST: string = "52.176.63.131";
+config const DB_USER: string = "buddha";
+config const DB_NAME: string = "loch_brian";
+config const DB_PWD: string = "D6Adisco!!";
 var con = PgConnectionFactory(host=DB_HOST, user=DB_USER, database=DB_NAME, passwd=DB_PWD);
 
 var nameTable = "r.cui_confabulation",
