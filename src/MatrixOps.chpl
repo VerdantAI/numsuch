@@ -34,8 +34,6 @@ Loads the data from X into the internal array, also called X.  We call them all 
  */
 proc NamedMatrix.loadX(X:[], shape: 2*int =(-1,-1)) {
   if shape(1) > 0 && shape(2) > 0 {
-
-    writeln("re-shaping D! ", shape);
     this.D = {1..shape(1), 1..shape(2)};
   }
   for (i,j) in X.domain {
@@ -118,6 +116,16 @@ proc NamedMatrix.update(f: string, t: string, w: real) {
 }
 
 
+proc NamedMatrix.sparsity() {
+  const d = this.X.shape[1]:real * this.X.shape[2]: real;
+  var i: real = 0.0;
+  for ij in this.X.domain {
+    i += 1.0;
+  }
+  return i / d;
+}
+
+
 
 /*
  Creates a NamedMatrix from a table in Postgres.  Does not optimize for square matrices.  This assumption
@@ -165,7 +173,8 @@ proc NamedMatrixFromPGRectangular(con: Connection
   var cursor = con.cursor();
   cursor.query(q, (fromField, edgeTable, toField, edgeTable));
 
-  forall row in cursor {
+  //forall row in cursor {
+  for row in cursor {
     if row['t'] == 'r' {
       rows.add(row['ftr']);
     } else if row['t'] == 'c' {
@@ -191,7 +200,8 @@ proc NamedMatrixFromPGRectangular(con: Connection
       indices: [dom1] (int, int),
       values: [dom2] real;
 
-  forall row in cursor2 {
+  //forall row in cursor2 {
+  for row in cursor2 {
     indices.push_back((
        rows.get(row[fromField])
       ,cols.get(row[toField])
@@ -206,6 +216,7 @@ proc NamedMatrixFromPGRectangular(con: Connection
 
   SD.bulkAdd(indices);
   forall (ij, a) in zip(indices, values) {
+  //for (ij, a) in zip(indices, values) {
     X(ij) = a;
   }
 
@@ -511,7 +522,7 @@ proc persistSparseMatrix_P(con: Connection, aTable: string
   }
 }
 
-proc sparsity(X:[]) {
+proc sparsity(X) {
   const d = X.shape[1]:real * X.shape[2]: real;
   var i: real = 0.0;
   for ij in X.domain {

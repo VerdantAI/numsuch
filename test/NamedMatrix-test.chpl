@@ -15,7 +15,8 @@ INSERT INTO r.cho_named_edges (from_nm, to_nm) VALUES
 
  */
 use NumSuch,
-    Postgres;
+    Postgres,
+    Assert;
 
 var nv: int = 8,
     D: domain(2) = {1..nv, 1..nv},
@@ -96,29 +97,23 @@ writeln("nm2\n", nm2.X);
 for ij in nm2.X.domain {
   writeln("ij: ", ij, "\tfrom: ", nm2.rows.get(ij(1)), "\tto: ", nm2.cols.get(ij(2)));
 }
+
+assert(nm2.sparsity() == 0.20408163265306122449, "nm2.sparsity is ", nm2.sparsity(), " expected: 0.204");
 for c in nm2.rows.entries() {
-  writeln("rows k: ", c(1), "\tv: ", c(2)
-  ,"\tGet(string): ", nm2.rows.get(c(1))
-  ,"\tGet(int): ", nm2.rows.get(c(2)));
+  assert(c(2) == nm2.rows.get(c(1)), c(2), " does not equal ", nm2.rows.get(c(1)));
+  assert(c(1) == nm2.rows.get(c(2)), c(1), " does not equal ", nm2.rows.get(c(2)));
 }
 
 for c in nm2.cols.entries() {
-  writeln("cols k: ", c(1), "\tv: ", c(2)
-  ,"\tGet(string): ", nm2.cols.get(c(1))
-  ,"\tGet(int): ", nm2.cols.get(c(2)));
+  assert(c(2) == nm2.cols.get(c(1)), c(2), " does not equal ", nm2.cols.get(c(1)));
+  assert(c(1) == nm2.cols.get(c(2)), c(1), " does not equal ", nm2.cols.get(c(2)));
 }
 
-writeln("nm2.get(1,6): ", nm2.get(1,6));
-writeln("nm2.get('star lord', 'gamora'): ", nm2.get("star lord", "gamora"));
-writeln("nm2.set(1,6) -> 3.14: ", nm2.set(1,6, 3.14));
-writeln("nm2.get(1,6): ", nm2.get(1,6));
-writeln("nm2.set('star lord', 'gamora') -> 2.71: ", nm2.set("star lord", "gamora", 2.71));
-writeln("nm2.set(2,5) -> 71.97: ", nm2.set(2,5, 71.97));
-writeln("nm2.get(2,5): ", nm2.get(2,5));
-writeln("nm2.get('gamora', 'nebula'): ", nm2.get("gamora", "nebula"));
-writeln("nm2.set('yondu', 'groot') -> 13.11: ", nm2.set("yondu", "groot", 13.11));
-writeln("nm2.get('yondu', 'groot'): ", nm2.get("yondu", "groot"));
-writeln("nm2.update(2,5, 0.7): ", nm2.update(2,5, 0.7));
-writeln("nm2.get(2,5): ", nm2.get(2,5));
-writeln("nm2.update('yondu', 'groot', 0.89): ", nm2.update('yondu', 'groot', 0.89));
-writeln("nm2.get('yondu', 'groot'): ", nm2.get('yondu', 'groot'));
+/* Check edge, then updating the value by name */
+assert(nm2.get('star lord', 'gamora') == 1.0, "star lord is not matched to gamora: ", nm2.get('star lord', 'gamora'));
+nm2.set("star lord", "gamora", 2.17);
+assert(nm2.get('star lord', 'gamora') == 2.17, "star lord to gamora not set to 2.71, instead: ", nm2.get('star lord', 'gamora'));
+
+nm2.set("yondu", "groot", 13.11);
+nm2.update('yondu', 'groot', 0.89);
+assert(nm2.get("yondu", "groot") == 14.00, "yondu, groot not updated to 14.00, instead: ", nm2.get("yondu", "groot"));

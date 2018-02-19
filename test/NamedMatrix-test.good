@@ -30,31 +30,3 @@ ij: (6, 1)	from: star lord	to: drax
 ij: (6, 2)	from: star lord	to: gamora
 ij: (6, 3)	from: star lord	to: groot
 ij: (7, 5)	from: yondu	to: nebula
-rows k: yondu	v: 7	Get(string): 7	Get(int): yondu
-rows k: star lord	v: 6	Get(string): 6	Get(int): star lord
-rows k: rocket	v: 5	Get(string): 5	Get(int): rocket
-rows k: drax	v: 1	Get(string): 1	Get(int): drax
-rows k: groot	v: 3	Get(string): 3	Get(int): groot
-rows k: gamora	v: 2	Get(string): 2	Get(int): gamora
-rows k: mantis	v: 4	Get(string): 4	Get(int): mantis
-cols k: yondu	v: 7	Get(string): 7	Get(int): yondu
-cols k: rocket	v: 6	Get(string): 6	Get(int): rocket
-cols k: drax	v: 1	Get(string): 1	Get(int): drax
-cols k: nebula	v: 5	Get(string): 5	Get(int): nebula
-cols k: groot	v: 3	Get(string): 3	Get(int): groot
-cols k: gamora	v: 2	Get(string): 2	Get(int): gamora
-cols k: mantis	v: 4	Get(string): 4	Get(int): mantis
-nm2.get(1,6): 1.0
-nm2.get('star lord', 'gamora'): 1.0
-nm2.set(1,6) -> 3.14: 3.14
-nm2.get(1,6): 3.14
-nm2.set('star lord', 'gamora') -> 2.71: 2.71
-nm2.set(2,5) -> 71.97: 71.97
-nm2.get(2,5): 71.97
-nm2.get('gamora', 'nebula'): 71.97
-nm2.set('yondu', 'groot') -> 13.11: 13.11
-nm2.get('yondu', 'groot'): 13.11
-nm2.update(2,5, 0.7): 72.67
-nm2.get(2,5): 72.67
-nm2.update('yondu', 'groot', 0.89): 14.0
-nm2.get('yondu', 'groot'): 14.0
