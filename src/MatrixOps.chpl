@@ -115,14 +115,23 @@ proc NamedMatrix.update(f: string, t: string, w: real) {
   return this.set(rows.get(f),cols.get(t), x + w);
 }
 
+/*
+Find the number of non-zeroes in the matrix
+ */
+proc NamedMatrix.nnz() {
+  var i: int = 0;
+  for ij in this.X.domain {
+    i += 1;
+  }
+  return i;
+}
 
+/*
+Calculates the sparsity of the matrix: Number of entries / frame size
+ */
 proc NamedMatrix.sparsity() {
   const d = this.X.shape[1]:real * this.X.shape[2]: real;
-  var i: real = 0.0;
-  for ij in this.X.domain {
-    i += 1.0;
-  }
-  return i / d;
+  return this.nnz():real / d;
 }
 
 
@@ -173,8 +182,7 @@ proc NamedMatrixFromPGRectangular(con: Connection
   var cursor = con.cursor();
   cursor.query(q, (fromField, edgeTable, toField, edgeTable));
 
-  //forall row in cursor {
-  for row in cursor {
+  forall row in cursor {
     if row['t'] == 'r' {
       rows.add(row['ftr']);
     } else if row['t'] == 'c' {
@@ -185,8 +193,6 @@ proc NamedMatrixFromPGRectangular(con: Connection
   var D: domain(2) = {1..rows.size(), 1..cols.size()},
       SD = CSRDomain(D),
       X: [SD] real;  // the actual data
-
-  writeln("D: ", D);
 
   var r = """
   SELECT %s, %s
@@ -200,6 +206,7 @@ proc NamedMatrixFromPGRectangular(con: Connection
       indices: [dom1] (int, int),
       values: [dom2] real;
 
+  // This guy is causing problems.  Exterminiate with extreme prejudice
   //forall row in cursor2 {
   for row in cursor2 {
     indices.push_back((
@@ -216,7 +223,6 @@ proc NamedMatrixFromPGRectangular(con: Connection
 
   SD.bulkAdd(indices);
   forall (ij, a) in zip(indices, values) {
-  //for (ij, a) in zip(indices, values) {
     X(ij) = a;
   }
 
@@ -226,6 +232,9 @@ proc NamedMatrixFromPGRectangular(con: Connection
   return nm;
 }
 
+/*
+ Build a square version of the matrix.  Still directed, but with the same number of rows/cols
+ */
 proc NamedMatrixFromPGSquare ( con: Connection
     , edgeTable: string
     , fromField: string, toField: string, wField: string = "NONE") {
@@ -233,9 +242,9 @@ proc NamedMatrixFromPGSquare ( con: Connection
     var q = """
     SELECT ftr
     FROM (
-      SELECT distinct(%s) AS ftr
+      SELECT distinct(%s) AS ftr FROM %s
       UNION ALL
-      SELECT distinct(%s) AS ftr
+      SELECT distinct(%s) AS ftr FROM %s
     ) AS a
     GROUP BY ftr ORDER BY ftr;
     """;
@@ -245,6 +254,7 @@ proc NamedMatrixFromPGSquare ( con: Connection
     var rows: BiMap = new BiMap();
 
     forall row in cursor {
+    //for row in cursor {
       rows.add(row['ftr']);
     }
 
@@ -263,7 +273,8 @@ proc NamedMatrixFromPGSquare ( con: Connection
         dom2: domain(1) = {1..0},
         indices: [dom1] (int, int),
         values: [dom2] real;
-    forall row in cursor2 {
+    //forall row in cursor2 {
+    for row in cursor2 {
       indices.push_back((
          rows.get(row[fromField])
         ,rows.get(row[toField])
