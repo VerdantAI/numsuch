@@ -55,15 +55,13 @@ try {
 
 try {
   vn.push_back("nebula");
-  writeln(nm.setRowNames(vn));
 } catch {
-  writeln("Aww snap");
+  writeln("Could not set row names");
 }
 
 try {
-  writeln(nm.setColNames(vn));
 } catch {
-  writeln("Aww snap");
+  writeln("Could not set column nmaes");
 }
 
 
@@ -93,10 +91,6 @@ if DB_HOST == "" {
 
 var con = PgConnectionFactory(host=DB_HOST, user=DB_USER, database=DB_NAME, passwd=DB_PWD);
 var nm2 = NamedMatrixFromPG(con, edgeTable="r.cho_named_edges", fromField="from_nm", toField="to_nm");
-writeln("nm2\n", nm2.X);
-for ij in nm2.X.domain {
-  writeln("ij: ", ij, "\tfrom: ", nm2.rows.get(ij(1)), "\tto: ", nm2.cols.get(ij(2)));
-}
 
 assert(nm2.nnz() == 10, "nm2.X has ", nm2.nnz(), " entries, expected 10");
 assert(nm2.X.shape[1] == 7, "nm2.X has ", nm2.X.shape[1], " rows expected: ", 7);
