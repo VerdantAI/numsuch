@@ -134,6 +134,43 @@ proc NamedMatrix.sparsity() {
   return this.nnz():real / d;
 }
 
+/*
+ Multiplies the current NamedMatrix `X` against the argument `Y`, but first it aligns
+ the names of `X.cols` with `Y.rows`.  Returns an appropriately named NamedMatrix
+ :arg NamedMatrix Y:
+ */
+proc NamedMatrix.alignAndMultiply(Y: NamedMatrix) {
+    var rcOverlap: domain(string) = this.cols.keys & Y.rows.keys;
+
+    var xSD: sparse subdomain(this.D) dmapped CS(),
+        ySD: sparse subdomain(Y.D) dmapped CS(),
+        xX: [xSD] real,  // the actual data
+        yX: [ySD] real,  // the actual data
+        xrows: BiMap = new BiMap(),
+        yrows: BiMap = new BiMap(),
+        xcols: BiMap = new BiMap(),
+        ycols: BiMap = new BiMap();
+
+    for (left_row, right_col) in zip(this.D.dim(2), Y.D.dim(1)) {
+      for rc in rcOverlap {
+        const j = this.cols.get(rc);
+        if this.SD.member(left_row, j) {
+          xSD += (left_row, j);
+          xX[left_row, j] = this.X[left_row, j];
+        }
+        if Y.SD.member(j, right_col) {
+          ySD += (j, right_col);
+          yX[j, right_col] = Y.X[j, right_col];
+        }
+      }
+    }
+    const z = xX.dot(yX);
+    var n = new NamedMatrix(X=z);
+    n.rows = this.rows;
+    n.cols = Y.cols;
+    return n;
+}
+
 
 
 /*
