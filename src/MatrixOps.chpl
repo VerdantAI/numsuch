@@ -34,8 +34,6 @@ Loads the data from X into the internal array, also called X.  We call them all 
  */
 proc NamedMatrix.loadX(X:[], shape: 2*int =(-1,-1)) {
   if shape(1) > 0 && shape(2) > 0 {
-
-    writeln("re-shaping D! ", shape);
     this.D = {1..shape(1), 1..shape(2)};
   }
   for (i,j) in X.domain {
@@ -117,32 +115,102 @@ proc NamedMatrix.update(f: string, t: string, w: real) {
   return this.set(rows.get(f),cols.get(t), x + w);
 }
 
+/*
+Find the number of non-zeroes in the matrix
+ */
+proc NamedMatrix.nnz() {
+  var i: int = 0;
+  for ij in this.X.domain {
+    i += 1;
+  }
+  return i;
+}
+
+/*
+Calculates the sparsity of the matrix: Number of entries / frame size
+ */
+proc NamedMatrix.sparsity() {
+  const d = this.X.shape[1]:real * this.X.shape[2]: real;
+  return this.nnz():real / d;
+}
+
+/*
+ Multiplies the current NamedMatrix `X` against the argument `Y`, but first it aligns
+ the names of `X.cols` with `Y.rows`.  Returns an appropriately named NamedMatrix
+ :arg NamedMatrix Y:
+ */
+proc NamedMatrix.alignAndMultiply(Y: NamedMatrix) {
+    var rcOverlap: domain(string) = this.cols.keys & Y.rows.keys;
+
+    var xSD: sparse subdomain(this.D) dmapped CS(),
+        ySD: sparse subdomain(Y.D) dmapped CS(),
+        xX: [xSD] real,  // the actual data
+        yX: [ySD] real,  // the actual data
+        xrows: BiMap = new BiMap(),
+        yrows: BiMap = new BiMap(),
+        xcols: BiMap = new BiMap(),
+        ycols: BiMap = new BiMap();
+
+    for (left_row, right_col) in zip(this.D.dim(2), Y.D.dim(1)) {
+      for rc in rcOverlap {
+        const j = this.cols.get(rc);
+        if this.SD.member(left_row, j) {
+          xSD += (left_row, j);
+          xX[left_row, j] = this.X[left_row, j];
+        }
+        if Y.SD.member(j, right_col) {
+          ySD += (j, right_col);
+          yX[j, right_col] = Y.X[j, right_col];
+        }
+      }
+    }
+    const z = xX.dot(yX);
+    var n = new NamedMatrix(X=z);
+    n.rows = this.rows;
+    n.cols = Y.cols;
+    return n;
+}
+
 
 
 /*
  Creates a NamedMatrix from a table in Postgres.  Does not optimize for square matrices.  This assumption
  is that the matrix is sparse.
 
- @TODO Appears that `forall` is causing problems.
-
  :arg string edgeTable: The SQL table holding the values of the matrix.
  :arg string fromField: The table column representing rows, e.g. `i`.
  :arg string toField: The table column representing columns, e.g. 'j'.
  :arg string wField: `default=NONE` the table column containing the values of cell `(i,j)``
+ :arg boolean square: Whether the matrix should be built to have the same rows and columns
  */
-proc NamedMatrixFromPG(con: Connection
+
+
+ proc NamedMatrixFromPG(con: Connection
+   , edgeTable: string
+   , fromField: string, toField: string, wField: string = "NONE"
+   , square=false) {
+  if square {
+    return NamedMatrixFromPGSquare(con: Connection
+      , edgeTable, fromField, toField, wField);
+  } else {
+    return NamedMatrixFromPGRectangular(con: Connection
+      , edgeTable, fromField, toField, wField);
+  }
+}
+
+proc NamedMatrixFromPGRectangular(con: Connection
   , edgeTable: string
   , fromField: string, toField: string, wField: string = "NONE") {
 
   var q = """
-  SELECT ftr, t, row_number() OVER(PARTITION BY t ORDER BY ftr ) AS ftr_id
+  SELECT ftr, t
   FROM (
     SELECT distinct(%s) AS ftr, 'r' AS t FROM %s
     UNION ALL
     SELECT distinct(%s) AS ftr, 'c' AS t FROM %s
   ) AS a
   GROUP BY ftr, t
-  ORDER BY ftr_id, t ;
+  ORDER BY ftr, t ;
   """;
 
   var rows: BiMap = new BiMap(),
@@ -150,11 +218,12 @@ proc NamedMatrixFromPG(con: Connection
 
   var cursor = con.cursor();
   cursor.query(q, (fromField, edgeTable, toField, edgeTable));
+
   forall row in cursor {
     if row['t'] == 'r' {
-      rows.add(row['ftr'], row['ftr_id']:int);
+      rows.add(row['ftr']);
     } else if row['t'] == 'c' {
-      cols.add(row['ftr'], row['ftr_id']:int);
+      cols.add(row['ftr']);
     }
   }
 
@@ -174,9 +243,9 @@ proc NamedMatrixFromPG(con: Connection
       indices: [dom1] (int, int),
       values: [dom2] real;
 
+  // This guy is causing problems.  Exterminiate with extreme prejudice
   //forall row in cursor2 {
-  forall row in cursor2 {
-//    writeln("row: ", row[fromField], " -> ", row[toField]);
+  for row in cursor2 {
     indices.push_back((
        rows.get(row[fromField])
       ,cols.get(row[toField])
@@ -188,6 +257,7 @@ proc NamedMatrixFromPG(con: Connection
       values.push_back(row[wField]: real);
     }
   }
+
   SD.bulkAdd(indices);
   forall (ij, a) in zip(indices, values) {
     X(ij) = a;
@@ -197,6 +267,72 @@ proc NamedMatrixFromPG(con: Connection
   nm.rows = rows;
   nm.cols = cols;
   return nm;
+}
+
+/*
+ Build a square version of the matrix.  Still directed, but with the same number of rows/cols
+ */
+proc NamedMatrixFromPGSquare ( con: Connection
+    , edgeTable: string
+    , fromField: string, toField: string, wField: string = "NONE") {
+
+    var q = """
+    SELECT ftr
+    FROM (
+      SELECT distinct(%s) AS ftr FROM %s
+      UNION ALL
+      SELECT distinct(%s) AS ftr FROM %s
+    ) AS a
+    GROUP BY ftr ORDER BY ftr;
+    """;
+
+    var cursor = con.cursor();
+    cursor.query(q, (fromField, edgeTable, toField, edgeTable));
+    var rows: BiMap = new BiMap();
+
+    forall row in cursor {
+    //for row in cursor {
+      rows.add(row['ftr']);
+    }
+
+    var D: domain(2) = {1..rows.size(), 1..rows.size()},
+        SD = CSRDomain(D),
+        X: [SD] real;  // the actual data
+
+    var r = """
+    SELECT %s, %s
+    FROM %s
+    ORDER BY %s, %s ;
+    """;
+    var cursor2 = con.cursor();
+    cursor2.query(r, (fromField, toField, edgeTable, fromField, toField));
+    var dom1: domain(1) = {1..0},
+        dom2: domain(1) = {1..0},
+        indices: [dom1] (int, int),
+        values: [dom2] real;
+    //forall row in cursor2 {
+    for row in cursor2 {
+      indices.push_back((
+         rows.get(row[fromField])
+        ,rows.get(row[toField])
+        ));
+
+      if wField == "NONE" {
+        values.push_back(1);
+      } else {
+        values.push_back(row[wField]: real);
+      }
+    }
+
+    SD.bulkAdd(indices);
+    forall (ij, a) in zip(indices, values) {
+      X(ij) = a;
+    }
+
+    const nm = new NamedMatrix(X=X);
+    nm.rows = rows;
+    nm.cols = rows;
+    return nm;
 }
 
 proc NamedMatrixFromPG_(con: Connection
@@ -434,7 +570,7 @@ proc persistSparseMatrix_P(con: Connection, aTable: string
   }
 }
 
-proc sparsity(X:[]) {
+proc sparsity(X) {
   const d = X.shape[1]:real * X.shape[2]: real;
   var i: real = 0.0;
   for ij in X.domain {
