@@ -29,6 +29,10 @@ And DO NOT check it into GitHub. (In fact, Git will try to ignore it.)
   halt();
 }
 
+writeln(DB_HOST);
+writeln(DB_USER);
+writeln(DB_NAME);
+writeln(DB_PWD);
 
 var con = PgConnectionFactory(host=DB_HOST, user=DB_USER, database=DB_NAME, passwd=DB_PWD);
 
