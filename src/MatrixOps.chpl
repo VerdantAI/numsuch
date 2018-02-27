@@ -238,23 +238,24 @@ proc NamedMatrixFromPGRectangular(con: Connection
   """;
   var cursor2 = con.cursor();
   cursor2.query(r, (fromField, toField, edgeTable, fromField, toField));
-  var dom1: domain(1) = {1..0},
-      dom2: domain(1) = {1..0},
-      indices: [dom1] (int, int),
-      values: [dom2] real;
+  const size = cursor2.rowcount(): int;
+  var count = 0: int,
+      dom = {1..size},
+      indices: [dom] (int, int),
+      values: [dom] real;
 
   // This guy is causing problems.  Exterminiate with extreme prejudice
   //forall row in cursor2 {
-  for row in cursor2 {
-    indices.push_back((
+  forall row in cursor2 with (+ reduce count) {
+    indices[count]=(
        rows.get(row[fromField])
       ,cols.get(row[toField])
-      ));
+      );
 
     if wField == "NONE" {
-      values.push_back(1);
+      values[count] = 1;
     } else {
-      values.push_back(row[wField]: real);
+      values[count] = row[wField]: real;
     }
   }
 
