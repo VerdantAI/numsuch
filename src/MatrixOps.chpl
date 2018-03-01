@@ -219,7 +219,7 @@ proc NamedMatrixFromPGRectangular(con: Connection
   var cursor = con.cursor();
   cursor.query(q, (fromField, edgeTable, toField, edgeTable));
 
-  forall row in cursor {
+  for row in cursor {
     if row['t'] == 'r' {
       rows.add(row['ftr']);
     } else if row['t'] == 'c' {
@@ -238,23 +238,25 @@ proc NamedMatrixFromPGRectangular(con: Connection
   """;
   var cursor2 = con.cursor();
   cursor2.query(r, (fromField, toField, edgeTable, fromField, toField));
-  var dom1: domain(1) = {1..0},
-      dom2: domain(1) = {1..0},
-      indices: [dom1] (int, int),
-      values: [dom2] real;
+  const size = cursor2.rowcount(): int;
+  var count = 0: int,
+      dom = {1..size},
+      indices: [dom] (int, int),
+      values: [dom] real;
 
   // This guy is causing problems.  Exterminiate with extreme prejudice
   //forall row in cursor2 {
-  for row in cursor2 {
-    indices.push_back((
+  forall row in cursor2 with (+ reduce count) {
+    count += 1;
+    indices[count]=(
        rows.get(row[fromField])
       ,cols.get(row[toField])
-      ));
+      );
 
     if wField == "NONE" {
-      values.push_back(1);
+      values[count] = 1;
     } else {
-      values.push_back(row[wField]: real);
+      values[count] = row[wField]: real;
     }
   }
 
@@ -416,20 +418,36 @@ proc NamedMatrixFromPG_(con: Connection
   :arg weights: Boolean on whether to use the weights in the table or a 1 (indicator)
  */
 proc wFromPG(con: Connection, edgeTable: string
-    , fromField: string, toField: string, wField: string, n: int, weights=true) {
-  var q = "SELECT %s, %s, %s FROM %s ORDER BY 1, 2;";
+    , fromField: string, toField: string, wField: string, weights=false) {
+  var q = "SELECT %s, %s FROM %s ORDER BY 1, 2;";
+  var source_size_q = """
+                      SELECT count(*) AS n FROM (SELECT distinct(s.source_cui) FROM r.cui_confabulation s) AS sources;
+                      """;
+
+  var target_size_q = """
+                      SELECT count(*) AS n FROM (SELECT distinct(s.exhibited_cui) FROM r.cui_confabulation s) AS exhibited;
+                      """;
+  var cursor2 = con.cursor();
+  var cursor3 = con.cursor();
+  cursor2.query(source_size_q);
+  cursor3.query(target_size_q);
+  const row2 = cursor2.fetchone();
+  const row3 = cursor3.fetchone();
+  const source_size = row2['n']: int;
+  const exhibit_size = row3['n']: int;
+
   var cursor = con.cursor();
-  cursor.query(q,(fromField, toField, wField, edgeTable));
-  const D: domain(2) = {1..n, 1..n};
+  cursor.query(q,(fromField, toField, edgeTable));
+  const size = cursor.rowcount(): int;
+  var D: domain(2) = {1..source_size, 1..exhibit_size};
   var SD: sparse subdomain(D) dmapped CS();
   var X: [SD] real;
-  var dom1: domain(1) = {1..0};
-  var dom2: domain(1) = {1..0};
-  var indices: [dom1] (int, int);
-  var values: [dom2] real;
-  forall row in cursor {
-    indices.push_back((row[fromField]: int,row[toField]: int));
-    values.push_back(row[wField]: real);
+  var dom: domain(1) = {1..size};
+  var indices: [dom] (int, int);
+  var values: [dom] real;
+  forall (row, i) in zip(cursor, dom) {
+    indices[i] = (row[fromField]: int,row[toField]: int);
+    values[i] = 1: real;
   }
   SD.bulkAdd(indices);
   forall (ij, a) in zip(indices, values) {
