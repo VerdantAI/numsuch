@@ -137,6 +137,15 @@ examples::
     proc max() {
       return max reduce this.idxkey;
     }
-  }
 
+
+
+    proc uni(b: BiMap) {
+      this.keys += b.keys;
+      this.ids += b.ids;
+      this.idxkey += b.idxkey;
+      this.idx += b.idx;
+      return this;
+    }
+  }
 }
