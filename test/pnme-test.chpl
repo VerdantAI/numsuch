@@ -45,8 +45,9 @@ var nameTable = "r.cui_confabulation",
 
 
 t.start();
-const X = NamedMatrixFromPGRectangular(con, edgeTable, fromField, toField, wField);
+const X = wFromPG(con, edgeTable, fromField, toField, wField);
 t.stop();
 
 
 writeln("Load Time: %n".format(t.elapsed()));
+writeln("Domain Size: %n".format(X.domain.size));
