@@ -17,13 +17,31 @@ class NamedMatrix {
       cols: BiMap = new BiMap();
 
    proc init() {
-     super.init();
+     this.initDone(); // NAMEDMATRIX DOESNT EXPLICITLY INHERIT ANYTHING SO IS THIS NECESSARY??
    }
 
    proc init(X) {
      this.D = {X.domain.dim(1), X.domain.dim(2)};
-     super.init();
+     this.initDone();
      this.loadX(X);
+   }
+
+   proc init(X, names: [] string) {
+     this.init(X);
+     try! this.setRowNames(names);
+     try! this.setColNames(names);
+   }
+
+   proc init(X, rownames: [] string, colnames: [] string) {
+     this.init(X);
+     try! this.setRowNames(rownames);
+     try! this.setColNames(colnames);
+   }
+
+   proc init(N: NamedMatrix) {
+     this.init(N.X);
+     this.rows = N.rows;
+     this.cols = N.cols;
    }
 }
 
