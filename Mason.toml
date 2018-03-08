@@ -1,8 +1,8 @@
 [brick]
 name = "NumSuch"
-version = "0.1.0"
+version = "0.2.1"
 authors = ["Brian Dolan: buddha314@gmail.com"]
 source = "https://github.com/buddha314/numsuch"
-chplVersion = "1.16.0"
+chplVersion = "1.17.0"
 
 [dependencies]
