@@ -24,3 +24,7 @@ Some performance updates and beginning of the NamedMatrix class
 ## Version 0.2.0
 
 The NamedMatrix class has setters and getters, should be actually useful now.
+
+## Version 0.2.1
+
+Some update.  Note the doc are well out of data due to an issue with `chpldoc`

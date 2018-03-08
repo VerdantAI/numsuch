@@ -71,19 +71,19 @@ examples::
     Create an empty BiMap.
     */
     proc init() {
-      super.init();
+      this.initDone();
     }
 
     /*
       Add string key, gives it the id based on when it entered.
-
 
       :arg k string: The string <e.g. key> to add to the BiMap
      */
     proc add(k:string) {
       if !this.keys.member(k) {
         this.keys += k;
-        const i = this.keys.size;
+        var i = this.keys.size;
+        if i == 0 then i = 1;
         this.ids[k] = i;
         this.idxkey += i;
         this.idx[i] = k;
@@ -137,6 +137,15 @@ examples::
     proc max() {
       return max reduce this.idxkey;
     }
-  }
 
+
+
+    proc uni(b: BiMap) {
+      this.keys += b.keys;
+      this.ids += b.ids;
+      this.idxkey += b.idxkey;
+      this.idx += b.idx;
+      return this;
+    }
+  }
 }

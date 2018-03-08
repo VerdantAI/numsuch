@@ -1,3 +1,4 @@
 COMPOPTS
 db_creds.txt
 *.tmp
+notesbox.db_creds.txt

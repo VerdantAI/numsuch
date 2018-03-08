@@ -31,3 +31,15 @@ for e in bm.entries() {
 }
 
 writeln("bm.max(): ", bm.max());
+
+
+var abm = new BiMap();
+abm.add("one",1);
+abm.add("two",2);
+var bbm = new BiMap();
+bbm.add("three",3);
+bbm.add("four",4);
+
+var cbm = abm.uni(bbm);
+
+writeln(cbm.keys);
