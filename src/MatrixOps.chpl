@@ -43,6 +43,12 @@ class NamedMatrix {
      this.rows = N.rows;
      this.cols = N.cols;
    }
+
+   proc init(X, rows: BiMap, cols: BiMap) {
+     this.init(X);
+     this.rows = rows;
+     this.cols = cols;
+   }
 }
 
 /*
@@ -157,6 +163,13 @@ proc NamedMatrix.sparsity() {
  the names of `X.cols` with `Y.rows`.  Returns an appropriately named NamedMatrix
  :arg NamedMatrix Y:
  */
+
+proc NamedMatrix.ndot(N: NamedMatrix) {
+  var C: NamedMatrix = new NamedMatrix(X = dot(this.X,N.X), this.rows, N.cols);
+  return C;
+}
+
+
 proc NamedMatrix.alignAndMultiply(Y: NamedMatrix) {
     var rcOverlap: domain(string) = this.cols.keys & Y.rows.keys;
 
