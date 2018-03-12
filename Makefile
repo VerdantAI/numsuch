@@ -1,11 +1,10 @@
 include local.mk
 CC=chpl
-INCLUDES=-I${ZMQ_BASE}/include -I$(BLAS_HOME)/include
-LIBS=-L${ZMQ_BASE}/lib -lzmq -L${BLAS_HOME}/lib -lblas
+INCLUDES=-I$(BLAS_HOME)/include
+LIBS=-L${BLAS_HOME}/lib -lblas
 EXEC=numsuch
 SRCDIR=src
-BINDIR=bin
-MODULES=-M$(CDO_HOME)/src
+BINDIR=target
 default: all
 
 #all: NumSuch.chpl
