@@ -1,4 +1,4 @@
-# NumSuch v 0.2.1
+# NumSuch v 0.2.3
 Porting little bits of code I need from NumPy over to Chapel.
 
 Documents, such as they are, should be available [here](https://buddha314.github.io/numsuch/) as are the
