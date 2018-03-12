@@ -5,7 +5,6 @@ LIBS=-L${BLAS_HOME}/lib -lblas
 EXEC=numsuch
 SRCDIR=src
 BINDIR=target
-MODULES=-M$(CDO_HOME)/src
 default: all
 
 #all: NumSuch.chpl
