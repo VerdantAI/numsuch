@@ -122,6 +122,20 @@ class NumSuchTest : UnitTest {
     }
   }
 
+  proc testSetByName() {
+    try {
+      var nm = new NamedMatrix(rownames = vn, colnames=vn);
+      nm.set("star lord", "yondu", 17.0);
+      this.results.push_back(
+        assertRealEquals(msg="Set/Get by name", expected=17.0, actual=nm.get("star lord", "yondu"))
+      );
+    } catch e: DimensionMatchError {
+      writeln(e);
+    } catch e: Error {
+      writeln(e);
+    }
+  }
+
   proc run() {
     super.run();
     testIndexSort();
@@ -129,6 +143,7 @@ class NumSuchTest : UnitTest {
     testSetRowNames();
     testSetColNames();
     testNamedMatrixInitWithNames();
+    testSetByName();
     return 0;
   }
 
