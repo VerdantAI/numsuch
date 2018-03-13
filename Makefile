@@ -5,6 +5,7 @@ LIBS=-L${BLAS_HOME}/lib -lblas
 EXEC=numsuch
 SRCDIR=src
 BINDIR=target
+TESTDIR=test
 default: all
 
 #all: NumSuch.chpl
@@ -13,3 +14,8 @@ all: $(SRCDIR)/NumSuch.chpl
 
 mlp: mlp.chpl
 	$(CC) $(INCLUDES) $(LIBS) -o mlp $<
+
+run-test: $(TESTDIR)/NumSuchTest.chpl
+	$(CC) -M$(SRCDIR) $(MODULES) $(FLAGS) ${INCLUDES} ${LIBS} -o $(TESTDIR)/test $<; \
+	./$(TESTDIR)/test;  \
+	rm $(TESTDIR)/test
