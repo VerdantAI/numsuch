@@ -106,12 +106,29 @@ class NumSuchTest : UnitTest {
     }
   }
 
+  proc testNamedMatrixInitWithNames() {
+    try {
+      var nm = new NamedMatrix(rownames = vn, colnames=vn);
+      this.results.push_back(
+        assertIntEquals(msg="Initialize X with names only (rows)", expected=vn.size, actual=nm.nrows())
+      );
+      this.results.push_back(
+        assertIntEquals(msg="Initialize X with names only (cols)", expected=vn.size, actual=nm.ncols())
+      );
+    } catch e: DimensionMatchError {
+      writeln(e);
+    } catch e: Error {
+      writeln(e);
+    }
+  }
+
   proc run() {
     super.run();
     testIndexSort();
     testNamedMatrix();
     testSetRowNames();
     testSetColNames();
+    testNamedMatrixInitWithNames();
     return 0;
   }
 

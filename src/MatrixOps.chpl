@@ -37,6 +37,13 @@ class NamedMatrix {
      try! this.setColNames(colnames);
    }
 
+   proc init(rownames: [] string, colnames: [] string) {
+     this.D = {1..rownames.size, 1..colnames.size};
+     this.initDone();
+     try! this.setRowNames(rownames);
+     try! this.setColNames(colnames);
+   }
+
    proc init(N: NamedMatrix) {
      this.init(N.X);
      this.rows = N.rows;
@@ -86,14 +93,18 @@ proc NamedMatrix.loadX(X:[], shape: 2*int =(-1,-1)) {
 Sets the row names for the matrix X
  */
 proc NamedMatrix.setRowNames(rn:[]): string throws {
+  //if (X.domain.dim(1).size > 0) && (rn.size != X.domain.dim(1).size) {
+  //if (1 > 0) && (rn.size != X.domain.dim(1).size) {
   if rn.size != X.domain.dim(1).size {
     const err = new DimensionMatchError(expected = X.domain.dim(1).size, actual=rn.size);
     throw err;
+    return "";
+  } else {
+    for i in 1..rn.size {
+      this.rows.add(rn[i]);
+    }
+    return this.rows;
   }
-  for i in 1..rn.size {
-    this.rows.add(rn[i]);
-  }
-  return this.rows;
 }
 
 /*
