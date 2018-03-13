@@ -50,6 +50,22 @@ class NamedMatrix {
    }
 }
 
+
+/*
+Returns the number of rows in the matrix frame
+ */
+proc NamedMatrix.nrows() {
+  return X.domain.dim(1).size;
+}
+
+/*
+Returns the number of columns in the matrix frame
+ */
+proc NamedMatrix.ncols() {
+  return X.domain.dim(2).size;
+}
+
+
 /*
 Loads the data from X into the internal array, also called X.  We call them all X to keep it clear.
 
@@ -70,7 +86,10 @@ proc NamedMatrix.loadX(X:[], shape: 2*int =(-1,-1)) {
 Sets the row names for the matrix X
  */
 proc NamedMatrix.setRowNames(rn:[]): string throws {
-  if rn.size != X.domain.dim(1).size then throw new Error();
+  if rn.size != X.domain.dim(1).size {
+    const err = new DimensionMatchError(expected = X.domain.dim(1).size, actual=rn.size);
+    throw err;
+  }
   for i in 1..rn.size {
     this.rows.add(rn[i]);
   }
@@ -239,4 +258,30 @@ proc sparsity(X) {
     i += 1.0;
   }
   return i / d;
+}
+
+class NumSuchError : Error {
+  proc init() {
+    super.init();
+    this.initDone();
+  }
+  proc message() {
+    return "Generic NumSuch Error";
+  }
+}
+
+class DimensionMatchError : NumSuchError {
+  var expected: int,
+      actual: int;
+
+  proc init(expected: int, actual:int) {
+    super.init();
+    this.initDone();
+    this.expected = expected;
+    this.actual = actual;
+  }
+
+  proc message() {
+    return "Error matching dimensions.  Expected: " + this.expected + " Actual: " + this.actual;
+  }
 }
