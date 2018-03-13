@@ -1,5 +1,6 @@
 include local.mk
 CC=chpl
+MODULES =-M/Users/buddha/github/buddha314/Charcoal/src
 INCLUDES=-I$(BLAS_HOME)/include
 LIBS=-L${BLAS_HOME}/lib -lblas
 EXEC=numsuch
