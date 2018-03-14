@@ -136,6 +136,29 @@ class NumSuchTest : UnitTest {
     }
   }
 
+  proc testArgMax() {
+    var x: [1..3] real = [1.1, 3.3, 2.2];
+    var y: [1..3,1..3] real = ((1,0,0), (0,0,2), (0,3,0));
+    this.results.push_back(
+      assertIntEquals("argmax(x)", expected=2, actual=argmax(x))
+    );
+    this.results.push_back(
+      assertIntArrayEquals("argmax(y, ?)", expected=[3,2], actual=argmax(y))
+    );
+    this.results.push_back(
+      assertIntArrayEquals("argmax(y, ?)", expected=[3,2], actual=argmax(y))
+    );
+    this.results.push_back(
+      assertIntArrayEquals("argmax(y,0)", expected=[3,2], actual=argmax(y, axis=0))
+    );
+    this.results.push_back(
+      assertIntArrayEquals("argmax(y,1)", expected=[1,3,2], actual=argmax(y, axis=1))
+    );
+    this.results.push_back(
+      assertIntArrayEquals("argmax(y,2)", expected=[1,3,2], actual=argmax(y, axis=2))
+    );
+  }
+
   proc run() {
     super.run();
     testIndexSort();
@@ -144,6 +167,7 @@ class NumSuchTest : UnitTest {
     testSetColNames();
     testNamedMatrixInitWithNames();
     testSetByName();
+    testArgMax();
     return 0;
   }
 

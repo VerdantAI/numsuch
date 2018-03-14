@@ -68,11 +68,3 @@ var L = new LabelMatrix();
 writeln("Loading L from matrix.");
 L.fromMatrix(Y);
 writeln(L.data);
-
-var x: [1..3] real = [1.1, 3.3, 2.2];
-var y: [1..3,1..3] real = ((1,0,0), (0,0,2), (0,3,0));
-assert(argmax(x) == 2, "argmax(x) is ", argmax(x), " expected 2");
-assert(argmax(y) == [3,2], "argmax(y, ?) is ", argmax(y), " expected [3 2]");
-assert(argmax(y, axis=0) == [3,2], "argmax(y) is ", argmax(y, axis=0), " expected [3 2]");
-assert(argmax(y, axis=1) == [1,3,2], "argmax(y) is ", argmax(y, axis=1), " expected [1 3 2]");
-assert(argmax(y, axis=2) == [1,3,2], "argmax(y) is ", argmax(y, axis=2), " expected [1 3 2]");
