@@ -79,7 +79,6 @@ Loads a label file into a Matrix.  Labels should be binary indicators
     }
 
     proc fromMatrix(y:[]) {
-      writeln(y.domain.first);
       dataDom = {1..#y.shape[1], 1..#y.shape[2]};
       ref tmpD = data.reindex(y.domain);
       for ij in y.domain {

@@ -1,4 +1,5 @@
 use NumSuch,
+    Norm,
     Charcoal;
 
 
@@ -159,8 +160,75 @@ class NumSuchTest : UnitTest {
     );
   }
 
+  proc testCosineDistance() {
+    var X = Matrix(
+      [3.0, 0.2, 0.0, 0.7, 0.1],
+      [0.2, 2.0, 0.3, 0.0, 0.0],
+      [0.0, 0.3, 3.0, 0.9, 0.6],
+      [0.7, 0.0, 0.9, 2.0, 0.0],
+      [0.1, 0.0, 0.6, 0.0, 2.0]
+    );
+
+    var Y = Matrix(
+      [3.0, 0.2, 0.0, 0.7, 0.1],
+      [0.2, 2.0, 0.3, 0.0, 0.0],
+      [0.0, 0.3, 3.0, 0.9, 0.6],
+      [0.7, 0.0, 0.9, 2.0, 0.0],
+      [0.7, 0.0, 0.9, 2.0, 0.0],
+      [0.1, 0.0, 0.6, 0.0, 2.0]
+    );
+
+    const xxTarget = Matrix(
+      [0.0, 0.974619, 0.992338, 0.930778, 0.988007],
+      [0.974619, 0.0, 0.964601, 0.981269, 0.988919],
+      [0.992338, 0.964601, 0.0, 0.917246, 0.93309],
+      [0.930778, 0.981269, 0.917246, 0.0, 0.973663],
+      [0.988007, 0.988919, 0.93309, 0.973663, 0.0]);
+
+    var V = cosineDistance(X);
+    const a = V-xxTarget;
+    const aa = norm(a);
+    this.results.push_back(
+      assertRealApproximates(msg="Cosine Distance(X) norm", expected=1.39884e-06, actual=aa)
+    );
+
+    var V2 = cosineDistance(X,Y);
+    const cosimXYtarget = Matrix(
+      [0.895178, 0.974619, 0.992338, 0.930778, 0.930778, 0.988007],
+      [0.974619, 0.757869, 0.964601, 0.981269, 0.981269, 0.988919],
+      [0.992338, 0.964601, 0.902534, 0.917246, 0.917246, 0.93309],
+      [0.930778, 0.981269, 0.917246, 0.811321, 0.811321, 0.973663],
+      [0.988007, 0.988919, 0.93309,  0.973663, 0.973663, 0.771167]
+      );
+    const b = V2-cosimXYtarget;
+    const bb = norm(b);
+    this.results.push_back(
+      assertRealApproximates(msg="Cosine Distance(X,Y) norm", expected=1.53583e-06, actual=bb)
+    );
+  }
+
+  /*
+   Does not assert anything, LabeledMatrix may be deprecated
+   */
+  proc testLabelMatrix() {
+    var Y = Matrix(
+      [3.0, 0.2, 0.0, 0.7, 0.1],
+      [0.2, 2.0, 0.3, 0.0, 0.0],
+      [0.0, 0.3, 3.0, 0.9, 0.6],
+      [0.7, 0.0, 0.9, 2.0, 0.0],
+      [0.7, 0.0, 0.9, 2.0, 0.0],
+      [0.1, 0.0, 0.6, 0.0, 2.0]
+    );
+    var L = new LabelMatrix();
+    L.fromMatrix(Y);
+    this.results.push_back(
+        assertRealEquals(msg="Label Matrix entry (1,4)", expected=0.7, actual=L.data(1,4))
+    );
+  }
+
   proc run() {
     super.run();
+    /*
     testIndexSort();
     testNamedMatrix();
     testSetRowNames();
@@ -168,9 +236,11 @@ class NumSuchTest : UnitTest {
     testNamedMatrixInitWithNames();
     testSetByName();
     testArgMax();
+    testCosineDistance();
+    */
+    testLabelMatrix();
     return 0;
   }
-
 }
 
 proc main(args: [] string) : int {
