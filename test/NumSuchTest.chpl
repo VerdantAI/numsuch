@@ -202,7 +202,34 @@ class NumSuchTest : UnitTest {
     var y = [3.0, 55.0, 0.5, 1.5];
     var d = ecdf(y);
     assertArrayEquals("ECDF: Output", expected=[0.75,1.0,0.0,0.25], actual=d);
-   }
+  }
+
+  proc testBiMap() {
+    var bm = new BiMap();
+    bm.add("bob");
+    bm.add("chuck");
+    bm.add("bob");
+    bm.add('ethel', 78);
+    bm.add('frank', 3);
+
+    assertIntEquals("BIMAP redundant entry ignored", expected=4, actual=bm.keys.size);
+    for k in bm.keys {
+      assertStringEquals("BIMAP name is retrieved", k, bm.idx[bm.ids[k]]);
+      assertIntEquals("BIMAP id is retrieved", bm.ids[k], bm.get(k));
+    }
+    assertIntEquals("BIMPA max is set", expected=78, actual=bm.max());
+
+    var abm = new BiMap();
+    abm.add("one",1);
+    abm.add("two",2);
+    var bbm = new BiMap();
+    bbm.add("three",3);
+    bbm.add("four",4);
+
+    var cbm = abm.uni(bbm);
+    assertIntEquals("BIMAP union size", expected=4, actual=cbm.keys.size);
+    assertIntEquals("BIMAP union max", expected=4, actual=cbm.max());
+  }
 
   proc run() {
     super.run();
@@ -216,6 +243,7 @@ class NumSuchTest : UnitTest {
     testCosineDistance();
     testLabelMatrix();
     testECDF();
+    testBiMap();
 
     return 0;
   }
