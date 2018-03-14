@@ -194,21 +194,29 @@ class NumSuchTest : UnitTest {
     assertRealEquals(msg="Label Matrix entry (1,4)", expected=0.7, actual=L.data(1,4));
   }
 
+  proc testECDF() {
+    var x = [3,3,1,4];
+    var ecdf = new ECDF(x);
+    assertIntEquals("ECDF: Number of observations", expected=4, actual=ecdf.nobs);
+
+    var y = [3.0, 55.0, 0.5, 1.5];
+    var d = ecdf(y);
+    assertArrayEquals("ECDF: Output", expected=[0.75,1.0,0.0,0.25], actual=d);
+   }
+
   proc run() {
     super.run();
-    /*
     testIndexSort();
     testNamedMatrix();
     testSetRowNames();
     testSetColNames();
     testNamedMatrixInitWithNames();
     testSetByName();
-    */
     testArgMax();
-    /*
     testCosineDistance();
     testLabelMatrix();
-     */
+    testECDF();
+
     return 0;
   }
 }
