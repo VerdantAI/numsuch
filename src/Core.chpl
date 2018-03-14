@@ -176,6 +176,9 @@ Loads a label file into a Matrix.  Labels should be binary indicators
     return M;
   }
 
+  /*
+  Internal routine to find the argmax along a dense vector
+   */
   proc argmax1d(x:[]) {
     var idx: int = 1,
         currentMax: real = x[1];

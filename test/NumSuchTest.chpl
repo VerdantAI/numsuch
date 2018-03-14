@@ -1,5 +1,6 @@
 use NumSuch,
     Norm,
+    LinearAlgebra,
     Charcoal;
 
 
@@ -117,6 +118,14 @@ class NumSuchTest : UnitTest {
   proc testArgMax() {
     var x: [1..3] real = [1.1, 3.3, 2.2];
     var y: [1..3,1..3] real = ((1,0,0), (0,0,2), (0,3,0));
+    var xSD: sparse subdomain(x.domain);
+    var z: [xSD] real;
+    xSD += 2; z[2] = 1.3;
+    xSD += 3; z[3] = 0.8;
+
+    assertBoolEquals("z is sparse", expected=true, actual=isSparseArr(z));
+    assertIntEquals("argmax1d(z)", expected=2, actual=argmax1d(z));
+
     assertIntEquals("argmax(x)", expected=2, actual=argmax(x));
     assertIntArrayEquals("argmax(y, ?)", expected=[3,2], actual=argmax(y));
     assertIntArrayEquals("argmax(y, ?)", expected=[3,2], actual=argmax(y));
@@ -187,15 +196,19 @@ class NumSuchTest : UnitTest {
 
   proc run() {
     super.run();
+    /*
     testIndexSort();
     testNamedMatrix();
     testSetRowNames();
     testSetColNames();
     testNamedMatrixInitWithNames();
     testSetByName();
+    */
     testArgMax();
+    /*
     testCosineDistance();
     testLabelMatrix();
+     */
     return 0;
   }
 }
