@@ -96,7 +96,6 @@ proc NamedMatrix.rowMax() {
     mxs[i] = this.rowMax(i);
   }
   return mxs;
-
 }
 
 
