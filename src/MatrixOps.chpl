@@ -75,28 +75,77 @@ proc NamedMatrix.ncols() {
 /*
  Finds the max along the row indicated by row number
  */
+
 proc NamedMatrix.rowMax(i: int) {
-  var x:[1..0] real;
-  for a in this.X.domain.dimIter(2,i) {
-    x.push_back(this.get(i,a));
-  }
-  if x.size < 1 {
-    return NAN;
-  } else {
-    return max reduce x;
-  }
+  return aMax(axis = 1, this.X)[i];
 }
 
-/*
- Returns the max of each row
- */
 proc NamedMatrix.rowMax() {
-  var mxs: [1..this.nrows()] real;
-  forall i in 1..this.nrows() {
-    mxs[i] = this.rowMax(i);
-  }
-  return mxs;
+  return aMax(axis = 1, this.X);
 }
+
+proc NamedMatrix.colMax(i: int) {
+  return aMax(axis = 2, this.X)[i];
+
+}
+
+proc NamedMatrix.colMax() {
+  return aMax(axis = 2, this.X);
+}
+
+proc NamedMatrix.rowArgMax(i) {
+  return argMax(1, this.X)[i];
+}
+
+proc NamedMatrix.rowArgMax() {
+  return argMax(1, this.X);
+}
+
+proc NamedMatrix.colArgMax(i) {
+  return argMax(2, this.X)[i];
+}
+
+proc NamedMatrix.colArgMax() {
+  return argMax(2, this.X);
+}
+
+
+
+
+proc NamedMatrix.rowMin(i: int) {
+  return aMin(axis = 1, this.X)[i];
+}
+
+proc NamedMatrix.rowMin() {
+  return aMin(axis = 1, this.X);
+}
+
+proc NamedMatrix.colMin(i: int) {
+  return aMin(axis = 2, this.X)[i];
+}
+
+proc NamedMatrix.colMin() {
+  return aMin(axis = 2, this.X);
+}
+
+proc NamedMatrix.rowArgMin(i) {
+  return argMin(1, this.X)[i];
+}
+
+proc NamedMatrix.rowArgMin() {
+  return argMin(1, this.X);
+}
+
+proc NamedMatrix.colArgMin(i) {
+  return argMin(2, this.X)[i];
+}
+
+proc NamedMatrix.colArgMin() {
+  return argMin(2, this.X);
+}
+
+
+//proc NamedMatrix.argRowMax()
 
 
 /*
@@ -259,68 +308,144 @@ proc NamedMatrix.alignAndMultiply(Y: NamedMatrix) {
     return n;
 }
 
-
-proc maxima(axis:int, id:int , X:[]) {
-  var idm: (int,int),
-      maximum: real = 0;
+proc aMax(axis = 0, X:[]) {
+  var is: domain(1) = 1..max(X.domain.dim(1).size,X.domain.dim(2).size);
+  var sis: sparse subdomain(is);
+  var maxima: [sis] real;
   if axis == 0 {
-    for (i,j) in X.domain {
-      if X(i,j) > maximum {
-        maximum = X(i,j);
-        idm = (i,j);
-      }
-    }
-  }
-  if axis == 1 {
-    for a in transpose(X).domain.dimIter(2, id) {
-      if X(a,id) > maximum {
-        maximum = X(a,id);
-        idm = (a,id);
-      }
-    }
+    var wDom: domain(1) = 1..X.domain.size;
+    var ws = reshape(X, wDom);
+    sis += 1;
+    maxima[1] = (max reduce ws);
   }
   if axis == 2 {
-    for a in X.domain.dimIter(2, id) {
-      if X(id,a) > maximum {
-        maximum = X(id,a);
-        idm = (id,a);
+    is = X.domain.dim(1);
+    for i in is {
+      var wDom: domain(1);
+      var ws: [wDom] real;
+      for a in transpose(X).domain.dimIter(2, i) {
+        sis += i;
+        ws.push_back(X(a,i));
+      }
+      if sis.member(i) {
+        maxima[i] = max reduce ws;
+      }
+    }
+  } else if axis == 1 {
+    is = X.domain.dim(2);
+    for i in is {
+      var wDom: domain(1);
+      var ws: [wDom] real;
+      for a in X.domain.dimIter(2, i) {
+        sis += i;
+        ws.push_back(X(i,a));
+      }
+      if sis.member(i) {
+        maxima[i] = max reduce ws;
       }
     }
   }
-  return maximum;
+  return maxima;
 }
 
-proc maxiLoc(axis:int, id:int , X:[]) {
-  var idm: (int,int),
-      maximum: real = 0;
+proc aMin(axis = 0, X:[]) {
+  var is: domain(1) = 1..max(X.domain.dim(1).size,X.domain.dim(2).size);
+  var sis: sparse subdomain(is);
+  var minima: [sis] real;
   if axis == 0 {
-    for (i,j) in X.domain {
-      if X(i,j) > maximum {
-        maximum = X(i,j);
-        idm = (i,j);
-      }
-    }
-  }
-  if axis == 1 {
-    for a in transpose(X).domain.dimIter(2, id) {
-      if X(a,id) > maximum {
-        maximum = X(a,id);
-        idm = (a,id);
-      }
-    }
+    var wDom: domain(1) = 1..X.domain.size;
+    var ws = reshape(X, wDom);
+    sis += 1;
+    minima[1] = (min reduce ws);
   }
   if axis == 2 {
-    for a in X.domain.dimIter(2, id) {
-      if X(id,a) > maximum {
-        maximum = X(id,a);
-        idm = (id,a);
+    is = X.domain.dim(1);
+    for i in is {
+      var wDom: domain(1);
+      var ws: [wDom] real;
+      for a in transpose(X).domain.dimIter(2, i) {
+        sis += i;
+        ws.push_back(X(a,i));
+      }
+      if sis.member(i) {
+        minima[i] = min reduce ws;
+      }
+    }
+  } else if axis == 1 {
+    is = X.domain.dim(2);
+    for i in is {
+      var wDom: domain(1);
+      var ws: [wDom] real;
+      for a in X.domain.dimIter(2, i) {
+        sis += i;
+        ws.push_back(X(i,a));
+      }
+      if sis.member(i) {
+        minima[i] = min reduce ws;
       }
     }
   }
-  return idm;
+  return minima;
 }
 
-proc minima(axis:int, id:int , X:[]) {
+
+proc argMin(axis: int, X:[]) {
+  var is: domain(1) = 1..max(X.domain.dim(1).size,X.domain.dim(2).size);
+  var sis: sparse subdomain(is);
+  var minima: [sis] 2*int;
+  if axis == 0 {
+    sis += 1;
+    minima[1] = miniLoc_(axis == 0, id = 1, X);
+  } else if axis == 2 {
+    for i in is {
+      var idm = miniLoc_(1,i,X);
+      if idm != (0,0) {
+        sis += i;
+        minima[i] = idm;
+      }
+    }
+  } else if axis == 1 {
+    for i in is {
+      var idm = miniLoc_(2,i,X);
+      if idm != (0,0) {
+        sis += i;
+        minima[i] = idm;
+      }
+    }
+  }
+  return minima;
+}
+
+proc argMax(axis: int, X:[]) {
+  var is: domain(1) = 1..max(X.domain.dim(1).size,X.domain.dim(2).size);
+  var sis: sparse subdomain(is);
+  var maxima: [sis] 2*int;
+  if axis == 0 {
+    sis += 1;
+    maxima[1] = maxiLoc_(axis == 0, id = 1, X);
+  } else if axis == 2 {
+    for i in is {
+      var idm = maxiLoc_(1,i,X);
+      if idm != (0,0) {
+        sis += i;
+        maxima[i] = idm;
+      }
+    }
+  } else if axis == 1 {
+    for i in is {
+      var idm = maxiLoc_(2,i,X);
+      if idm != (0,0) {
+        sis += i;
+        maxima[i] = idm;
+      }
+    }
+  }
+  return maxima;
+}
+
+
+// HELPER FUNCTIONS SHOULD NOT BE EXPOSED TO USER
+proc miniLoc_(axis:int, id, X:[]) {
   var idm: (int,int),
       minimum: real = 1000000;
   if axis == 0 {
@@ -347,74 +472,38 @@ proc minima(axis:int, id:int , X:[]) {
       }
     }
   }
-  return minimum;
+  return idm;
 }
 
-proc miniLoc(axis:int, id:int , X:[]) {
+proc maxiLoc_(axis:int, id, X:[]) {
   var idm: (int,int),
-      minimum: real = 1000000;
+      maximum: real;
   if axis == 0 {
     for (i,j) in X.domain {
-      if X(i,j) < minimum {
-        minimum = X(i,j);
+      if X(i,j) > maximum {
+        maximum = X(i,j);
         idm = (i,j);
       }
     }
   }
   if axis == 1 {
     for a in transpose(X).domain.dimIter(2, id) {
-      if X(a,id) < minimum {
-        minimum = X(a,id);
+      if X(a,id) > maximum {
+        maximum = X(a,id);
         idm = (a,id);
       }
     }
   }
   if axis == 2 {
     for a in X.domain.dimIter(2, id) {
-      if X(id,a) < minimum {
-        minimum = X(id,a);
+      if X(id,a) > maximum {
+        maximum = X(id,a);
         idm = (id,a);
       }
     }
   }
   return idm;
 }
-
-
-proc rowMax_(id: int, X) {
-  return maxima(axis = 2, id, X);
-}
-
-proc rowMax_(X) {
-  return maxima(axis = 0, id = 0, X);
-}
-
-proc colMax_(id: int, X) {
-  return maxima(axis = 1, id, X);
-}
-
-proc colMax_(X) {
-  return maxima(axis = 0, id = 0, X);
-}
-
-proc argRowMax_(id: int, X) {
-  return maxiLoc(axis = 2, id, X);
-}
-
-proc argRowMax_(X) {
-  return maxiLoc(axis = 0, id = 0, X);
-}
-
-proc argColMax_(id: int, X) {
-  return maxiLoc(axis = 1, id, X);
-}
-
-proc argColMax_(X) {
-  return maxiLoc(axis = 0, id = 0, X);
-}
-
-
-
 
 
 
