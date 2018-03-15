@@ -72,6 +72,34 @@ proc NamedMatrix.ncols() {
   return X.domain.dim(2).size;
 }
 
+/*
+ Finds the max along the row indicated by row number
+ */
+proc NamedMatrix.rowMax(i: int) {
+  var x:[1..0] real;
+  for a in this.X.domain.dimIter(2,i) {
+    x.push_back(this.get(i,a));
+  }
+  if x.size < 1 {
+    writeln("uh-oh coach!");
+    return NAN;
+  } else {
+    return max reduce x;
+  }
+}
+
+/*
+ Returns the max of each row
+ */
+proc NamedMatrix.rowMax() {
+  var mxs: [1..this.nrows()] real;
+  forall i in 1..this.nrows() {
+    mxs[i] = this.rowMax(i);
+  }
+  return mxs;
+
+}
+
 
 /*
 Loads the data from X into the internal array, also called X.  We call them all X to keep it clear.
