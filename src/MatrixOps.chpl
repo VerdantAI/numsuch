@@ -234,7 +234,7 @@ proc NamedMatrix.alignAndMultiply(Y: NamedMatrix) {
 }
 
 
-proc argmaxi(axis:int, id:int , X:[]) {
+proc maxima(axis:int, id:int , X:[]) {
   var idm: (int,int),
       maximum: real = 0;
   if axis == 0 {
@@ -264,7 +264,7 @@ proc argmaxi(axis:int, id:int , X:[]) {
   return maximum;
 }
 
-proc maxiloc(axis:int, id:int , X:[]) {
+proc maxiLoc(axis:int, id:int , X:[]) {
   var idm: (int,int),
       maximum: real = 0;
   if axis == 0 {
@@ -294,9 +294,9 @@ proc maxiloc(axis:int, id:int , X:[]) {
   return idm;
 }
 
-proc argmini(axis:int, id:int , X:[]) {
+proc minima(axis:int, id:int , X:[]) {
   var idm: (int,int),
-      minimum: real = 0;
+      minimum: real = 1000000;
   if axis == 0 {
     for (i,j) in X.domain {
       if X(i,j) < minimum {
@@ -324,9 +324,9 @@ proc argmini(axis:int, id:int , X:[]) {
   return minimum;
 }
 
-proc miniloc(axis:int, id:int , X:[]) {
+proc miniLoc(axis:int, id:int , X:[]) {
   var idm: (int,int),
-      minimum: real = 0;
+      minimum: real = 1000000;
   if axis == 0 {
     for (i,j) in X.domain {
       if X(i,j) < minimum {
@@ -352,6 +352,39 @@ proc miniloc(axis:int, id:int , X:[]) {
     }
   }
   return idm;
+}
+
+
+proc rowMax_(id: int, X) {
+  return maxima(axis = 2, id, X);
+}
+
+proc rowMax_(X) {
+  return maxima(axis = 0, id = 0, X);
+}
+
+proc colMax_(id: int, X) {
+  return maxima(axis = 1, id, X);
+}
+
+proc colMax_(X) {
+  return maxima(axis = 0, id = 0, X);
+}
+
+proc argRowMax_(id: int, X) {
+  return maxiLoc(axis = 2, id, X);
+}
+
+proc argRowMax_(X) {
+  return maxiLoc(axis = 0, id = 0, X);
+}
+
+proc argColMax_(id: int, X) {
+  return maxiLoc(axis = 1, id, X);
+}
+
+proc argColMax_(X) {
+  return maxiLoc(axis = 0, id = 0, X);
 }
 
 
