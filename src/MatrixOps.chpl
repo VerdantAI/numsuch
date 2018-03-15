@@ -169,6 +169,8 @@ proc NamedMatrix.ndot(N: NamedMatrix) {
 }
 
 
+
+
 proc NamedMatrix.alignAndMultiply(Y: NamedMatrix) {
     var rcOverlap: domain(string) = this.cols.keys & Y.rows.keys;
 
@@ -202,7 +204,179 @@ proc NamedMatrix.alignAndMultiply(Y: NamedMatrix) {
 }
 
 
+proc argmaxi(axis:int, id:int , X:[]) {
+  var idm: (int,int),
+      maximum: real = 0;
+  if axis == 0 {
+    for (i,j) in X.domain {
+      if X(i,j) > maximum {
+        maximum = X(i,j);
+        idm = (i,j);
+      }
+    }
+  }
+  if axis == 1 {
+    for a in transpose(X).domain.dimIter(2, id) {
+      if X(a,id) > maximum {
+        maximum = X(a,id);
+        idm = (a,id);
+      }
+    }
+  }
+  if axis == 2 {
+    for a in X.domain.dimIter(2, id) {
+      if X(id,a) > maximum {
+        maximum = X(id,a);
+        idm = (id,a);
+      }
+    }
+  }
+  return maximum;
+}
 
+proc maxiloc(axis:int, id:int , X:[]) {
+  var idm: (int,int),
+      maximum: real = 0;
+  if axis == 0 {
+    for (i,j) in X.domain {
+      if X(i,j) > maximum {
+        maximum = X(i,j);
+        idm = (i,j);
+      }
+    }
+  }
+  if axis == 1 {
+    for a in transpose(X).domain.dimIter(2, id) {
+      if X(a,id) > maximum {
+        maximum = X(a,id);
+        idm = (a,id);
+      }
+    }
+  }
+  if axis == 2 {
+    for a in X.domain.dimIter(2, id) {
+      if X(id,a) > maximum {
+        maximum = X(id,a);
+        idm = (id,a);
+      }
+    }
+  }
+  return idm;
+}
+
+proc argmini(axis:int, id:int , X:[]) {
+  var idm: (int,int),
+      minimum: real = 0;
+  if axis == 0 {
+    for (i,j) in X.domain {
+      if X(i,j) < minimum {
+        minimum = X(i,j);
+        idm = (i,j);
+      }
+    }
+  }
+  if axis == 1 {
+    for a in transpose(X).domain.dimIter(2, id) {
+      if X(a,id) < minimum {
+        minimum = X(a,id);
+        idm = (a,id);
+      }
+    }
+  }
+  if axis == 2 {
+    for a in X.domain.dimIter(2, id) {
+      if X(id,a) < minimum {
+        minimum = X(id,a);
+        idm = (id,a);
+      }
+    }
+  }
+  return minimum;
+}
+
+proc miniloc(axis:int, id:int , X:[]) {
+  var idm: (int,int),
+      minimum: real = 0;
+  if axis == 0 {
+    for (i,j) in X.domain {
+      if X(i,j) < minimum {
+        minimum = X(i,j);
+        idm = (i,j);
+      }
+    }
+  }
+  if axis == 1 {
+    for a in transpose(X).domain.dimIter(2, id) {
+      if X(a,id) < minimum {
+        minimum = X(a,id);
+        idm = (a,id);
+      }
+    }
+  }
+  if axis == 2 {
+    for a in X.domain.dimIter(2, id) {
+      if X(id,a) < minimum {
+        minimum = X(id,a);
+        idm = (id,a);
+      }
+    }
+  }
+  return idm;
+}
+
+
+
+
+
+
+proc tropic(A:[],B:[]) { // UNDER CONSTRUCTION
+  writeln("Calculating Tropic Product");
+  writeln("A is");
+  writeln(A);
+  writeln("With domain");
+  writeln(A.domain);
+  var dom: domain(2) = {A.domain.dim(1),B.domain.dim(2)};
+  var sps = CSRDomain(dom);
+  var BT = transpose(B);
+  writeln("BT is");
+  writeln(BT);
+  writeln("With domain");
+  writeln(BT.domain);
+  writeln("Tropic will have entries in");
+  writeln(dom);
+  var T: [sps] real;
+  for (i,j) in dom {
+    var mini = 100000000: real;
+    var wdom: domain(1);
+    var wids: [wdom] int;
+    for w in A.domain.dimIter(2,i) {
+      wids.push_back(w);
+      writeln("Witness in A from %n to %n".format(i,w));
+    }
+    writeln(wids);
+    for w in BT.domain.dimIter(2,j) {
+      wids.push_back(w);
+      writeln("Witness in B from %n to %n".format(w,j));
+    }
+    writeln(wids);
+    var wDom: domain(1);
+    var witness: [wDom] real;
+    for w in wids {
+      if A(i,w) + BT(j,w) > 0 {
+        witness.push_back(A(i,w) + BT(j,w));
+      }
+    }
+    writeln("Witnesses are");
+    writeln(witness);
+    mini = min reduce witness;
+    writeln("Minimum among witnesses is");
+    writeln(mini);
+    if mini < 1000000000 {
+      T(i,j) = mini;
+    }
+  }
+  return T;
+}
 
 /*
  Build a random sparse matrix.  Good for testing;
