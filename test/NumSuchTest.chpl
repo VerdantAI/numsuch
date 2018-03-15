@@ -1,4 +1,7 @@
 use NumSuch,
+    Norm,
+    LinearAlgebra,
+    Viterbi,
     Charcoal;
 
 
@@ -39,35 +42,242 @@ class NumSuchTest : UnitTest {
     this.initDone();
   }
 
-  proc testIndexSort() : TestResult {
-    var r = new TestResult();
+  proc testIndexSort() {
     var p: bool = true;
     const Arr = [7, 10, 23, 1];
     const Idx = [2.2, 3.3, 1.1, 4.4];
 
     var a: [1..4] real = for x in indexSort(arr=Arr, idx=Idx) do x;
     var expected: [1..4] real = [23, 7, 10, 1];
-    this.results.push_back(assertArrayEquals(msg="IndexSort", expected=expected, actual=a));
+    assertArrayEquals(msg="IndexSort", expected=expected, actual=a);
 
     var b: [1..4] real = for x in indexSort(arr=Arr, idx=Idx, reverse=true) do x;
     var e: [1..4] real = [1, 10, 7, 23];
-    this.results.push_back(assertArrayEquals(msg="IndexSort reversed", expected=e, actual=b));
-    return r;
+    assertArrayEquals(msg="IndexSort reversed", expected=e, actual=b);
   }
 
   proc testNamedMatrix() {
     var nm = new NamedMatrix(X=X);
-    this.results.push_back(assertIntEquals(msg="Number of non-zeroes", 11:int, nm.nnz() ));
-    this.results.push_back(assertRealEquals(msg="X.sparsity", 0.171875:real, nm.sparsity() ));
+    assertIntEquals(msg="Number of non-zeroes", expected=11:int, actual=11:int );
+    assertRealEquals(msg="X.sparsity", expected=0.171875:real, actual=nm.sparsity());
+  }
+
+  proc testSetRowNames() {
+    var nm = new NamedMatrix(X=X);
+    try {
+      nm.setRowNames(vn);
+      assertThrowsError(msg="Set Row Names wrong size NOT ENFORCED", passed=false, new Error());
+    } catch err: DimensionMatchError {
+      assertThrowsError(msg="Set Row Names wrong size ENFORCED",  passed=true, err=err);
+    } catch err: Error {
+      assertThrowsError(msg="Set Row Names wrong size ENFORCED",  passed=true, err=err);
+    }
+
+    vn.push_back("nebula");
+    try {
+      nm.setRowNames(vn);
+      assertIntEquals(msg="Set Row Names right size ENFORCED",  expected=vn.size, actual=nm.nrows());
+    } catch {
+      assertIntEquals(msg="Set Row Names right size failed",  expected=8, actual=nm.nrows());
+    }
+  }
+
+  proc testSetColNames() {
+    var nm = new NamedMatrix(X=X);
+    try {
+      nm.setColNames(vn);
+      assertIntEquals(msg="Set Col Names right size ENFORCED",  expected=vn.size, actual=nm.ncols());
+    } catch {
+      assertIntEquals(msg="Set Col Names right size",  expected=vn.size, actual=nm.ncols());
+    }
+  }
+
+  proc testNamedMatrixInitWithNames() {
+    try {
+      var nm = new NamedMatrix(rownames = vn, colnames=vn);
+      assertIntEquals(msg="Initialize X with names only (rows)", expected=vn.size, actual=nm.nrows());
+      assertIntEquals(msg="Initialize X with names only (cols)", expected=vn.size, actual=nm.ncols());
+    } catch e: DimensionMatchError {
+      writeln(e);
+    } catch e: Error {
+      writeln(e);
+    }
+  }
+
+  proc testSetByName() {
+    try {
+      var nm = new NamedMatrix(rownames = vn, colnames=vn);
+      nm.set("star lord", "yondu", 17.0);
+      assertRealEquals(msg="Set/Get by name", expected=17.0, actual=nm.get("star lord", "yondu"));
+    } catch e: DimensionMatchError {
+      writeln(e);
+    } catch e: Error {
+      writeln(e);
+    }
+  }
+
+  proc testArgMax() {
+    var x: [1..3] real = [1.1, 3.3, 2.2];
+    var y: [1..3,1..3] real = ((1,0,0), (0,0,2), (0,3,0));
+    var xSD: sparse subdomain(x.domain);
+    var z: [xSD] real;
+    xSD += 2; z[2] = 1.3;
+    xSD += 3; z[3] = 0.8;
+
+    assertBoolEquals("z is sparse", expected=true, actual=isSparseArr(z));
+    assertIntEquals("argmax1d(z)", expected=2, actual=argmax1d(z));
+
+    assertIntEquals("argmax(x)", expected=2, actual=argmax(x));
+    assertIntArrayEquals("argmax(y, ?)", expected=[3,2], actual=argmax(y));
+    assertIntArrayEquals("argmax(y, ?)", expected=[3,2], actual=argmax(y));
+    assertIntArrayEquals("argmax(y,0)", expected=[3,2], actual=argmax(y, axis=0));
+    assertIntArrayEquals("argmax(y,1)", expected=[1,3,2], actual=argmax(y, axis=1));
+    assertIntArrayEquals("argmax(y,2)", expected=[1,3,2], actual=argmax(y, axis=2));
+  }
+
+  proc testCosineDistance() {
+    var X = Matrix(
+      [3.0, 0.2, 0.0, 0.7, 0.1],
+      [0.2, 2.0, 0.3, 0.0, 0.0],
+      [0.0, 0.3, 3.0, 0.9, 0.6],
+      [0.7, 0.0, 0.9, 2.0, 0.0],
+      [0.1, 0.0, 0.6, 0.0, 2.0]
+    );
+
+    var Y = Matrix(
+      [3.0, 0.2, 0.0, 0.7, 0.1],
+      [0.2, 2.0, 0.3, 0.0, 0.0],
+      [0.0, 0.3, 3.0, 0.9, 0.6],
+      [0.7, 0.0, 0.9, 2.0, 0.0],
+      [0.7, 0.0, 0.9, 2.0, 0.0],
+      [0.1, 0.0, 0.6, 0.0, 2.0]
+    );
+
+    const xxTarget = Matrix(
+      [0.0, 0.974619, 0.992338, 0.930778, 0.988007],
+      [0.974619, 0.0, 0.964601, 0.981269, 0.988919],
+      [0.992338, 0.964601, 0.0, 0.917246, 0.93309],
+      [0.930778, 0.981269, 0.917246, 0.0, 0.973663],
+      [0.988007, 0.988919, 0.93309, 0.973663, 0.0]);
+
+    var V = cosineDistance(X);
+    const a = V-xxTarget;
+    const aa = norm(a);
+    assertRealApproximates(msg="Cosine Distance(X) norm", expected=1.39884e-06, actual=aa);
+
+    var V2 = cosineDistance(X,Y);
+    const cosimXYtarget = Matrix(
+      [0.895178, 0.974619, 0.992338, 0.930778, 0.930778, 0.988007],
+      [0.974619, 0.757869, 0.964601, 0.981269, 0.981269, 0.988919],
+      [0.992338, 0.964601, 0.902534, 0.917246, 0.917246, 0.93309],
+      [0.930778, 0.981269, 0.917246, 0.811321, 0.811321, 0.973663],
+      [0.988007, 0.988919, 0.93309,  0.973663, 0.973663, 0.771167]
+      );
+    const b = V2-cosimXYtarget;
+    const bb = norm(b);
+    assertRealApproximates(msg="Cosine Distance(X,Y) norm", expected=1.53583e-06, actual=bb);
+  }
+
+  /*
+   Does not assert anything, LabeledMatrix may be deprecated
+   */
+  proc testLabelMatrix() {
+    var Y = Matrix(
+      [3.0, 0.2, 0.0, 0.7, 0.1],
+      [0.2, 2.0, 0.3, 0.0, 0.0],
+      [0.0, 0.3, 3.0, 0.9, 0.6],
+      [0.7, 0.0, 0.9, 2.0, 0.0],
+      [0.7, 0.0, 0.9, 2.0, 0.0],
+      [0.1, 0.0, 0.6, 0.0, 2.0]
+    );
+    var L = new LabelMatrix();
+    L.fromMatrix(Y);
+    assertRealEquals(msg="Label Matrix entry (1,4)", expected=0.7, actual=L.data(1,4));
+  }
+
+  proc testECDF() {
+    var x = [3,3,1,4];
+    var ecdf = new ECDF(x);
+    assertIntEquals("ECDF: Number of observations", expected=4, actual=ecdf.nobs);
+
+    var y = [3.0, 55.0, 0.5, 1.5];
+    var d = ecdf(y);
+    assertArrayEquals("ECDF: Output", expected=[0.75,1.0,0.0,0.25], actual=d);
+  }
+
+  proc testBiMap() {
+    var bm = new BiMap();
+    bm.add("bob");
+    bm.add("chuck");
+    bm.add("bob");
+    bm.add('ethel', 78);
+    bm.add('frank', 3);
+
+    assertIntEquals("BIMAP redundant entry ignored", expected=4, actual=bm.keys.size);
+    for k in bm.keys {
+      assertStringEquals("BIMAP name is retrieved", k, bm.idx[bm.ids[k]]);
+      assertIntEquals("BIMAP id is retrieved", bm.ids[k], bm.get(k));
+    }
+    assertIntEquals("BIMPA max is set", expected=78, actual=bm.max());
+
+    var abm = new BiMap();
+    abm.add("one",1);
+    abm.add("two",2);
+    var bbm = new BiMap();
+    bbm.add("three",3);
+    bbm.add("four",4);
+
+    var cbm = abm.uni(bbm);
+    assertIntEquals("BIMAP union size", expected=4, actual=cbm.keys.size);
+    assertIntEquals("BIMAP union max", expected=4, actual=cbm.max());
+  }
+
+  proc testViterbi() {
+    var obs = ["normal", "cold", "dizzy"];
+    var states = ["health", "fever"];
+    var initP = [0.6, 0.4];
+
+    /* (Hidden) State transition matrix
+             Healthy Fever
+    Healthy  0.7     0.3
+      Fever  0.4     0.6
+     */
+    var A: [1..2, 1..2] real = Matrix(
+      [0.7, 0.3],
+      [0.4, 0.6]
+    );
+
+    /*
+     State emission probabilities
+             Normal Cold Dizzy
+    Healthy  0.5    0.4  0.1
+      Fever  0.1    0.3  0.6
+     */
+     var B: [1..2, 1..3] real = Matrix(
+       [0.5, 0.4, 0.1],
+       [0.1, 0.3, 0.6]
+    );
+    var v = Viterbi(obs, states, initP, transitionProbabilities=A, emissionProbabilities=B);
+    assertStringArrayEquals("Viterbi states output", expected=["health","health","fever"], actual=v);
+
   }
 
   proc run() {
     super.run();
     testIndexSort();
     testNamedMatrix();
+    testSetRowNames();
+    testSetColNames();
+    testNamedMatrixInitWithNames();
+    testSetByName();
+    testArgMax();
+    testCosineDistance();
+    testLabelMatrix();
+    testECDF();
+    testBiMap();
+    testViterbi();
     return 0;
   }
-
 }
 
 proc main(args: [] string) : int {

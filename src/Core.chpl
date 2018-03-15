@@ -79,7 +79,6 @@ Loads a label file into a Matrix.  Labels should be binary indicators
     }
 
     proc fromMatrix(y:[]) {
-      writeln(y.domain.first);
       dataDom = {1..#y.shape[1], 1..#y.shape[2]};
       ref tmpD = data.reindex(y.domain);
       for ij in y.domain {
@@ -177,6 +176,9 @@ Loads a label file into a Matrix.  Labels should be binary indicators
     return M;
   }
 
+  /*
+  Internal routine to find the argmax along a dense vector
+   */
   proc argmax1d(x:[]) {
     var idx: int = 1,
         currentMax: real = x[1];
