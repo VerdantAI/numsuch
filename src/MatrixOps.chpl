@@ -81,7 +81,6 @@ proc NamedMatrix.rowMax(i: int) {
     x.push_back(this.get(i,a));
   }
   if x.size < 1 {
-    writeln("uh-oh coach!");
     return NAN;
   } else {
     return max reduce x;
