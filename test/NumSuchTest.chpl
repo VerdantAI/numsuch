@@ -269,9 +269,8 @@ class NumSuchTest : UnitTest {
 
   proc run() {
     super.run();
-    //testIndexSort();
+    testIndexSort();
     testNamedMatrix();
-    /*
     testSetRowNames();
     testSetColNames();
     testNamedMatrixInitWithNames();
@@ -282,7 +281,6 @@ class NumSuchTest : UnitTest {
     testECDF();
     testBiMap();
     testViterbi();
-    */
     return 0;
   }
 }
