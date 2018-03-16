@@ -37,8 +37,8 @@ class NumSuchTest : UnitTest {
   }
 
 
-  proc init() {
-    super.init();
+  proc init(verbose:bool) {
+    super.init(verbose=verbose);
     this.initDone();
   }
 
@@ -138,6 +138,46 @@ class NumSuchTest : UnitTest {
     assertIntArrayEquals("argmax(y,0)", expected=[3,2], actual=argmax(y, axis=0));
     assertIntArrayEquals("argmax(y,1)", expected=[1,3,2], actual=argmax(y, axis=1));
     assertIntArrayEquals("argmax(y,2)", expected=[1,3,2], actual=argmax(y, axis=2));
+
+    var SD2: sparse subdomain(D),
+        X2:[SD2] real;
+    SD2 += (1,2); X2[1,2] = 1;
+    SD2 += (3,1); X2[3,1] = 3;
+    SD2 += (3,4); X2[3,4] = 4;
+    SD2 += (3,6); X2[3,6] = 1;
+    var m = new NamedMatrix(X=X2, names=vn);
+    assertRealEquals("m rowMax by row number", expected=4, actual=m.rowMax(3));
+    assertRealEquals("m rowMax by row name", expected=4, actual=m.rowMax("groot"));
+    var e: [1..4] real = [3.0, 1.0, 4.0, 1.0];
+    assertArrayEquals("m colMax", expected=e, actual=m.colMax());
+    var f: [1..4] int = [1,2,3,4];
+    writeln(m.rowArgMax());
+    //assertIntArrayEquals("m rowArgMax", expected=f, actual=m.rowArgMax());
+    //assertIntEquals("m rowArgMax(3)", expected=4, actual=m.rowArgMax(3));
+    /* This interface is kind of annoying, I know what row I'm sending in so I
+       should just get the answer back */
+    assertIntEquals("m rowArgMax(3)", expected=4, actual=m.rowArgMax(3)[2]);
+    assertIntEquals("m rowArgMax('groot')", expected=4, actual=m.rowArgMax('groot')[2]);
+
+    assertIntEquals("m rowArgMin(3)", expected=6, actual=m.rowArgMin(3)[2]);
+    assertIntEquals("m rowArgMin('groot')", expected=6, actual=m.rowArgMin('groot')[2]);
+
+    assertRealEquals("m rowMin(3)", expected=1, actual=m.rowMin(3));
+    assertRealEquals("m rowMin('groot')", expected=1, actual=m.rowMin('groot'));
+
+    assertRealEquals("m colMin(6)", expected=1, actual=m.colMin(6));
+    assertRealEquals("m colMin('mantis')", expected=1, actual=m.colMin('mantis'));
+
+    assertRealEquals("m colMax(6)", expected=1, actual=m.colMax(6));
+    assertRealEquals("m colMax('mantis')", expected=1, actual=m.colMax('mantis'));
+
+    assertIntEquals("m colArgMax(6)", expected=6, actual=m.colArgMax(6)[2]);
+    assertIntEquals("m colArgMax('mantis')", expected=6, actual=m.colArgMax('mantis')[2]);
+
+    assertIntEquals("m colArgMin(6)", expected=6, actual=m.colArgMin(6)[2]);
+    assertIntEquals("m colArgMin('mantis')", expected=6, actual=m.colArgMin('mantis')[2]);
+
+
   }
 
   proc testCosineDistance() {
@@ -286,7 +326,7 @@ class NumSuchTest : UnitTest {
 }
 
 proc main(args: [] string) : int {
-  var t = new NumSuchTest();
+  var t = new NumSuchTest(verbose=false);
   var ret = t.run();
   t.report();
   return ret;

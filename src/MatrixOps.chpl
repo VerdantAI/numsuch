@@ -79,6 +79,10 @@ proc NamedMatrix.ncols() {
 proc NamedMatrix.rowMax(i: int) {
   return aMax(this.X, 1)[i];
 }
+proc NamedMatrix.rowMax(s: string) {
+  return this.rowMax(this.rows.get(s));
+}
+
 
 proc NamedMatrix.rowMax() {
   return aMax(this.X, 1);
@@ -86,23 +90,32 @@ proc NamedMatrix.rowMax() {
 
 proc NamedMatrix.colMax(i: int) {
   return aMax(this.X, 2)[i];
-
 }
+proc NamedMatrix.colMax(s: string) {
+  return this.colMax(this.cols.get(s));
+}
+
 
 proc NamedMatrix.colMax() {
   return aMax(this.X, 2);
 }
 
-proc NamedMatrix.rowArgMax(i) {
+proc NamedMatrix.rowArgMax(i: int) {
   return argMax(this.X, 1)[i];
+}
+proc NamedMatrix.rowArgMax(s: string) {
+  return this.rowArgMax(this.rows.get(s));
 }
 
 proc NamedMatrix.rowArgMax() {
   return argMax(this.X, 1);
 }
 
-proc NamedMatrix.colArgMax(i) {
+proc NamedMatrix.colArgMax(i: int) {
   return argMax(this.X, 2)[i];
+}
+proc NamedMatrix.colArgMax(s: string) {
+  return this.colArgMax(this.cols.get(s));
 }
 
 proc NamedMatrix.colArgMax() {
@@ -115,6 +128,9 @@ proc NamedMatrix.colArgMax() {
 proc NamedMatrix.rowMin(i: int) {
   return aMin(this.X, 1)[i];
 }
+proc NamedMatrix.rowMin(s: string) {
+  return this.rowMin(this.rows.get(s));
+}
 
 proc NamedMatrix.rowMin() {
   return aMin(this.X, 1);
@@ -123,14 +139,22 @@ proc NamedMatrix.rowMin() {
 proc NamedMatrix.colMin(i: int) {
   return aMin(this.X, 2)[i];
 }
+proc NamedMatrix.colMin(s: string) {
+  return this.colMin(this.cols.get(s));
+}
+
 
 proc NamedMatrix.colMin() {
   return aMin(this.X, 2);
 }
 
-proc NamedMatrix.rowArgMin(i) {
+proc NamedMatrix.rowArgMin(i:int) {
   return argMin(this.X, 1)[i];
 }
+proc NamedMatrix.rowArgMin(s: string) {
+  return this.rowArgMin(this.rows.get(s));
+}
+
 
 proc NamedMatrix.rowArgMin() {
   return argMin(this.X, 1);
@@ -139,6 +163,10 @@ proc NamedMatrix.rowArgMin() {
 proc NamedMatrix.colArgMin(i) {
   return argMin(this.X, 2)[i];
 }
+proc NamedMatrix.colArgMin(s: string) {
+  return this.colArgMin(this.cols.get(s));
+}
+
 
 proc NamedMatrix.colArgMin() {
   return argMin(this.X, 2);
