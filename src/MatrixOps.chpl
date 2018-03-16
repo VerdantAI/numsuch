@@ -77,71 +77,71 @@ proc NamedMatrix.ncols() {
  */
 
 proc NamedMatrix.rowMax(i: int) {
-  return aMax(axis = 1, this.X)[i];
+  return aMax(this.X, 1)[i];
 }
 
 proc NamedMatrix.rowMax() {
-  return aMax(axis = 1, this.X);
+  return aMax(this.X, 1);
 }
 
 proc NamedMatrix.colMax(i: int) {
-  return aMax(axis = 2, this.X)[i];
+  return aMax(this.X, 2)[i];
 
 }
 
 proc NamedMatrix.colMax() {
-  return aMax(axis = 2, this.X);
+  return aMax(this.X, 2);
 }
 
 proc NamedMatrix.rowArgMax(i) {
-  return argMax(1, this.X)[i];
+  return argMax(this.X, 1)[i];
 }
 
 proc NamedMatrix.rowArgMax() {
-  return argMax(1, this.X);
+  return argMax(this.X, 1);
 }
 
 proc NamedMatrix.colArgMax(i) {
-  return argMax(2, this.X)[i];
+  return argMax(this.X, 2)[i];
 }
 
 proc NamedMatrix.colArgMax() {
-  return argMax(2, this.X);
+  return argMax(this.X, 2);
 }
 
 
 
 
 proc NamedMatrix.rowMin(i: int) {
-  return aMin(axis = 1, this.X)[i];
+  return aMin(this.X, 1)[i];
 }
 
 proc NamedMatrix.rowMin() {
-  return aMin(axis = 1, this.X);
+  return aMin(this.X, 1);
 }
 
 proc NamedMatrix.colMin(i: int) {
-  return aMin(axis = 2, this.X)[i];
+  return aMin(this.X, 2)[i];
 }
 
 proc NamedMatrix.colMin() {
-  return aMin(axis = 2, this.X);
+  return aMin(this.X, 2);
 }
 
 proc NamedMatrix.rowArgMin(i) {
-  return argMin(1, this.X)[i];
+  return argMin(this.X, 1)[i];
 }
 
 proc NamedMatrix.rowArgMin() {
-  return argMin(1, this.X);
+  return argMin(this.X, 1);
 }
 
 proc NamedMatrix.colArgMin(i) {
-  return argMin(2, this.X)[i];
+  return argMin(this.X, 2)[i];
 }
 
 proc NamedMatrix.colArgMin() {
-  return argMin(2, this.X);
+  return argMin(this.X, 2);
 }
 
 
@@ -308,7 +308,7 @@ proc NamedMatrix.alignAndMultiply(Y: NamedMatrix) {
     return n;
 }
 
-proc aMax(axis = 0, X:[]) {
+proc aMax(X:[], axis = 0) {
   var is: domain(1) = 1..max(X.domain.dim(1).size,X.domain.dim(2).size);
   var sis: sparse subdomain(is);
   var maxima: [sis] real;
@@ -348,7 +348,7 @@ proc aMax(axis = 0, X:[]) {
   return maxima;
 }
 
-proc aMin(axis = 0, X:[]) {
+proc aMin(X:[], axis: int) {
   var is: domain(1) = 1..max(X.domain.dim(1).size,X.domain.dim(2).size);
   var sis: sparse subdomain(is);
   var minima: [sis] real;
@@ -389,7 +389,7 @@ proc aMin(axis = 0, X:[]) {
 }
 
 
-proc argMin(axis: int, X:[]) {
+proc argMin(X:[], axis: int) {
   var is: domain(1) = 1..max(X.domain.dim(1).size,X.domain.dim(2).size);
   var sis: sparse subdomain(is);
   var minima: [sis] 2*int;
@@ -416,7 +416,7 @@ proc argMin(axis: int, X:[]) {
   return minima;
 }
 
-proc argMax(axis: int, X:[]) {
+proc argMax(X:[], axis: int) {
   var is: domain(1) = 1..max(X.domain.dim(1).size,X.domain.dim(2).size);
   var sis: sparse subdomain(is);
   var maxima: [sis] 2*int;
