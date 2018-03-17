@@ -249,4 +249,24 @@ Loads a label file into a Matrix.  Labels should be binary indicators
       return 0;
     }
   }
+
+  /*
+  Iterator to generate labels A, B, ... AA, BB, ... etc
+   */
+  iter letters(n: int) {
+    const a = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"
+      ,"K","L","M","N","O","P","Q","R","S","T"
+      ,"U","V","W","X","Y","Z"];
+    var k: int = 0;
+    for 1..n {
+      var d: int = k/26:int;
+      var r: int = k % 26 + 1;
+      var s: string = a[r];
+      for k in 1..d {
+        s = s + s;
+      }
+      k += 1;
+      yield s;
+    }
+  }
 }

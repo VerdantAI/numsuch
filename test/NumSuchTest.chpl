@@ -2,6 +2,7 @@ use NumSuch,
     Norm,
     LinearAlgebra,
     Viterbi,
+    Core,
     Charcoal;
 
 
@@ -304,7 +305,12 @@ class NumSuchTest : UnitTest {
     );
     var v = Viterbi(obs, states, initP, transitionProbabilities=A, emissionProbabilities=B);
     assertStringArrayEquals("Viterbi states output", expected=["health","health","fever"], actual=v);
+  }
 
+  proc testLetters() {
+    var ltrs = letters(28);
+    assertStringEquals("First in letters is A", expected="A", actual=ltrs[1]);
+    assertStringEquals("28th in letters is BB", expected="BB", actual=ltrs[28]);
   }
 
   proc run() {
@@ -321,6 +327,7 @@ class NumSuchTest : UnitTest {
     testECDF();
     testBiMap();
     testViterbi();
+    testLetters();
     return 0;
   }
 }
