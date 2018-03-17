@@ -269,4 +269,23 @@ Loads a label file into a Matrix.  Labels should be binary indicators
       yield s;
     }
   }
+
+  iter gridNames(i: int, j:int = 0) {
+    var j_tmp = j;
+    var l = letters(i);
+    if j == 0 {
+      j_tmp = i;
+    }
+    var k: int=1;
+    for 1..i {
+      var a = l[k];
+      var n: int = 1;
+      for 1..j_tmp {
+        yield a + n:string;
+        n += 1;
+      }
+      k += 1;
+    }
+  }
+
 }

@@ -311,6 +311,10 @@ class NumSuchTest : UnitTest {
     var ltrs = letters(28);
     assertStringEquals("First in letters is A", expected="A", actual=ltrs[1]);
     assertStringEquals("28th in letters is BB", expected="BB", actual=ltrs[28]);
+
+    var gn = gridNames(7);
+    assertIntEquals("Grid names(7) has 49 entries", expected=49, actual=gn.size);
+    assertStringEquals("Last grid name is 'G7'", expected="G7", actual=gn[49]);
   }
 
   proc run() {
