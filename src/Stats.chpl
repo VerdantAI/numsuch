@@ -117,40 +117,56 @@ module Stats {
 
     :returns: array of choices, size
      */
-    proc choice(a:[]int, size=1, replace=true, p:[1..1] real=[1.0]) {
-      var r: [1..0] int;
-      if p.size == 1 && !replace {
-        var b = a;
+    proc choice(a:[] ?t, size=1, replace=true) {
+      var b: [1..0] a.eltType,
+          result: [1..0] a.eltType;
+
+      for i in a do b.push_back(a);
+      if !replace {
         shuffle(b);
-        r = b[1..size];
-      } else if (p.size == 1) && replace {
-        var b = a;
-        for 1..size {
-          shuffle(b);
-          r.push_back(b[1]);
-        }
+        result = b[1..size];
+      } else {
+          for i in 1..size {
+            shuffle(b);
+            result.push_back(b[1]);
+            b.remove(1);
+          }
       }
-      return r;
+      return result;
+    }
+
+
+    proc choice(a:[] ?t, size=1, replace=true, p:[] ?u) {
+      return chooseMultinomial(a=a,size=size,replace=replace,p=p);
     }
 
     /*
     Well, I'll be damned. This is what I came up with over a cup of coffee
     https://en.wikipedia.org/wiki/Multinomial_distribution#Sampling_from_a_multinomial_distribution
      */
-    proc chooseMultinomial(a: [] int, size:int, replace=true, p:[] real) {
-      var result: [1..0] int;
-      var r: [1..size] real;
+    proc chooseMultinomial(a:[] ?t, size:int, replace=true, p:[] real) {
+      var result: [1..0] a.eltType,
+          r: [1..size] real,
+          b = for i in a do i:a.eltType,
+          q = for i in p do i:p.eltType;
+
       fillRandom(r);
+
       for i in 1..size {
+        var sum: real = 0,
+            k: int = 1,
+            denom: real = + reduce q;
         const c = r[i];
-        const denom = + reduce p;
-        var k:int = 1;
-        var sum: real = 0;
+
         do {
-          sum += p[k]/denom;
-          k+=1;
+          sum += q[k]/denom;
+          k+= 1;
         } while sum <= c;
-        result.push_back(a[k-1]);
+        result.push_back(b[k-1]);
+        if !replace {
+          b.remove(k-1);
+          q.remove(k-1);
+        }
       }
       return result;
     }

@@ -319,18 +319,19 @@ class NumSuchTest : UnitTest {
 
   proc testChoice() {
     var x = [1,2,3,4,5,6,7,8,9,10];
-    var y = choice(x,size=2);
+    var y = choice(a=x,size=2);
     assertIntEquals("Can pick two choices, no replacement, no p", expected=2, actual=y.size);
-    writeln(y);
     var z = choice(x,size=2,replace=true);
     assertIntEquals("Can pick two choices, with replacement, no p", expected=2, actual=z.size);
-    writeln(z);
 
     var s = [1, 2, 3, 4, 5];
     // Note, this does not need to be normalized but it is easier to see
     var p = [0.5, 0.25, 0.13, 0.09, 0.03];
-    var m:[1..3] int = chooseMultinomial(a=s, size=3, p=p);
-    writeln("multinomial\n",m);
+    var m = chooseMultinomial(a=s, replace=false, size=3, p=p);
+    assertIntEquals("Multinomial w/o replace returns correct number of results", expected=3, actual=m.size);
+    var n = chooseMultinomial(a=s, replace=true, size=3, p=p);
+    assertIntEquals("Multinomial w/ replace returns correct number of results", expected=3, actual=n.size);
+    var o = choice(a=s, replace=false, size=3, p=p);
   }
 
   proc run() {
