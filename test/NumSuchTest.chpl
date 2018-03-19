@@ -325,6 +325,12 @@ class NumSuchTest : UnitTest {
     var z = choice(x,size=2,replace=true);
     assertIntEquals("Can pick two choices, with replacement, no p", expected=2, actual=z.size);
     writeln(z);
+
+    var s = [1, 2, 3, 4, 5];
+    // Note, this does not need to be normalized but it is easier to see
+    var p = [0.5, 0.25, 0.13, 0.09, 0.03];
+    var m:[1..3] int = chooseMultinomial(a=s, size=3, p=p);
+    writeln("multinomial\n",m);
   }
 
   proc run() {

@@ -117,13 +117,13 @@ module Stats {
 
     :returns: array of choices, size
      */
-    proc choice(a:[]int, size=1, replace=true, p=0) {
+    proc choice(a:[]int, size=1, replace=true, p:[1..1] real=[1.0]) {
       var r: [1..0] int;
-      if p == 0 && replace == false{
+      if p.size == 1 && !replace {
         var b = a;
         shuffle(b);
         r = b[1..size];
-      } else if p==0 && replace == true {
+      } else if (p.size == 1) && replace {
         var b = a;
         for 1..size {
           shuffle(b);
@@ -133,4 +133,25 @@ module Stats {
       return r;
     }
 
+    /*
+    Well, I'll be damned. This is what I came up with over a cup of coffee
+    https://en.wikipedia.org/wiki/Multinomial_distribution#Sampling_from_a_multinomial_distribution
+     */
+    proc chooseMultinomial(a: [] int, size:int, replace=true, p:[] real) {
+      var result: [1..0] int;
+      var r: [1..size] real;
+      fillRandom(r);
+      for i in 1..size {
+        const c = r[i];
+        const denom = + reduce p;
+        var k:int = 1;
+        var sum: real = 0;
+        do {
+          sum += p[k]/denom;
+          k+=1;
+        } while sum <= c;
+        result.push_back(a[k-1]);
+      }
+      return result;
+    }
 }
