@@ -317,8 +317,19 @@ class NumSuchTest : UnitTest {
     assertStringEquals("Last grid name is 'G7'", expected="G7", actual=gn[49]);
   }
 
+  proc testChoice() {
+    var x = [1,2,3,4,5,6,7,8,9,10];
+    var y = choice(x,size=2);
+    assertIntEquals("Can pick two choices, no replacement, no p", expected=2, actual=y.size);
+    writeln(y);
+    var z = choice(x,size=2,replace=true);
+    assertIntEquals("Can pick two choices, with replacement, no p", expected=2, actual=z.size);
+    writeln(z);
+  }
+
   proc run() {
     super.run();
+    /*
     testIndexSort();
     testNamedMatrix();
     testSetRowNames();
@@ -332,6 +343,8 @@ class NumSuchTest : UnitTest {
     testBiMap();
     testViterbi();
     testLetters();
+    */
+    testChoice();
     return 0;
   }
 }

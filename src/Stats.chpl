@@ -111,4 +111,26 @@ module Stats {
       return 0;
     }
 
+    /*
+    Routine to choose from a set, hopefully follwing this:
+    https://docs.scipy.org/doc/numpy-dev/reference/generated/numpy.random.choice.html
+
+    :returns: array of choices, size
+     */
+    proc choice(a:[]int, size=1, replace=true, p=0) {
+      var r: [1..0] int;
+      if p == 0 && replace == false{
+        var b = a;
+        shuffle(b);
+        r = b[1..size];
+      } else if p==0 && replace == true {
+        var b = a;
+        for 1..size {
+          shuffle(b);
+          r.push_back(b[1]);
+        }
+      }
+      return r;
+    }
+
 }
