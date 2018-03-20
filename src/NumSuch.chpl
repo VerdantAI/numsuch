@@ -71,7 +71,7 @@ examples::
     Create an empty BiMap.
     */
     proc init() {
-      this.initDone();
+      this.complete();
     }
 
     /*

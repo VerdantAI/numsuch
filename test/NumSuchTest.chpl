@@ -40,7 +40,7 @@ class NumSuchTest : UnitTest {
 
   proc init(verbose:bool) {
     super.init(verbose=verbose);
-    this.initDone();
+    this.complete();
   }
 
   proc testIndexSort() {
