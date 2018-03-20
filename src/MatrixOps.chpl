@@ -16,12 +16,12 @@ class NamedMatrix {
       cols: BiMap = new BiMap();
 
    proc init() {
-     this.initDone(); // NAMEDMATRIX DOESNT EXPLICITLY INHERIT ANYTHING SO IS THIS NECESSARY??
+     this.complete(); // NAMEDMATRIX DOESNT EXPLICITLY INHERIT ANYTHING SO IS THIS NECESSARY??
    }
 
    proc init(X) {
      this.D = {X.domain.dim(1), X.domain.dim(2)};
-     this.initDone();
+     this.complete();
      this.loadX(X);
    }
 
@@ -39,7 +39,7 @@ class NamedMatrix {
 
    proc init(rownames: [] string, colnames: [] string) {
      this.D = {1..rownames.size, 1..colnames.size};
-     this.initDone();
+     this.complete();
      try! this.setRowNames(rownames);
      try! this.setColNames(colnames);
    }
@@ -624,7 +624,7 @@ proc sparsity(X) {
 class NumSuchError : Error {
   proc init() {
     super.init();
-    this.initDone();
+    this.complete();
   }
   proc message() {
     return "Generic NumSuch Error";
@@ -637,7 +637,7 @@ class DimensionMatchError : NumSuchError {
 
   proc init(expected: int, actual:int) {
     super.init();
-    this.initDone();
+    this.complete();
     this.expected = expected;
     this.actual = actual;
   }
