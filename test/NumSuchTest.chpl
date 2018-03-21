@@ -81,26 +81,40 @@ class NumSuchTest : UnitTest {
     SD += (6,8); X[6,8] = 1;
     SD += (7,8); X[7,8] = 1;
 
-    var trop2 = tropic(X,X);
-//    writeln(trop2);
-//    writeln(trop2.domain);
+    var X2 = tropic(X,X);
+    writeln(X2);
+    writeln(X2.domain);
+    //writeln(&& reduce (X2 == X));
+    /*
+    var X3 = tropic(X2,X);
+    writeln(X3);
+    writeln(X3.domain);
+    var X4 = tropic(X3,X);
+    writeln(X4);
+    writeln(X4.domain);
+    var X5 = tropic(X4,X);
+    writeln(X5);
+    writeln(X5.domain);
+    var X6 = tropic(X5,X);
+    writeln(X6);
+    writeln(X6.domain);*/
 
-
-    var trop3 = tropic(trop2,X);
-//    writeln(trop3);
-//    writeln(trop3.domain);
-
-    var trop4 = tropic(trop3,X);
-//    writeln(trop4);
-  //  writeln(trop4.domain);
-
-    var trop5 = tropic(trop4,X);
-  //  writeln(trop5);
-//    writeln(trop5.domain);
-  //  assertArrayEquals(msg="Limit reached at 4", expected=trop4, actual=trop5);
+    writeln(tropicLimit(X));
+/*
+    if R.domain == X.domain {
+      var same = && reduce (R == X);
+      if same {
+        writeln("Arrays Equal");
+        writeln(R);
+      } else {
+        writeln("Arrays Not Equal");
+        writeln(tropic(R,X));
+      }
+    } else {
+      writeln("Domains Not Equal");
+      writeln(tropic(R,X));
+    }*/
   }
-
-
 
   proc testIndexSort() {
     var p: bool = true;
