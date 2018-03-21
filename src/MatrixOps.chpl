@@ -560,7 +560,7 @@ proc maxiLoc_(axis:int, id, X:[]) {
   return idm;
 }
 
-
+proc sparseEquals(A:[], B:[]) {}
 
 proc tropic(A:[],B:[]) { // UNDER CONSTRUCTION
   var dom: domain(2) = {A.domain.dim(1),B.domain.dim(2)};
@@ -599,20 +599,19 @@ proc tropic(A:[],B:[]) { // UNDER CONSTRUCTION
   return T;
 }
 
-/*
-proc tropicLimit(A:[] real,B:[] real) {
-   var R = tropic(A,B);
-   if && reduce (A == R) {
+proc tropicLimit(B:[] real) {
+ var R = tropic(B,B);
+ for n in B.domain.dim(2) {
+   var S = tropic(R,B);
+   if S.domain != R.domain {
+    R = S; // Intended to just reassign the handle "R" to the contents of "S" i.o.w. destructive update of R
    } else {
-     tropicLimit(R,B);
+     break;
    }
-   return A;
-   var R = tropic(A,B);
-   for n in A.domain.dim(1) {
-     R = tropic(R,B);
-   }
-   return R;
-}*/
+ }
+ return R;
+}
+
 
 /*
  Build a random sparse matrix.  Good for testing;
