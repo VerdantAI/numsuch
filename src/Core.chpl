@@ -79,7 +79,6 @@ Loads a label file into a Matrix.  Labels should be binary indicators
     }
 
     proc fromMatrix(y:[]) {
-      writeln(y.domain.first);
       dataDom = {1..#y.shape[1], 1..#y.shape[2]};
       ref tmpD = data.reindex(y.domain);
       for ij in y.domain {
@@ -177,6 +176,9 @@ Loads a label file into a Matrix.  Labels should be binary indicators
     return M;
   }
 
+  /*
+  Internal routine to find the argmax along a dense vector
+   */
   proc argmax1d(x:[]) {
     var idx: int = 1,
         currentMax: real = x[1];
@@ -247,4 +249,43 @@ Loads a label file into a Matrix.  Labels should be binary indicators
       return 0;
     }
   }
+
+  /*
+  Iterator to generate labels A, B, ... AA, BB, ... etc
+   */
+  iter letters(n: int) {
+    const a = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"
+      ,"K","L","M","N","O","P","Q","R","S","T"
+      ,"U","V","W","X","Y","Z"];
+    var k: int = 0;
+    for 1..n {
+      var d: int = k/26:int;
+      var r: int = k % 26 + 1;
+      var s: string = a[r];
+      for k in 1..d {
+        s = s + s;
+      }
+      k += 1;
+      yield s;
+    }
+  }
+
+  iter gridNames(i: int, j:int = 0) {
+    var j_tmp = j;
+    var l = letters(i);
+    if j == 0 {
+      j_tmp = i;
+    }
+    var k: int=1;
+    for 1..i {
+      var a = l[k];
+      var n: int = 1;
+      for 1..j_tmp {
+        yield a + n:string;
+        n += 1;
+      }
+      k += 1;
+    }
+  }
+
 }

@@ -111,4 +111,63 @@ module Stats {
       return 0;
     }
 
+    /*
+    Routine to choose from a set, hopefully follwing this:
+    https://docs.scipy.org/doc/numpy-dev/reference/generated/numpy.random.choice.html
+
+    :returns: array of choices, size
+     */
+    proc choice(a:[] ?t, size=1, replace=true) {
+      var b: [1..0] a.eltType,
+          result: [1..0] a.eltType;
+
+      for i in a do b.push_back(a);
+      if !replace {
+        shuffle(b);
+        result = b[1..size];
+      } else {
+          for i in 1..size {
+            shuffle(b);
+            result.push_back(b[1]);
+            b.remove(1);
+          }
+      }
+      return result;
+    }
+
+
+    proc choice(a:[] ?t, size=1, replace=true, p:[] ?u) {
+      return chooseMultinomial(a=a,size=size,replace=replace,p=p);
+    }
+
+    /*
+    Well, I'll be damned. This is what I came up with over a cup of coffee
+    https://en.wikipedia.org/wiki/Multinomial_distribution#Sampling_from_a_multinomial_distribution
+     */
+    proc chooseMultinomial(a:[] ?t, size:int, replace=true, p:[] real) {
+      var result: [1..0] a.eltType,
+          r: [1..size] real,
+          b = for i in a do i:a.eltType,
+          q = for i in p do i:p.eltType;
+
+      fillRandom(r);
+
+      for i in 1..size {
+        var sum: real = 0,
+            k: int = 1,
+            denom: real = + reduce q;
+        const c = r[i];
+
+        do {
+          sum += q[k]/denom;
+          k+= 1;
+        } while sum <= c;
+        result.push_back(b[k-1]);
+        if !replace {
+          b.remove(k-1);
+          q.remove(k-1);
+        }
+      }
+      return result;
+    }
 }
