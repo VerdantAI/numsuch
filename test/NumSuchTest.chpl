@@ -80,6 +80,9 @@ class NumSuchTest : UnitTest {
   //  writeln(trop5);
 //    writeln(trop5.domain);
   //  assertArrayEquals(msg="Limit reached at 4", expected=trop4, actual=trop5);
+
+    writeln(tropicLimit(X,X));
+  //  writeln([1,1,1] == [1,1,1]);
   }
 
 

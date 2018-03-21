@@ -552,7 +552,6 @@ proc tropic(A:[],B:[]) { // UNDER CONSTRUCTION
     for w in A.domain.dimIter(2,i) {
       wids.push_back(w);
     }
-    //writeln(wids);
     for w2 in BT.domain.dimIter(2,j) {
       wids.push_back(w2);
     }
@@ -579,13 +578,18 @@ proc tropic(A:[],B:[]) { // UNDER CONSTRUCTION
 }
 
 
-proc tropicLimit(A:[] real,B:[] real) {
-  var R = tropic(A,B);
-  if A == R {
-    return A;
-  } else {
-    tropicLimit(R,B);
-  }
+proc tropicLimit(A:[] real,B:[] real) {/*
+   var R = tropic(A,B);
+   if && reduce (A == R) {
+   } else {
+     tropicLimit(R,B);
+   }
+   return A;*/
+   var R = tropic(A,B);
+   for n in A.domain.dim(1) {
+     R = tropic(R,B);
+   }
+   return R;
 }
 
 /*
