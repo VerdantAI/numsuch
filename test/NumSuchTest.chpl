@@ -23,6 +23,7 @@ class NumSuchTest : UnitTest {
     vn.push_back("rocket");
     vn.push_back("mantis");
     vn.push_back("yondu");
+    vn.push_back("nebula");
 
     SD += (1,2); X[1,2] = 1;
     SD += (1,3); X[1,3] = 1;
@@ -44,8 +45,10 @@ class NumSuchTest : UnitTest {
   }
 
   proc testMatrixOperators() {
-    vn.push_back("nebula");
-    var nm = new NamedMatrix(X=X, names=vn);
+    var vn2: [1..0] string;
+    for n in vn do vn2.push_back(n);
+    //vn2.push_back("nebula");
+    var nm = new NamedMatrix(X=X, names=vn2);
     nm.set(i=2, j=7, w=13.1);
     assertRealEquals("Can set a new entry in matrix", expected=13.1, actual=nm.get(2,7));
     nm.remove(i=2, j=7);
@@ -58,6 +61,46 @@ class NumSuchTest : UnitTest {
     assertBoolEquals("Can remove an entry from the matrix by name", expected=false, actual=nm.SD.member(2,7));
 
   }
+
+
+  proc tropicalTesting() {
+    var nv: int = 8,
+        D: domain(2) = {1..nv, 1..nv},
+        SD = CSRDomain(D),
+        X: [SD] real;
+
+    SD += (1,2); X[1,2] = 1;
+    SD += (1,3); X[1,3] = 1;
+    SD += (1,4); X[1,4] = 1;
+    SD += (2,2); X[2,2] = 1;
+    SD += (2,4); X[2,4] = 1;
+    SD += (3,4); X[3,4] = 1;
+    SD += (4,5); X[4,5] = 1;
+    SD += (5,6); X[5,6] = 1;
+    SD += (6,7); X[6,7] = 1;
+    SD += (6,8); X[6,8] = 1;
+    SD += (7,8); X[7,8] = 1;
+
+    var trop2 = tropic(X,X);
+//    writeln(trop2);
+//    writeln(trop2.domain);
+
+
+    var trop3 = tropic(trop2,X);
+//    writeln(trop3);
+//    writeln(trop3.domain);
+
+    var trop4 = tropic(trop3,X);
+//    writeln(trop4);
+  //  writeln(trop4.domain);
+
+    var trop5 = tropic(trop4,X);
+  //  writeln(trop5);
+//    writeln(trop5.domain);
+  //  assertArrayEquals(msg="Limit reached at 4", expected=trop4, actual=trop5);
+  }
+
+
 
   proc testIndexSort() {
     var p: bool = true;
@@ -86,8 +129,12 @@ class NumSuchTest : UnitTest {
 
   proc testSetRowNames() {
     var nm = new NamedMatrix(X=X);
+    var vn2: [1..0] string;
+    for n in vn do vn2.push_back(n);
+    vn2.push_back("stakar ogord");
+
     try {
-      nm.setRowNames(vn);
+      nm.setRowNames(vn2);
       assertThrowsError(msg="Set Row Names wrong size NOT ENFORCED", passed=false, new Error());
     } catch err: DimensionMatchError {
       assertThrowsError(msg="Set Row Names wrong size ENFORCED",  passed=true, err=err);
@@ -95,9 +142,8 @@ class NumSuchTest : UnitTest {
       assertThrowsError(msg="Set Row Names wrong size ENFORCED",  passed=true, err=err);
     }
 
-    vn.push_back("nebula");
     try {
-      nm.setRowNames(vn);
+      nm.setRowNames(vn2);
       assertIntEquals(msg="Set Row Names right size ENFORCED",  expected=vn.size, actual=nm.nrows());
     } catch {
       assertIntEquals(msg="Set Row Names right size failed",  expected=8, actual=nm.nrows());
@@ -353,7 +399,7 @@ class NumSuchTest : UnitTest {
   proc run() {
     super.run();
     testMatrixOperators();
-    /*
+    tropicalTesting();
     testIndexSort();
     testNamedMatrix();
     testSetRowNames();
@@ -368,7 +414,7 @@ class NumSuchTest : UnitTest {
     testViterbi();
     testLetters();
     testChoice();
-    */
+    testChoice();
     return 0;
   }
 }
