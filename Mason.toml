@@ -1,6 +1,6 @@
 [brick]
 name = "NumSuch"
-version = "0.2.3"
+version = "0.2.4"
 authors = ["Brian Dolan: buddha314@gmail.com"]
 source = "https://github.com/buddha314/numsuch"
 chplVersion = "1.17.0"
