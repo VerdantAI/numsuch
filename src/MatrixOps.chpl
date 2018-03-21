@@ -577,20 +577,20 @@ proc tropic(A:[],B:[]) { // UNDER CONSTRUCTION
   return T;
 }
 
-
-proc tropicLimit(A:[] real,B:[] real) {/*
+/*
+proc tropicLimit(A:[] real,B:[] real) {
    var R = tropic(A,B);
    if && reduce (A == R) {
    } else {
      tropicLimit(R,B);
    }
-   return A;*/
+   return A;
    var R = tropic(A,B);
    for n in A.domain.dim(1) {
      R = tropic(R,B);
    }
    return R;
-}
+}*/
 
 /*
  Build a random sparse matrix.  Good for testing;
