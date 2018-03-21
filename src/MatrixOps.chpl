@@ -214,9 +214,14 @@ proc NamedMatrix.setRowNames(rn:[]): string throws {
 Sets the column names for the matrix X
 */
 proc NamedMatrix.setColNames(cn:[]): string throws {
-  if cn.size != X.domain.dim(2).size then throw new Error();
-  for i in 1..cn.size {
-    this.cols.add(cn[i]);
+  if cn.size != X.domain.dim(2).size {
+    const err = new DimensionMatchError(expected = X.domain.dim(2).size, actual=cn.size);
+    throw err;
+    return "";
+  } else {
+    for i in 1..cn.size {
+      this.cols.add(cn[i]);
+    }
   }
   return this.cols;
 }
@@ -264,11 +269,28 @@ proc NamedMatrix.update(i: int, j: int, w: real) {
 }
 
 /*
-Update the value in X(i,j) with `w` using the row column names
+Update the value in X(i,j) with `w` using the row column names. This adds
+`w` to the current value. To replace the current value, use `.set()`
  */
 proc NamedMatrix.update(f: string, t: string, w: real) {
   const x = this.get(rows.get(f),cols.get(t));
   return this.set(rows.get(f),cols.get(t), x + w);
+}
+
+/*
+ Removes the matrix entry `(i,j)` from the matrix and the underlying domain
+ by row, column ids
+ */
+proc NamedMatrix.remove(i: int, j:int) {
+  this.SD -= (i,j);
+}
+
+/*
+ Removes the matrix entry `(i,j)` from the matrix and the underlying domain
+ by row, column names
+ */
+proc NamedMatrix.remove(i: string, j:string) {
+  this.remove(this.rows.get(i), this.cols.get(j));
 }
 
 /*

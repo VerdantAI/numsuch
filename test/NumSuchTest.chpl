@@ -43,6 +43,22 @@ class NumSuchTest : UnitTest {
     this.complete();
   }
 
+  proc testMatrixOperators() {
+    vn.push_back("nebula");
+    var nm = new NamedMatrix(X=X, names=vn);
+    nm.set(i=2, j=7, w=13.1);
+    assertRealEquals("Can set a new entry in matrix", expected=13.1, actual=nm.get(2,7));
+    nm.remove(i=2, j=7);
+    assertBoolEquals("Can remove an entry from the matrix", expected=false, actual=nm.SD.member(2,7));
+
+    // Same thing with names instead
+    nm.set("star lord", "yondu", w=13.1);
+    assertRealEquals("Can set a new entry in matrix by name", expected=13.1, actual=nm.get("star lord","yondu"));
+    nm.remove("star lord", "yondu");
+    assertBoolEquals("Can remove an entry from the matrix by name", expected=false, actual=nm.SD.member(2,7));
+
+  }
+
   proc testIndexSort() {
     var p: bool = true;
     const Arr = [7, 10, 23, 1];
@@ -336,6 +352,7 @@ class NumSuchTest : UnitTest {
 
   proc run() {
     super.run();
+    testMatrixOperators();
     /*
     testIndexSort();
     testNamedMatrix();
@@ -350,8 +367,8 @@ class NumSuchTest : UnitTest {
     testBiMap();
     testViterbi();
     testLetters();
-    */
     testChoice();
+    */
     return 0;
   }
 }
