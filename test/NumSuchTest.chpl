@@ -61,32 +61,25 @@ class NumSuchTest : UnitTest {
     SD += (5,6); X[5,6] = 1;
     SD += (6,7); X[6,7] = 1;
     SD += (6,8); X[6,8] = 1;
-    SD += (7,8); X[7,8] = 1;/*
+    SD += (7,8); X[7,8] = 1;
+
     var trop2 = tropic(X,X);
-    writeln(trop2);
-    writeln(trop2.domain);
+//    writeln(trop2);
+//    writeln(trop2.domain);
+
 
     var trop3 = tropic(trop2,X);
-    writeln(trop3);
-    writeln(trop3.domain);
+//    writeln(trop3);
+//    writeln(trop3.domain);
 
     var trop4 = tropic(trop3,X);
-    writeln(trop4);
-    writeln(trop4.domain);
+//    writeln(trop4);
+  //  writeln(trop4.domain);
 
     var trop5 = tropic(trop4,X);
-    writeln(trop5);
-    writeln(trop5.domain);
-
-    var trop6 = tropic(trop5,X);
-    writeln(trop6);
-    writeln(trop6.domain);
-
-    var trop7 = tropic(trop6,X);
-    writeln(trop7);
-    writeln(trop7.domain);*/
-
-    writeln(tropicLimit(X,X));
+  //  writeln(trop5);
+//    writeln(trop5.domain);
+  //  assertArrayEquals(msg="Limit reached at 4", expected=trop4, actual=trop5);
   }
 
 
