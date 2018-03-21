@@ -290,6 +290,11 @@ proc NamedMatrix.sparsity() {
   return this.nnz():real / d;
 }
 
+proc NamedMatrix.ntropic(N: NamedMatrix) {
+  var T: NamedMatrix = new NamedMatrix(X = tropic(this.X, N.X), this.rows, N.cols);
+  return T;
+}
+
 /*
  Multiplies the current NamedMatrix `X` against the argument `Y`, but first it aligns
  the names of `X.cols` with `Y.rows`.  Returns an appropriately named NamedMatrix
@@ -536,20 +541,9 @@ proc maxiLoc_(axis:int, id, X:[]) {
 
 
 proc tropic(A:[],B:[]) { // UNDER CONSTRUCTION
-  writeln("Calculating Tropic Product");
-  writeln("A is");
-  writeln(A);
-  writeln("With domain");
-  writeln(A.domain);
   var dom: domain(2) = {A.domain.dim(1),B.domain.dim(2)};
   var sps = CSRDomain(dom);
   var BT = transpose(B);
-  writeln("BT is");
-  writeln(BT);
-  writeln("With domain");
-  writeln(BT.domain);
-  writeln("Tropic will have entries in");
-  writeln(dom);
   var T: [sps] real;
   for (i,j) in dom {
     var mini = 100000000: real;
@@ -557,31 +551,41 @@ proc tropic(A:[],B:[]) { // UNDER CONSTRUCTION
     var wids: [wdom] int;
     for w in A.domain.dimIter(2,i) {
       wids.push_back(w);
-      writeln("Witness in A from %n to %n".format(i,w));
     }
-    writeln(wids);
-    for w in BT.domain.dimIter(2,j) {
-      wids.push_back(w);
-      writeln("Witness in B from %n to %n".format(w,j));
+    //writeln(wids);
+    for w2 in BT.domain.dimIter(2,j) {
+      wids.push_back(w2);
     }
-    writeln(wids);
     var wDom: domain(1);
     var witness: [wDom] real;
     for w in wids {
-      if A(i,w) + BT(j,w) > 0 {
+      if A(i,w) > 0 && BT(j,w) > 0 {
         witness.push_back(A(i,w) + BT(j,w));
       }
     }
-    writeln("Witnesses are");
-    writeln(witness);
+    if A.domain.member((i,j)) {
+      witness.push_back(A(i,j));
+    }
+    if B.domain.member((i,j)) {
+      witness.push_back(B(i,j));
+    }
     mini = min reduce witness;
-    writeln("Minimum among witnesses is");
-    writeln(mini);
     if mini < 1000000000 {
+      sps += (i,j);
       T(i,j) = mini;
     }
   }
   return T;
+}
+
+
+proc tropicLimit(A:[] real,B:[] real) {
+  var R = tropic(A,B);
+  if A == R {
+    return A;
+  } else {
+    tropicLimit(R,B);
+  }
 }
 
 /*

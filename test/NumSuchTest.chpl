@@ -23,6 +23,7 @@ class NumSuchTest : UnitTest {
     vn.push_back("rocket");
     vn.push_back("mantis");
     vn.push_back("yondu");
+    vn.push_back("nebula");
 
     SD += (1,2); X[1,2] = 1;
     SD += (1,3); X[1,3] = 1;
@@ -42,6 +43,53 @@ class NumSuchTest : UnitTest {
     super.init(verbose=verbose);
     this.complete();
   }
+
+
+  proc tropicalTesting() {
+    var nv: int = 8,
+        D: domain(2) = {1..nv, 1..nv},
+        SD = CSRDomain(D),
+        X: [SD] real;
+
+    SD += (1,2); X[1,2] = 1;
+    SD += (1,3); X[1,3] = 1;
+    SD += (1,4); X[1,4] = 1;
+    SD += (2,2); X[2,2] = 1;
+    SD += (2,4); X[2,4] = 1;
+    SD += (3,4); X[3,4] = 1;
+    SD += (4,5); X[4,5] = 1;
+    SD += (5,6); X[5,6] = 1;
+    SD += (6,7); X[6,7] = 1;
+    SD += (6,8); X[6,8] = 1;
+    SD += (7,8); X[7,8] = 1;/*
+    var trop2 = tropic(X,X);
+    writeln(trop2);
+    writeln(trop2.domain);
+
+    var trop3 = tropic(trop2,X);
+    writeln(trop3);
+    writeln(trop3.domain);
+
+    var trop4 = tropic(trop3,X);
+    writeln(trop4);
+    writeln(trop4.domain);
+
+    var trop5 = tropic(trop4,X);
+    writeln(trop5);
+    writeln(trop5.domain);
+
+    var trop6 = tropic(trop5,X);
+    writeln(trop6);
+    writeln(trop6.domain);
+
+    var trop7 = tropic(trop6,X);
+    writeln(trop7);
+    writeln(trop7.domain);*/
+
+    writeln(tropicLimit(X,X));
+  }
+
+
 
   proc testIndexSort() {
     var p: bool = true;
@@ -336,22 +384,21 @@ class NumSuchTest : UnitTest {
 
   proc run() {
     super.run();
-    /*
+    tropicalTesting();/*
     testIndexSort();
     testNamedMatrix();
     testSetRowNames();
     testSetColNames();
     testNamedMatrixInitWithNames();
     testSetByName();
-    testArgMax();
+    //testArgMax();
     testCosineDistance();
     testLabelMatrix();
     testECDF();
     testBiMap();
     testViterbi();
     testLetters();
-    */
-    testChoice();
+    testChoice();*/
     return 0;
   }
 }
