@@ -188,6 +188,21 @@ MatrixOps
    Calculates the sparsity of the matrix: Number of entries / frame size
     
 
+.. method:: proc NamedMatrix.grid2seq(ij: 2*(int))
+
+   
+   Takes a index (i,j) tuple and turns it into the sequential entry number on the
+   given matrix.
+   
+
+.. method:: proc NamedMatrix.grid2seq(i: int, j: int)
+
+.. method:: proc NamedMatrix.seq2grid(k: int)
+
+   
+   Takes a sequential value and gives the row / column indices of that entry
+   
+
 .. method:: proc NamedMatrix.ntropic(N: NamedMatrix)
 
 .. method:: proc NamedMatrix.ndot(N: NamedMatrix)
@@ -200,13 +215,41 @@ MatrixOps
 
 .. method:: proc NamedMatrix.alignAndMultiply(Y: NamedMatrix)
 
+   
+   Routine to take two NamedMatrices and multiply them along just the row/column
+   intersections.  If X has cols [red yellow blue green] and Y has rows [red blue green]
+   this function produces a NamedMatrix with rows [red blue green]
+   
+
 .. function:: proc aMax(X: [], axis = 0)
+
+   
+   Designed to be similar to SciPy's `amax() <https://docs.scipy.org/doc/numpy/reference/generated/numpy.amax.html>`_
+   Useful on sparse matrices
+   
+   We'll get around to documenting here it eventually
+   
 
 .. function:: proc aMin(X: [], axis: int)
 
+   
+   Designed to be similar to SciPy's `amin() <https://docs.scipy.org/doc/numpy/reference/generated/numpy.amin.html>`_
+   Useful on sparse matrices.
+   
+   We'll get around to documenting here it eventually
+   
+
 .. function:: proc argMin(X: [], axis: int)
 
+   
+   Provides the "where" of the min along an axis in a sparse matrix
+    
+
 .. function:: proc argMax(X: [], axis: int)
+
+   
+   Provides the "where" of a max along a given axis in a sparse matrix
+   
 
 .. function:: proc miniLoc_(axis: int, id, X: [])
 
@@ -226,13 +269,27 @@ MatrixOps
 
 .. function:: proc sparsity(X)
 
+   
+   General sparsity function for any `real` matrix.
+   
+
 .. class:: NumSuchError : Error
+
+   
+   Error classes
+   
+
 
    .. method:: proc init()
 
    .. method:: proc message()
 
 .. class:: DimensionMatchError : NumSuchError
+
+   
+   Used to indidcate dimension mismatches on NamedMatrices and vectors
+   
+
 
    .. attribute:: var expected: int
 

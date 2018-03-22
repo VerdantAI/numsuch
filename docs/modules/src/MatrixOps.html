@@ -436,6 +436,24 @@ by row, column names</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="MatrixOps.NamedMatrix.grid2seq">
+<em class="property">proc </em><code class="descclassname">NamedMatrix.</code><code class="descname">grid2seq</code><span class="sig-paren">(</span><em>ij: 2*(int)</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.NamedMatrix.grid2seq" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes a index (i,j) tuple and turns it into the sequential entry number on the
+given matrix.</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<em class="property">proc </em><code class="descclassname">NamedMatrix.</code><code class="descname">grid2seq</code><span class="sig-paren">(</span><em>i: int</em>, <em>j: int</em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="MatrixOps.NamedMatrix.seq2grid">
+<em class="property">proc </em><code class="descclassname">NamedMatrix.</code><code class="descname">seq2grid</code><span class="sig-paren">(</span><em>k: int</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.NamedMatrix.seq2grid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes a sequential value and gives the row / column indices of that entry</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="MatrixOps.NamedMatrix.ntropic">
 <em class="property">proc </em><code class="descclassname">NamedMatrix.</code><code class="descname">ntropic</code><span class="sig-paren">(</span><em>N: NamedMatrix</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.NamedMatrix.ntropic" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -451,27 +469,38 @@ the names of <cite>X.cols</cite> with <cite>Y.rows</cite>.  Returns an appropria
 <dl class="method">
 <dt id="MatrixOps.NamedMatrix.alignAndMultiply">
 <em class="property">proc </em><code class="descclassname">NamedMatrix.</code><code class="descname">alignAndMultiply</code><span class="sig-paren">(</span><em>Y: NamedMatrix</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.NamedMatrix.alignAndMultiply" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Routine to take two NamedMatrices and multiply them along just the row/column
+intersections.  If X has cols [red yellow blue green] and Y has rows [red blue green]
+this function produces a NamedMatrix with rows [red blue green]</p>
+</dd></dl>
 
 <dl class="function">
 <dt id="MatrixOps.aMax">
 <em class="property">proc </em><code class="descname">aMax</code><span class="sig-paren">(</span><em>X: []</em>, <em>axis = 0</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.aMax" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Designed to be similar to SciPy&#8217;s <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.amax.html">amax()</a>
+Useful on sparse matrices</p>
+<p>We&#8217;ll get around to documenting here it eventually</p>
+</dd></dl>
 
 <dl class="function">
 <dt id="MatrixOps.aMin">
 <em class="property">proc </em><code class="descname">aMin</code><span class="sig-paren">(</span><em>X: []</em>, <em>axis: int</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.aMin" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Designed to be similar to SciPy&#8217;s <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.amin.html">amin()</a>
+Useful on sparse matrices.</p>
+<p>We&#8217;ll get around to documenting here it eventually</p>
+</dd></dl>
 
 <dl class="function">
 <dt id="MatrixOps.argMin">
 <em class="property">proc </em><code class="descname">argMin</code><span class="sig-paren">(</span><em>X: []</em>, <em>axis: int</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.argMin" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Provides the &#8220;where&#8221; of the min along an axis in a sparse matrix</p>
+</dd></dl>
 
 <dl class="function">
 <dt id="MatrixOps.argMax">
 <em class="property">proc </em><code class="descname">argMax</code><span class="sig-paren">(</span><em>X: []</em>, <em>axis: int</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.argMax" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Provides the &#8220;where&#8221; of a max along a given axis in a sparse matrix</p>
+</dd></dl>
 
 <dl class="function">
 <dt id="MatrixOps.miniLoc_">
@@ -507,12 +536,14 @@ the names of <cite>X.cols</cite> with <cite>Y.rows</cite>.  Returns an appropria
 <dl class="function">
 <dt id="MatrixOps.sparsity">
 <em class="property">proc </em><code class="descname">sparsity</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.sparsity" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>General sparsity function for any <cite>real</cite> matrix.</p>
+</dd></dl>
 
 <dl class="class">
 <dt id="MatrixOps.NumSuchError">
 <em class="property">class </em><code class="descname">NumSuchError</code>: Error<a class="headerlink" href="#MatrixOps.NumSuchError" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="method">
+<dd><p>Error classes</p>
+<dl class="method">
 <dt id="MatrixOps.NumSuchError.init">
 <em class="property">proc </em><code class="descname">init</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.NumSuchError.init" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -527,7 +558,8 @@ the names of <cite>X.cols</cite> with <cite>Y.rows</cite>.  Returns an appropria
 <dl class="class">
 <dt id="MatrixOps.DimensionMatchError">
 <em class="property">class </em><code class="descname">DimensionMatchError</code>: NumSuchError<a class="headerlink" href="#MatrixOps.DimensionMatchError" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="attribute">
+<dd><p>Used to indidcate dimension mismatches on NamedMatrices and vectors</p>
+<dl class="attribute">
 <dt id="MatrixOps.DimensionMatchError.expected">
 <em class="property">var </em><code class="descname">expected</code>: int<a class="headerlink" href="#MatrixOps.DimensionMatchError.expected" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
