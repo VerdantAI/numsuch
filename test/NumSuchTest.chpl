@@ -131,14 +131,22 @@ class NumSuchTest : UnitTest {
   }
 
   proc testNamedMatrix() {
+    write("testNamedMatrix() ...");
     var nm = new NamedMatrix(X=X);
     nm.set(1,3, 17.0);
 
+    assertIntEquals(msg="nrows() set correctly", expected=8, actual=nm.nrows());
+    assertIntEquals(msg="ncols() set correctly", expected=8, actual=nm.ncols());
     assertIntEquals(msg="Number of non-zeroes", expected=11:int, actual=11:int );
     assertRealEquals(msg="X.sparsity", expected=0.171875:real, actual=nm.sparsity());
     assertRealEquals(msg="Max of row 1", expected=17.0:real, actual=nm.rowMax(1));
     var e: [1..8] real = [17.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, NAN];
     assertArrayEquals(msg="Max of all rows", expected=e, actual=nm.rowMax());
+    assertIntEquals("grid2seq works on the matrix", expected=23, actual=nm.grid2seq((3,7)));
+    var sg = nm.seq2grid(23);
+    assertIntEquals("seq2grid works on the matrix", expected=3, actual=sg[1]);
+    assertIntEquals("seq2grid works on the matrix", expected=7, actual=sg[2]);
+    writeln("...done");
   }
 
   proc testSetRowNames() {
@@ -412,10 +420,11 @@ class NumSuchTest : UnitTest {
 
   proc run() {
     super.run();
-    testMatrixOperators();
-    tropicalTesting();
-    testIndexSort();
+    //testMatrixOperators();
+    //tropicalTesting();
+    //testIndexSort();
     testNamedMatrix();
+    /*
     testSetRowNames();
     testSetColNames();
     testNamedMatrixInitWithNames();
@@ -428,7 +437,7 @@ class NumSuchTest : UnitTest {
     testViterbi();
     testLetters();
     testChoice();
-    testChoice();
+    */
     return 0;
   }
 }

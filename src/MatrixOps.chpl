@@ -123,8 +123,6 @@ proc NamedMatrix.colArgMax() {
 }
 
 
-
-
 proc NamedMatrix.rowMin(i: int) {
   return aMin(this.X, 1)[i];
 }
@@ -312,6 +310,26 @@ proc NamedMatrix.sparsity() {
   return this.nnz():real / d;
 }
 
+/*
+ Takes a index (i,j) tuple and turns it into the sequential entry number on the
+ given matrix.
+ */
+proc NamedMatrix.grid2seq(ij: 2*int) {
+  return this.ncols() * ij[1] + ij[2] - this.ncols();
+  //return (this.ncols() -1) * ij[1] + ij[2];
+}
+proc NamedMatrix.grid2seq(i: int, j: int) {
+  return this.grid2seq((i,j));
+}
+
+
+/*
+ Takes a sequential value and gives the row / column indices of that entry
+ */
+proc NamedMatrix.seq2grid(k: int) {
+  return (divfloor(k, this.ncols())+1, k % this.ncols());
+}
+
 proc NamedMatrix.ntropic(N: NamedMatrix) {
   var T: NamedMatrix = new NamedMatrix(X = tropic(this.X, N.X), this.rows, N.cols);
   return T;
@@ -322,15 +340,17 @@ proc NamedMatrix.ntropic(N: NamedMatrix) {
  the names of `X.cols` with `Y.rows`.  Returns an appropriately named NamedMatrix
  :arg NamedMatrix Y:
  */
-
 proc NamedMatrix.ndot(N: NamedMatrix) {
   var C: NamedMatrix = new NamedMatrix(X = dot(this.X,N.X), this.rows, N.cols);
   return C;
 }
 
 
-
-
+/*
+ Routine to take two NamedMatrices and multiply them along just the row/column
+ intersections.  If X has cols [red yellow blue green] and Y has rows [red blue green]
+ this function produces a NamedMatrix with rows [red blue green]
+ */
 proc NamedMatrix.alignAndMultiply(Y: NamedMatrix) {
     var rcOverlap: domain(string) = this.cols.keys & Y.rows.keys;
 
@@ -363,6 +383,12 @@ proc NamedMatrix.alignAndMultiply(Y: NamedMatrix) {
     return n;
 }
 
+/*
+ Designed to be similar to SciPy's `amax() <https://docs.scipy.org/doc/numpy/reference/generated/numpy.amax.html>`_
+ Useful on sparse matrices
+
+ We'll get around to documenting here it eventually
+ */
 proc aMax(X:[], axis = 0) {
   var is: domain(1) = 1..max(X.domain.dim(1).size,X.domain.dim(2).size);
   var sis: sparse subdomain(is);
@@ -403,6 +429,12 @@ proc aMax(X:[], axis = 0) {
   return maxima;
 }
 
+/*
+ Designed to be similar to SciPy's `amin() <https://docs.scipy.org/doc/numpy/reference/generated/numpy.amin.html>`_
+ Useful on sparse matrices.
+
+ We'll get around to documenting here it eventually
+ */
 proc aMin(X:[], axis: int) {
   var is: domain(1) = 1..max(X.domain.dim(1).size,X.domain.dim(2).size);
   var sis: sparse subdomain(is);
@@ -444,6 +476,9 @@ proc aMin(X:[], axis: int) {
 }
 
 
+/*
+Provides the "where" of the min along an axis in a sparse matrix
+ */
 proc argMin(X:[], axis: int) {
   var is: domain(1) = 1..max(X.domain.dim(1).size,X.domain.dim(2).size);
   var sis: sparse subdomain(is);
@@ -471,6 +506,9 @@ proc argMin(X:[], axis: int) {
   return minima;
 }
 
+/*
+ Provides the "where" of a max along a given axis in a sparse matrix
+ */
 proc argMax(X:[], axis: int) {
   var is: domain(1) = 1..max(X.domain.dim(1).size,X.domain.dim(2).size);
   var sis: sparse subdomain(is);
@@ -641,6 +679,9 @@ proc generateRandomSparseMatrix(size: int, sparsity: real) {
 }
 
 
+/*
+ General sparsity function for any `real` matrix.
+ */
 proc sparsity(X) {
   const d = X.shape[1]:real * X.shape[2]: real;
   var i: real = 0.0;
@@ -650,6 +691,9 @@ proc sparsity(X) {
   return i / d;
 }
 
+/*
+ Error classes
+ */
 class NumSuchError : Error {
   proc init() {
     super.init();
@@ -660,6 +704,9 @@ class NumSuchError : Error {
   }
 }
 
+/*
+ Used to indidcate dimension mismatches on NamedMatrices and vectors
+ */
 class DimensionMatchError : NumSuchError {
   var expected: int,
       actual: int;

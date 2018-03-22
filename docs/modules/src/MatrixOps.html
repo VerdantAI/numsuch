@@ -85,8 +85,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../index.html">chpldoc documentation</a></li>
 </ul>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../examples/cosineDistance.html">cosineDistance</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples/labelmatrix-from-file.html">labelmatrix-from-file</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Core.html">Core</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">MatrixOps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="NN.html">NN</a></li>
@@ -188,7 +186,165 @@
 <em class="property">proc </em><code class="descname">init</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span></dt>
 <dd></dd></dl>
 
+<dl class="method">
+<dt>
+<em class="property">proc </em><code class="descname">init</code><span class="sig-paren">(</span><em>X</em>, <em>names: [] string</em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<em class="property">proc </em><code class="descname">init</code><span class="sig-paren">(</span><em>X</em>, <em>rownames: [] string</em>, <em>colnames: [] string</em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<em class="property">proc </em><code class="descname">init</code><span class="sig-paren">(</span><em>rownames: [] string</em>, <em>colnames: [] string</em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<em class="property">proc </em><code class="descname">init</code><span class="sig-paren">(</span><em>N: NamedMatrix</em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<em class="property">proc </em><code class="descname">init</code><span class="sig-paren">(</span><em>X</em>, <em>rows: BiMap</em>, <em>cols: BiMap</em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
 </dd></dl>
+
+<dl class="method">
+<dt id="MatrixOps.NamedMatrix.nrows">
+<em class="property">proc </em><code class="descclassname">NamedMatrix.</code><code class="descname">nrows</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.NamedMatrix.nrows" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of rows in the matrix frame</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="MatrixOps.NamedMatrix.ncols">
+<em class="property">proc </em><code class="descclassname">NamedMatrix.</code><code class="descname">ncols</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.NamedMatrix.ncols" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of columns in the matrix frame</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="MatrixOps.NamedMatrix.rowMax">
+<em class="property">proc </em><code class="descclassname">NamedMatrix.</code><code class="descname">rowMax</code><span class="sig-paren">(</span><em>i: int</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.NamedMatrix.rowMax" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finds the max along the row indicated by row number</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<em class="property">proc </em><code class="descclassname">NamedMatrix.</code><code class="descname">rowMax</code><span class="sig-paren">(</span><em>s: string</em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<em class="property">proc </em><code class="descclassname">NamedMatrix.</code><code class="descname">rowMax</code><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="MatrixOps.NamedMatrix.colMax">
+<em class="property">proc </em><code class="descclassname">NamedMatrix.</code><code class="descname">colMax</code><span class="sig-paren">(</span><em>i: int</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.NamedMatrix.colMax" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<em class="property">proc </em><code class="descclassname">NamedMatrix.</code><code class="descname">colMax</code><span class="sig-paren">(</span><em>s: string</em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<em class="property">proc </em><code class="descclassname">NamedMatrix.</code><code class="descname">colMax</code><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="MatrixOps.NamedMatrix.rowArgMax">
+<em class="property">proc </em><code class="descclassname">NamedMatrix.</code><code class="descname">rowArgMax</code><span class="sig-paren">(</span><em>i: int</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.NamedMatrix.rowArgMax" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<em class="property">proc </em><code class="descclassname">NamedMatrix.</code><code class="descname">rowArgMax</code><span class="sig-paren">(</span><em>s: string</em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<em class="property">proc </em><code class="descclassname">NamedMatrix.</code><code class="descname">rowArgMax</code><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="MatrixOps.NamedMatrix.colArgMax">
+<em class="property">proc </em><code class="descclassname">NamedMatrix.</code><code class="descname">colArgMax</code><span class="sig-paren">(</span><em>i: int</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.NamedMatrix.colArgMax" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<em class="property">proc </em><code class="descclassname">NamedMatrix.</code><code class="descname">colArgMax</code><span class="sig-paren">(</span><em>s: string</em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<em class="property">proc </em><code class="descclassname">NamedMatrix.</code><code class="descname">colArgMax</code><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="MatrixOps.NamedMatrix.rowMin">
+<em class="property">proc </em><code class="descclassname">NamedMatrix.</code><code class="descname">rowMin</code><span class="sig-paren">(</span><em>i: int</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.NamedMatrix.rowMin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<em class="property">proc </em><code class="descclassname">NamedMatrix.</code><code class="descname">rowMin</code><span class="sig-paren">(</span><em>s: string</em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<em class="property">proc </em><code class="descclassname">NamedMatrix.</code><code class="descname">rowMin</code><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="MatrixOps.NamedMatrix.colMin">
+<em class="property">proc </em><code class="descclassname">NamedMatrix.</code><code class="descname">colMin</code><span class="sig-paren">(</span><em>i: int</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.NamedMatrix.colMin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<em class="property">proc </em><code class="descclassname">NamedMatrix.</code><code class="descname">colMin</code><span class="sig-paren">(</span><em>s: string</em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<em class="property">proc </em><code class="descclassname">NamedMatrix.</code><code class="descname">colMin</code><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="MatrixOps.NamedMatrix.rowArgMin">
+<em class="property">proc </em><code class="descclassname">NamedMatrix.</code><code class="descname">rowArgMin</code><span class="sig-paren">(</span><em>i: int</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.NamedMatrix.rowArgMin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<em class="property">proc </em><code class="descclassname">NamedMatrix.</code><code class="descname">rowArgMin</code><span class="sig-paren">(</span><em>s: string</em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<em class="property">proc </em><code class="descclassname">NamedMatrix.</code><code class="descname">rowArgMin</code><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="MatrixOps.NamedMatrix.colArgMin">
+<em class="property">proc </em><code class="descclassname">NamedMatrix.</code><code class="descname">colArgMin</code><span class="sig-paren">(</span><em>i</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.NamedMatrix.colArgMin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<em class="property">proc </em><code class="descclassname">NamedMatrix.</code><code class="descname">colArgMin</code><span class="sig-paren">(</span><em>s: string</em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<em class="property">proc </em><code class="descclassname">NamedMatrix.</code><code class="descname">colArgMin</code><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="MatrixOps.NamedMatrix.loadX">
@@ -249,79 +405,98 @@
 <dl class="method">
 <dt>
 <em class="property">proc </em><code class="descclassname">NamedMatrix.</code><code class="descname">update</code><span class="sig-paren">(</span><em>f: string</em>, <em>t: string</em>, <em>w: real</em><span class="sig-paren">)</span></dt>
-<dd><p>Update the value in X(i,j) with <cite>w</cite> using the row column names</p>
+<dd><p>Update the value in X(i,j) with <cite>w</cite> using the row column names. This adds
+<cite>w</cite> to the current value. To replace the current value, use <cite>.set()</cite></p>
 </dd></dl>
 
-<dl class="function">
-<dt id="MatrixOps.NamedMatrixFromPG">
-<em class="property">proc </em><code class="descname">NamedMatrixFromPG</code><span class="sig-paren">(</span><em>con: Connection</em>, <em>edgeTable: string</em>, <em>fromField: string</em>, <em>toField: string</em>, <em>wField: string = &quot;NONE&quot;</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.NamedMatrixFromPG" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates a NamedMatrix from a table in Postgres.  Does not optimize for square matrices.  This assumption
-is that the matrix is sparse.</p>
-<p>&#64;TODO Appears that <cite>forall</cite> is causing problems.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first last simple">
-<li><strong>edgeTable</strong> : <em>string</em> &#8211; The SQL table holding the values of the matrix.</li>
-<li><strong>fromField</strong> : <em>string</em> &#8211; The table column representing rows, e.g. <cite>i</cite>.</li>
-<li><strong>toField</strong> : <em>string</em> &#8211; The table column representing columns, e.g. &#8216;j&#8217;.</li>
-<li><strong>wField</strong> : <em>string</em> &#8211; <cite>default=NONE</cite> the table column containing the values of cell <cite>(i,j)`</cite></li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
+<dl class="method">
+<dt id="MatrixOps.NamedMatrix.remove">
+<em class="property">proc </em><code class="descclassname">NamedMatrix.</code><code class="descname">remove</code><span class="sig-paren">(</span><em>i: int</em>, <em>j: int</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.NamedMatrix.remove" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes the matrix entry <cite>(i,j)</cite> from the matrix and the underlying domain
+by row, column ids</p>
 </dd></dl>
 
-<dl class="function">
-<dt id="MatrixOps.wFromPG">
-<em class="property">proc </em><code class="descname">wFromPG</code><span class="sig-paren">(</span><em>con: Connection</em>, <em>edgeTable: string</em>, <em>fromField: string</em>, <em>toField: string</em>, <em>wField: string</em>, <em>n: int</em>, <em>weights = true</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.wFromPG" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first last simple">
-<li><strong>con</strong> &#8211; A CDO Connection to Postgres</li>
-<li><strong>edgeTable</strong> &#8211; The table in PG of edges</li>
-<li><strong>fromField</strong> &#8211; The field of edgeTable containing the id of the head vertex</li>
-<li><strong>toField</strong> &#8211; the field of edgeTable containing the id of the tail vertex</li>
-<li><strong>wField</strong> &#8211; The field of edgeTable containing the weight of the edge</li>
-<li><strong>n</strong> &#8211; number of distinct vertices. In practice, this may be gives and the number of names</li>
-<li><strong>weights</strong> &#8211; Boolean on whether to use the weights in the table or a 1 (indicator)</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
+<dl class="method">
+<dt>
+<em class="property">proc </em><code class="descclassname">NamedMatrix.</code><code class="descname">remove</code><span class="sig-paren">(</span><em>i: string</em>, <em>j: string</em><span class="sig-paren">)</span></dt>
+<dd><p>Removes the matrix entry <cite>(i,j)</cite> from the matrix and the underlying domain
+by row, column names</p>
 </dd></dl>
 
-<dl class="function">
-<dt id="MatrixOps.wFromPG_">
-<em class="property">proc </em><code class="descname">wFromPG_</code><span class="sig-paren">(</span><em>con: Connection</em>, <em>edgeTable: string</em>, <em>fromField: string</em>, <em>toField: string</em>, <em>wField: string</em>, <em>n: int</em>, <em>weights = true</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.wFromPG_" title="Permalink to this definition">¶</a></dt>
+<dl class="method">
+<dt id="MatrixOps.NamedMatrix.nnz">
+<em class="property">proc </em><code class="descclassname">NamedMatrix.</code><code class="descname">nnz</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.NamedMatrix.nnz" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the number of non-zeroes in the matrix</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="MatrixOps.NamedMatrix.sparsity">
+<em class="property">proc </em><code class="descclassname">NamedMatrix.</code><code class="descname">sparsity</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.NamedMatrix.sparsity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the sparsity of the matrix: Number of entries / frame size</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="MatrixOps.NamedMatrix.ntropic">
+<em class="property">proc </em><code class="descclassname">NamedMatrix.</code><code class="descname">ntropic</code><span class="sig-paren">(</span><em>N: NamedMatrix</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.NamedMatrix.ntropic" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="MatrixOps.NamedMatrix.ndot">
+<em class="property">proc </em><code class="descclassname">NamedMatrix.</code><code class="descname">ndot</code><span class="sig-paren">(</span><em>N: NamedMatrix</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.NamedMatrix.ndot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Multiplies the current NamedMatrix <cite>X</cite> against the argument <cite>Y</cite>, but first it aligns
+the names of <cite>X.cols</cite> with <cite>Y.rows</cite>.  Returns an appropriately named NamedMatrix
+:arg NamedMatrix Y:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="MatrixOps.NamedMatrix.alignAndMultiply">
+<em class="property">proc </em><code class="descclassname">NamedMatrix.</code><code class="descname">alignAndMultiply</code><span class="sig-paren">(</span><em>Y: NamedMatrix</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.NamedMatrix.alignAndMultiply" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
-<dt id="MatrixOps.vNamesFromPG">
-<em class="property">proc </em><code class="descname">vNamesFromPG</code><span class="sig-paren">(</span><em>con: Connection</em>, <em>nameTable: string</em>, <em>nameField: string</em>, <em>idField: string</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.vNamesFromPG" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first simple">
-<li><strong>con</strong> &#8211; A connection to a Postgres database containing a table with &lt;ftr_id&gt;, &lt;vertex_name&gt; pairs</li>
-<li><strong>nameTable</strong> &#8211; The name of the Postgres table containing the pairs</li>
-<li><strong>nameField</strong> &#8211; The name of the field in the nameTable containing the names</li>
-<li><strong>idField</strong> &#8211; The name of the field in the nameTable containing the feature ids</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">An array of strings in order of feature id</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
+<dt id="MatrixOps.aMax">
+<em class="property">proc </em><code class="descname">aMax</code><span class="sig-paren">(</span><em>X: []</em>, <em>axis = 0</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.aMax" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="MatrixOps.aMin">
+<em class="property">proc </em><code class="descname">aMin</code><span class="sig-paren">(</span><em>X: []</em>, <em>axis: int</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.aMin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="MatrixOps.argMin">
+<em class="property">proc </em><code class="descname">argMin</code><span class="sig-paren">(</span><em>X: []</em>, <em>axis: int</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.argMin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="MatrixOps.argMax">
+<em class="property">proc </em><code class="descname">argMax</code><span class="sig-paren">(</span><em>X: []</em>, <em>axis: int</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.argMax" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="MatrixOps.miniLoc_">
+<em class="property">proc </em><code class="descname">miniLoc_</code><span class="sig-paren">(</span><em>axis: int</em>, <em>id</em>, <em>X: []</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.miniLoc_" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="MatrixOps.maxiLoc_">
+<em class="property">proc </em><code class="descname">maxiLoc_</code><span class="sig-paren">(</span><em>axis: int</em>, <em>id</em>, <em>X: []</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.maxiLoc_" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="MatrixOps.sparseEquals">
+<em class="property">proc </em><code class="descname">sparseEquals</code><span class="sig-paren">(</span><em>A: []</em>, <em>B: []</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.sparseEquals" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="MatrixOps.tropic">
+<em class="property">proc </em><code class="descname">tropic</code><span class="sig-paren">(</span><em>A: []</em>, <em>B: []</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.tropic" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="MatrixOps.tropicLimit">
+<em class="property">proc </em><code class="descname">tropicLimit</code><span class="sig-paren">(</span><em>B: [] real</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.tropicLimit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="function">
 <dt id="MatrixOps.generateRandomSparseMatrix">
@@ -330,24 +505,49 @@ is that the matrix is sparse.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="MatrixOps.persistSparseMatrix">
-<em class="property">proc </em><code class="descname">persistSparseMatrix</code><span class="sig-paren">(</span><em>con: Connection</em>, <em>aTable: string</em>, <em>fromField: string</em>, <em>toField: string</em>, <em>weightField: string</em>, <em>X: [?D] real</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.persistSparseMatrix" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="MatrixOps.persistSparseMatrix_">
-<em class="property">proc </em><code class="descname">persistSparseMatrix_</code><span class="sig-paren">(</span><em>con: Connection</em>, <em>aTable: string</em>, <em>fromField: string</em>, <em>toField: string</em>, <em>weightField: string</em>, <em>X: [?D] real</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.persistSparseMatrix_" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="MatrixOps.persistSparseMatrix_P">
-<em class="property">proc </em><code class="descname">persistSparseMatrix_P</code><span class="sig-paren">(</span><em>con: Connection</em>, <em>aTable: string</em>, <em>fromField: string</em>, <em>toField: string</em>, <em>weightField: string</em>, <em>X: [?D] real</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.persistSparseMatrix_P" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
 <dt id="MatrixOps.sparsity">
-<em class="property">proc </em><code class="descname">sparsity</code><span class="sig-paren">(</span><em>X: []</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.sparsity" title="Permalink to this definition">¶</a></dt>
+<em class="property">proc </em><code class="descname">sparsity</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.sparsity" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
+
+<dl class="class">
+<dt id="MatrixOps.NumSuchError">
+<em class="property">class </em><code class="descname">NumSuchError</code>: Error<a class="headerlink" href="#MatrixOps.NumSuchError" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="MatrixOps.NumSuchError.init">
+<em class="property">proc </em><code class="descname">init</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.NumSuchError.init" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="MatrixOps.NumSuchError.message">
+<em class="property">proc </em><code class="descname">message</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.NumSuchError.message" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="MatrixOps.DimensionMatchError">
+<em class="property">class </em><code class="descname">DimensionMatchError</code>: NumSuchError<a class="headerlink" href="#MatrixOps.DimensionMatchError" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="attribute">
+<dt id="MatrixOps.DimensionMatchError.expected">
+<em class="property">var </em><code class="descname">expected</code>: int<a class="headerlink" href="#MatrixOps.DimensionMatchError.expected" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="MatrixOps.DimensionMatchError.actual">
+<em class="property">var </em><code class="descname">actual</code>: int<a class="headerlink" href="#MatrixOps.DimensionMatchError.actual" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="MatrixOps.DimensionMatchError.init">
+<em class="property">proc </em><code class="descname">init</code><span class="sig-paren">(</span><em>expected: int</em>, <em>actual: int</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.DimensionMatchError.init" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="MatrixOps.DimensionMatchError.message">
+<em class="property">proc </em><code class="descname">message</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.DimensionMatchError.message" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
 
 </div>
 

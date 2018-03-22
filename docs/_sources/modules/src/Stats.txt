@@ -77,3 +77,21 @@ Stats
    :TODO: Finish the Gamma distribution
    
 
+.. function:: proc choice(a: [] ?t, size = 1, replace = true)
+
+   
+   Routine to choose from a set, hopefully follwing this:
+   https://docs.scipy.org/doc/numpy-dev/reference/generated/numpy.random.choice.html
+   
+   :returns: array of choices, size
+    
+
+.. function:: proc choice(a: [] ?t, size = 1, replace = true, p: [] ?u)
+
+.. function:: proc chooseMultinomial(a: [] ?t, size: int, replace = true, p: [] real)
+
+   
+   Well, I'll be damned. This is what I came up with over a cup of coffee
+   https://en.wikipedia.org/wiki/Multinomial_distribution#Sampling_from_a_multinomial_distribution
+    
+
