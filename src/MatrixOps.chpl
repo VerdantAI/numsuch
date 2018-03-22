@@ -316,7 +316,6 @@ proc NamedMatrix.sparsity() {
  */
 proc NamedMatrix.grid2seq(ij: 2*int) {
   return this.ncols() * ij[1] + ij[2] - this.ncols();
-  //return (this.ncols() -1) * ij[1] + ij[2];
 }
 /*
  Takes a index values `i,j` and turns it into the sequential entry number on the
