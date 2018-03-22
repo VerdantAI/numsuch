@@ -142,7 +142,8 @@ class NumSuchTest : UnitTest {
     assertRealEquals(msg="Max of row 1", expected=17.0:real, actual=nm.rowMax(1));
     var e: [1..8] real = [17.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, NAN];
     assertArrayEquals(msg="Max of all rows", expected=e, actual=nm.rowMax());
-    assertIntEquals("grid2seq works on the matrix", expected=23, actual=nm.grid2seq((3,7)));
+    assertIntEquals("grid2seq(tuple) works on the matrix", expected=23, actual=nm.grid2seq((3,7)));
+    assertIntEquals("grid2seq(i,j) works on the matrix", expected=23, actual=nm.grid2seq(3,7));
     var sg = nm.seq2grid(23);
     assertIntEquals("seq2grid works on the matrix", expected=3, actual=sg[1]);
     assertIntEquals("seq2grid works on the matrix", expected=7, actual=sg[2]);
@@ -236,7 +237,7 @@ class NumSuchTest : UnitTest {
     var e: [1..4] real = [3.0, 1.0, 4.0, 1.0];
     assertArrayEquals("m colMax", expected=e, actual=m.colMax());
     var f: [1..4] int = [1,2,3,4];
-    writeln(m.rowArgMax());
+    //writeln(m.rowArgMax());
     //assertIntArrayEquals("m rowArgMax", expected=f, actual=m.rowArgMax());
     //assertIntEquals("m rowArgMax(3)", expected=4, actual=m.rowArgMax(3));
     /* This interface is kind of annoying, I know what row I'm sending in so I
@@ -420,11 +421,10 @@ class NumSuchTest : UnitTest {
 
   proc run() {
     super.run();
-    //testMatrixOperators();
+    testMatrixOperators();
     //tropicalTesting();
-    //testIndexSort();
+    testIndexSort();
     testNamedMatrix();
-    /*
     testSetRowNames();
     testSetColNames();
     testNamedMatrixInitWithNames();
@@ -437,7 +437,6 @@ class NumSuchTest : UnitTest {
     testViterbi();
     testLetters();
     testChoice();
-    */
     return 0;
   }
 }
