@@ -171,6 +171,27 @@ proc NamedMatrix.colArgMin() {
 }
 
 
+/*
+ Prints the matrix with row / column headers, not recommended for large matrices.
+ Also width of entries should not exceed about 8 places.
+ */
+proc NamedMatrix.pprint() {
+  write("     ");
+  for c in this.cols.sorted() {
+    write("       %5s  |".format(c[1]));
+  }
+  write("\n");
+  for r in this.rows.sorted() {
+    write(" %3s ".format(r[1]));
+    for c in this.cols.sorted() {
+      write(" %13.3dr ".format(this.get(r[2], c[2])));
+    }
+    write("\n");
+  }
+
+}
+
+
 //proc NamedMatrix.argRowMax()
 
 
