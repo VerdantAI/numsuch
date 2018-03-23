@@ -142,11 +142,17 @@ class NumSuchTest : UnitTest {
     assertRealEquals(msg="Max of row 1", expected=17.0:real, actual=nm.rowMax(1));
     var e: [1..8] real = [17.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, NAN];
     assertArrayEquals(msg="Max of all rows", expected=e, actual=nm.rowMax());
-    assertIntEquals("grid2seq(tuple) works on the matrix", expected=23, actual=nm.grid2seq((3,7)));
-    assertIntEquals("grid2seq(i,j) works on the matrix", expected=23, actual=nm.grid2seq(3,7));
-    var sg = nm.seq2grid(23);
-    assertIntEquals("seq2grid works on the matrix", expected=3, actual=sg[1]);
-    assertIntEquals("seq2grid works on the matrix", expected=7, actual=sg[2]);
+
+    var DY = {1..3, 1..4},
+        SDY = CSRDomain(DY),
+        Y:[SDY] real;
+    SDY +=(1,3); Y[1,3] = 1;
+    var nm2 = new NamedMatrix(X=Y);
+    assertIntEquals("grid2seq(tuple) works on the matrix", expected=9, actual=nm2.grid2seq((3,1)));
+    assertIntEquals("grid2seq(i,j) works on the matrix", expected=9, actual=nm2.grid2seq(3,1));
+    var sg = nm2.seq2grid(7);
+    assertIntEquals("seq2grid works on the matrix", expected=2, actual=sg[1]);
+    assertIntEquals("seq2grid works on the matrix", expected=3, actual=sg[2]);
     writeln("...done");
   }
 
