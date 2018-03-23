@@ -400,6 +400,9 @@ class NumSuchTest : UnitTest {
     var gn = gridNames(7);
     assertIntEquals("Grid names(7) has 49 entries", expected=49, actual=gn.size);
     assertStringEquals("Last grid name is 'G7'", expected="G7", actual=gn[49]);
+    var gn2 = gridNames(i=3, j=5);
+    assertRealEquals("gridNames(3,5) has 15 entries", expected=15, actual=gn2.size);
+    assertStringEquals("Last grid name is 'C5'", expected="C5", actual=gn2[15]);
   }
 
   proc testChoice() {

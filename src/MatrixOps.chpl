@@ -170,6 +170,21 @@ proc NamedMatrix.colArgMin() {
   return argMin(this.X, 2);
 }
 
+/* We don't have a good matPlus for Q + E yet, so doing this element
+  by element. kinda sucks.
+ */
+proc NamedMatrix.matPlus(Y: NamedMatrix) {
+  forall ij in Y.SD {
+    this.X[ij] += Y.X[ij];
+  }
+}
+
+/*
+ Multiplies the underlying matrix in place.
+ */
+proc NamedMatrix.eTimes(a: real) {
+  this.X = a * this.X;
+}
 
 /*
  Prints the matrix with row / column headers, not recommended for large matrices.
