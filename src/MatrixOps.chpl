@@ -599,17 +599,17 @@ proc tropic(A:[],B:[]) { // UNDER CONSTRUCTION
   return T;
 }
 
-proc tropicLimit(B:[] real) {
- var R = tropic(B,B);
- for n in B.domain.dim(2) {
-   var S = tropic(R,B);
-   if S.domain != R.domain {
-    R = S; // Intended to just reassign the handle "R" to the contents of "S" i.o.w. destructive update of R
+proc tropicLimit(A:[] real,B:[] real): A.type {
+ var R = tropic(A,B);
+ if A.domain == R.domain {
+   if && reduce (A == R) {
+     return R;
    } else {
-     break;
+     return tropicLimit(R,B);
    }
+ } else {
+   return tropicLimit(R,B);
  }
- return R;
 }
 
 

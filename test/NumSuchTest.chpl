@@ -99,7 +99,7 @@ class NumSuchTest : UnitTest {
     writeln(X6);
     writeln(X6.domain);*/
 
-    writeln(tropicLimit(X));
+    writeln(tropicLimit(X,X));
 /*
     if R.domain == X.domain {
       var same = && reduce (R == X);
