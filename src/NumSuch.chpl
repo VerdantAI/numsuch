@@ -138,7 +138,9 @@ examples::
       return max reduce this.idxkey;
     }
 
-
+    iter sorted() {
+      for key in keys.sorted() do yield (key, get(key));
+    }
 
     proc uni(b: BiMap) {
       this.keys += b.keys;

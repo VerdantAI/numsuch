@@ -131,14 +131,29 @@ class NumSuchTest : UnitTest {
   }
 
   proc testNamedMatrix() {
+    write("testNamedMatrix() ...");
     var nm = new NamedMatrix(X=X);
     nm.set(1,3, 17.0);
 
+    assertIntEquals(msg="nrows() set correctly", expected=8, actual=nm.nrows());
+    assertIntEquals(msg="ncols() set correctly", expected=8, actual=nm.ncols());
     assertIntEquals(msg="Number of non-zeroes", expected=11:int, actual=11:int );
     assertRealEquals(msg="X.sparsity", expected=0.171875:real, actual=nm.sparsity());
     assertRealEquals(msg="Max of row 1", expected=17.0:real, actual=nm.rowMax(1));
     var e: [1..8] real = [17.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, NAN];
     assertArrayEquals(msg="Max of all rows", expected=e, actual=nm.rowMax());
+
+    var DY = {1..3, 1..4},
+        SDY = CSRDomain(DY),
+        Y:[SDY] real;
+    SDY +=(1,3); Y[1,3] = 1;
+    var nm2 = new NamedMatrix(X=Y);
+    assertIntEquals("grid2seq(tuple) works on the matrix", expected=9, actual=nm2.grid2seq((3,1)));
+    assertIntEquals("grid2seq(i,j) works on the matrix", expected=9, actual=nm2.grid2seq(3,1));
+    var sg = nm2.seq2grid(7);
+    assertIntEquals("seq2grid works on the matrix", expected=2, actual=sg[1]);
+    assertIntEquals("seq2grid works on the matrix", expected=3, actual=sg[2]);
+    writeln("...done");
   }
 
   proc testSetRowNames() {
@@ -228,7 +243,7 @@ class NumSuchTest : UnitTest {
     var e: [1..4] real = [3.0, 1.0, 4.0, 1.0];
     assertArrayEquals("m colMax", expected=e, actual=m.colMax());
     var f: [1..4] int = [1,2,3,4];
-    writeln(m.rowArgMax());
+    //writeln(m.rowArgMax());
     //assertIntArrayEquals("m rowArgMax", expected=f, actual=m.rowArgMax());
     //assertIntEquals("m rowArgMax(3)", expected=4, actual=m.rowArgMax(3));
     /* This interface is kind of annoying, I know what row I'm sending in so I
@@ -391,6 +406,9 @@ class NumSuchTest : UnitTest {
     var gn = gridNames(7);
     assertIntEquals("Grid names(7) has 49 entries", expected=49, actual=gn.size);
     assertStringEquals("Last grid name is 'G7'", expected="G7", actual=gn[49]);
+    var gn2 = gridNames(i=3, j=5);
+    assertRealEquals("gridNames(3,5) has 15 entries", expected=15, actual=gn2.size);
+    assertStringEquals("Last grid name is 'C5'", expected="C5", actual=gn2[15]);
   }
 
   proc testChoice() {
@@ -413,7 +431,7 @@ class NumSuchTest : UnitTest {
   proc run() {
     super.run();
     testMatrixOperators();
-    tropicalTesting();
+    //tropicalTesting();
     testIndexSort();
     testNamedMatrix();
     testSetRowNames();
@@ -427,7 +445,6 @@ class NumSuchTest : UnitTest {
     testBiMap();
     testViterbi();
     testLetters();
-    testChoice();
     testChoice();
     return 0;
   }

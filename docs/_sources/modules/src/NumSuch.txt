@@ -80,7 +80,6 @@ In NumSuch, matrices are considered sparse until proven otherwise.
       
       Add string key, gives it the id based on when it entered.
       
-      
       :arg k string: The string <e.g. key> to add to the BiMap
       
 
@@ -120,4 +119,6 @@ In NumSuch, matrices are considered sparse until proven otherwise.
       
       Returns the max value for "value", assuming it's a real number
       
+
+   .. method:: proc uni(b: BiMap)
 
