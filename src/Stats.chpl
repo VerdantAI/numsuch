@@ -170,4 +170,14 @@ module Stats {
       }
       return result;
     }
+
+    /*
+     Returns a random integer between `a <= N <= b`
+     */
+   proc randInt(a:int, b:int) {
+     var rs: [1..1] real;
+     fillRandom(rs);
+     return (floor(rs[1] * b) + a):int;
+   }
+
 }

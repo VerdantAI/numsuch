@@ -428,6 +428,16 @@ class NumSuchTest : UnitTest {
     var o = choice(a=s, replace=false, size=3, p=p);
   }
 
+  proc testRandomGenerators() {
+    var n: int = 100000;
+    var x: [1..n] int;
+    for i in 1..n {
+      x[i] = randInt(1,6);
+    }
+    var mu = + reduce x;
+    assertRealApproximates("Average of 100,000 randInt(1,6) is about 3.5", expected=3.5, actual=mu:real/n:real);
+  }
+
   proc run() {
     super.run();
     testMatrixOperators();
@@ -446,6 +456,7 @@ class NumSuchTest : UnitTest {
     testViterbi();
     testLetters();
     testChoice();
+    testRandomGenerators();
     return 0;
   }
 }
