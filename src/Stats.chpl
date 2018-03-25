@@ -180,4 +180,13 @@ module Stats {
      return (floor(rs[1] * b) + a):int;
    }
 
+   /*
+    Returns the sum of rolling `n` `s`-sided dice.  E.g. n=3, s=6, is three six sided die
+    */
+   proc nds(n:int, s:int) {
+     var roll: [1..n] int;
+     for d in 1..n do roll[d] = randInt(a=1, b=s);
+     return + reduce roll;
+   }
+
 }

@@ -431,11 +431,13 @@ class NumSuchTest : UnitTest {
   proc testRandomGenerators() {
     var n: int = 100000;
     var x: [1..n] int;
-    for i in 1..n {
-      x[i] = randInt(1,6);
-    }
+    //for i in 1..n { x[i] = randInt(1,6); }
+    for i in 1..n do x[i] = randInt(1,6);
     var mu = + reduce x;
     assertRealApproximates("Average of 100,000 randInt(1,6) is about 3.5", expected=3.5, actual=mu:real/n:real);
+
+    var threeD6 = for i in 1..n do nds(n=3, s=6);
+    assertRealApproximates("Average of 100,000 three d6 is about 10.5", expected=10.5, actual=(+reduce threeD6):real/n:real);
   }
 
   proc run() {
