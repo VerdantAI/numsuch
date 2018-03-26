@@ -242,6 +242,9 @@ Loads a label file into a Matrix.  Labels should be binary indicators
     }
   }
 
+  /*
+   Returns x * log_2 (x)... I'll write it in LaTeX later
+   */
   proc xlog2x(x: real) {
     if x > 0 {
       return x * log2(x);
