@@ -447,6 +447,11 @@ class NumSuchTest : UnitTest {
     var sq = seq(3,7);
     assertIntEquals("First element of sequence is 3", expected=3, actual=sq[1]);
     assertIntEquals("Last element of sequence is 7", expected=7, actual=sq[5]);
+
+    var sq2 = seq(3,7, stride=5);
+    assertIntEquals("First element of sequence(stride=5) is 3", expected=3, actual=sq2[1]);
+    assertIntEquals("Last element of sequence(stride=5) is 7", expected=23, actual=sq2[5]);
+
   }
 
   proc run() {
