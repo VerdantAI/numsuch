@@ -445,6 +445,20 @@ class NumSuchTest : UnitTest {
 
     var threeD6 = for i in 1..n do nds(n=3, s=6);
     assertRealApproximates("Average of 100,000 three d6 is about 10.5", expected=10.5, actual=(+reduce threeD6):real/n:real);
+
+    // Check random reals
+    var rrls: [1..n] real;
+    for i in 1..n do rrls[i] = rand(a=2,b=7);
+    assertRealApproximates("Average of 100,000 random(2,7) is about 4.5", expected=4.5, actual=(+reduce rrls):real/n:real);
+
+    var sq = seq(3,7);
+    assertIntEquals("First element of sequence is 3", expected=3, actual=sq[1]);
+    assertIntEquals("Last element of sequence is 7", expected=7, actual=sq[5]);
+
+    var sq2 = seq(3,7, stride=5);
+    assertIntEquals("First element of sequence(stride=5) is 3", expected=3, actual=sq2[1]);
+    assertIntEquals("Last element of sequence(stride=5) is 7", expected=23, actual=sq2[5]);
+
   }
 
   proc run() {

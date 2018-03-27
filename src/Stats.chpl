@@ -171,13 +171,28 @@ module Stats {
       return result;
     }
 
-    /*
-     Returns a random integer between `a <= N <= b`
-     */
+   /*
+    Returns a random integer between `a <= N <= b`
+   */
    proc randInt(a:int, b:int) {
      var rs: [1..1] real;
      fillRandom(rs);
      return (floor(rs[1] * b) + a):int;
+   }
+
+   /* Get a random number drawn uniformly along [a,b] */
+   proc rand(a:real, b:real) {
+     if b <= a then halt();
+     var rs: [1..1] real;
+     fillRandom(rs);
+     return (rs[1]*(b-a)+a);
+   }
+
+   /* Returns a sequence as an integer array from a to b, inclusive */
+   proc seq(start: int, stop: int, stride:int = 1) {
+     if start >= stop then halt();
+     var y: [1..stop-start+1] int = start.. by stride;
+     return y;
    }
 
    /*
