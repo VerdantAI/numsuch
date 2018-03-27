@@ -191,7 +191,6 @@ module Stats {
    /* Returns a sequence as an integer array from a to b, inclusive */
    proc seq(start: int, stop: int, stride:int = 1) {
      if start >= stop then halt();
-     const l: int = stop-start+1;
      var y: [1..stop-start+1] int = start.. by stride;
      return y;
    }
