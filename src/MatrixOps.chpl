@@ -704,7 +704,6 @@ proc tropicLimit(A:[] real,B:[] real): A.type {
 
 
 
-
 /*
  Build a random sparse matrix.  Good for testing;
  */
@@ -745,6 +744,19 @@ proc sparsity(X) {
   return i / d;
 }
 
+proc elemMult(A: [], B: []) {
+  var dom: domain(2) = {A.domain.dim(1),A.domain.dim(2)};
+  var sps = CSRDomain(dom);
+  var C: [sps] real;
+  for (i,j) in A.domain {
+    if B.domain.member((i,j)) {
+      sps += (i,j);
+      C(i,j) = A(i,j) * B(i,j);
+    }
+  }
+  return C;
+}
+
 /*
  Error classes
  */
@@ -757,6 +769,18 @@ class NumSuchError : Error {
     return "Generic NumSuch Error";
   }
 }
+
+proc identityMat(n:int) {
+  var dom: domain(2) = {1..n,1..n};
+  var sps: CSRDomain(dom);
+  var I: [sps] real;
+  for i in 1..n {
+    sps += (i,i);
+    I(i,i) = 1;
+  }
+  return I;
+}
+
 
 /*
  Used to indidcate dimension mismatches on NamedMatrices and vectors
