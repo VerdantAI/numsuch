@@ -676,18 +676,39 @@ proc tropic(A:[],B:[]) { // UNDER CONSTRUCTION
   return T;
 }
 
+
+
+
+proc sparseEq(A:[], B:[]) {
+  var s: bool = true;
+  forall (i,j) in A.domain with (&& reduce s) {
+    s &&= A(i,j) == B(i,j);
+  }
+  return s;
+}
+
+
+
 proc tropicLimit(A:[] real,B:[] real): A.type {
  var R = tropic(A,B);
  if A.domain == R.domain {
-   if && reduce (A == R) {
+   writeln("Domains are equal!");
+   if sparseEq(R,A) {
+     writeln("This is the Limit");
      return R;
    } else {
+     writeln(R);
+     writeln("Not yet Limiting");
      return tropicLimit(R,B);
    }
  } else {
+   writeln(R);
+   writeln("Domains weren't equal...");
    return tropicLimit(R,B);
  }
 }
+
+
 
 
 /*
