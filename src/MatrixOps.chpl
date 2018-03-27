@@ -676,18 +676,33 @@ proc tropic(A:[],B:[]) { // UNDER CONSTRUCTION
   return T;
 }
 
-proc tropicLimit(B:[] real) {
- var R = tropic(B,B);
- for n in B.domain.dim(2) {
-   var S = tropic(R,B);
-   if S.domain != R.domain {
-    R = S; // Intended to just reassign the handle "R" to the contents of "S" i.o.w. destructive update of R
-   } else {
-     break;
-   }
- }
- return R;
+
+
+
+proc sparseEq(A:[], B:[]) {
+  var s: bool = true;
+  forall (i,j) in A.domain with (&& reduce s) {
+    s &&= A(i,j) == B(i,j);
+  }
+  return s;
 }
+
+
+
+proc tropicLimit(A:[] real,B:[] real): A.type {
+ var R = tropic(A,B);
+ if A.domain == R.domain {
+   if sparseEq(R,A) {
+     return R;
+   } else {
+     return tropicLimit(R,B);
+   }
+ } else {
+   return tropicLimit(R,B);
+ }
+}
+
+
 
 
 /*

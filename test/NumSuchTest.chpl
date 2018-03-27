@@ -82,10 +82,12 @@ class NumSuchTest : UnitTest {
     SD += (7,8); X[7,8] = 1;
 
     var X2 = tropic(X,X);
-    writeln(X2);
-    writeln(X2.domain);
+//    writeln(X2);
+//    writeln(X2.domain);
+//    tropicLimit(X,X);
+//    var R = tropic(X,X);
     //writeln(&& reduce (X2 == X));
-    /*
+
     var X3 = tropic(X2,X);
     writeln(X3);
     writeln(X3.domain);
@@ -97,10 +99,15 @@ class NumSuchTest : UnitTest {
     writeln(X5.domain);
     var X6 = tropic(X5,X);
     writeln(X6);
-    writeln(X6.domain);*/
+    writeln(X6.domain);
 
-    writeln(tropicLimit(X));
+  //  writeln(sparseEq(X6,X));
+  //  writeln(sparseEq(X6,X5));
+
+    writeln(tropicLimit(X,X));
 /*
+
+
     if R.domain == X.domain {
       var same = && reduce (R == X);
       if same {
@@ -456,23 +463,23 @@ class NumSuchTest : UnitTest {
 
   proc run() {
     super.run();
-    testMatrixOperators();
-    //tropicalTesting();
-    testIndexSort();
-    testNamedMatrix();
-    testSetRowNames();
-    testSetColNames();
-    testNamedMatrixInitWithNames();
-    testSetByName();
-    testArgMax();
-    testCosineDistance();
-    testLabelMatrix();
-    testECDF();
-    testBiMap();
-    testViterbi();
-    testLetters();
-    testChoice();
-    testRandomGenerators();
+//    testMatrixOperators();
+    tropicalTesting();
+//    testIndexSort();
+//    testNamedMatrix();
+//    testSetRowNames();
+//    testSetColNames();
+//    testNamedMatrixInitWithNames();
+//    testSetByName();
+//    testArgMax();
+//    testCosineDistance();
+//    testLabelMatrix();
+//    testECDF();
+//    testBiMap();
+//    testViterbi();
+//    testLetters();
+//    testChoice();
+//    testRandomGenerators();
     return 0;
   }
 }
