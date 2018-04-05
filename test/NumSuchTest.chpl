@@ -461,6 +461,10 @@ class NumSuchTest : UnitTest {
 
   }
 
+  proc testPersistance() {
+
+  }
+
   proc run() {
     super.run();
 //    testMatrixOperators();
