@@ -1,3 +1,3 @@
 BLAS_HOME= /opt/OpenBLAS
-CDO_HOME=~/cdo
-CHARCOAL_HOME=~/charcoal
+CDO_HOME=/home/tshimanga/cdo
+CHARCOAL_HOME=/home/tshimanga/charcoal
