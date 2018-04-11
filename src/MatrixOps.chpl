@@ -1,5 +1,6 @@
 use LinearAlgebra,
     LinearAlgebra.Sparse,
+    Time,
     NumSuch,
     Random;
 
@@ -21,6 +22,7 @@ class NamedMatrix {
 
    proc init(X) {
      this.D = {X.domain.dim(1), X.domain.dim(2)};
+     this.SD = X.domain;
      this.complete();
      this.loadX(X);
    }
@@ -637,9 +639,39 @@ proc maxiLoc_(axis:int, id, X:[]) {
   return idm;
 }
 
-proc sparseEquals(A:[], B:[]) {}
 
-proc tropic(A:[],B:[]) { // UNDER CONSTRUCTION
+proc tropic(A:[],B:[]) {
+  var dom: domain(2) = {A.domain.dim(1),B.domain.dim(2)};
+  var sps = CSRDomain(dom);
+//  var BT = transpose(B);
+  var T: [sps] real;
+  for (i,j) in dom {
+    var t: Timer;
+    t.start();
+    var mini = 100000000: real;
+    if A.domain.member((i,j)) {
+      mini = min(mini,A(i,j));
+    }
+    if B.domain.member((i,j)) {
+      mini = min(mini,B(i,j));
+    }
+    for w in A.domain.dimIter(2,i) {
+      if B.domain.member((w,j)) {
+        mini = min(mini,A(i,w) + B(w,j));
+      }
+    }
+    t.stop();
+    if mini < 100000000 {
+      sps += (i,j);
+      T(i,j) = mini;
+      writeln((i,j));
+      writeln("",t.elapsed());
+    }
+  }
+  return T;
+}
+
+proc tropic_(A:[],B:[]) {
   var dom: domain(2) = {A.domain.dim(1),B.domain.dim(2)};
   var sps = CSRDomain(dom);
   var BT = transpose(B);
@@ -651,6 +683,7 @@ proc tropic(A:[],B:[]) { // UNDER CONSTRUCTION
     for w in A.domain.dimIter(2,i) {
       wids.push_back(w);
     }
+    //writeln(wids);
     for w2 in BT.domain.dimIter(2,j) {
       wids.push_back(w2);
     }
@@ -675,8 +708,6 @@ proc tropic(A:[],B:[]) { // UNDER CONSTRUCTION
   }
   return T;
 }
-
-
 
 
 proc sparseEq(A:[], B:[]) {
@@ -770,9 +801,9 @@ class NumSuchError : Error {
   }
 }
 
-proc identityMat(n:int) {
+proc identityMat(n: int) {
   var dom: domain(2) = {1..n,1..n};
-  var sps: CSRDomain(dom);
+  var sps = CSRDomain(dom);
   var I: [sps] real;
   for i in 1..n {
     sps += (i,i);
