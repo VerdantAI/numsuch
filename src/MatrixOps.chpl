@@ -719,6 +719,12 @@ proc sparseEq(A:[], B:[]) {
 }
 
 
+/*
+proc adjacencyPolynomial(A:[]) {
+
+}*/
+
+
 
 proc tropicLimit(A:[] real,B:[] real): A.type {
  var R = tropic(A,B);
@@ -804,10 +810,12 @@ class NumSuchError : Error {
 proc identityMat(n: int) {
   var dom: domain(2) = {1..n,1..n};
   var sps = CSRDomain(dom);
-  var I: [sps] real;
   for i in 1..n {
     sps += (i,i);
-    I(i,i) = 1;
+  }
+  var I: [sps] real;
+  forall ij in sps {
+    I(ij) = 1;
   }
   return I;
 }
