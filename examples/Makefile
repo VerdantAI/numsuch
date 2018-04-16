@@ -22,3 +22,8 @@ lgd: linearGradientDescent.chpl
 	$(CC) $(FLAGS) $(MODULES) $(INCLUDES) $(LIBS) -o lgd $< ; \
 	./lgd; \
 	rm lgd;
+
+nlfa: nonlinearFunctionApproximation.chpl
+	$(CC) $(FLAGS) $(MODULES) $(INCLUDES) $(LIBS) -o nlfa $< ; \
+  ./nlfa; \
+	rm nlfa

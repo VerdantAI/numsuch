@@ -12,7 +12,7 @@ module NN {
         layers: [layerDom] Layer;
 
     proc add(d: Dense) {
-      writeln(" Adding a new dense layer");
+      //writeln(" Adding a new dense layer");
       layers.push_back(new Layer());
       ref currentLayer = layers[layerDom.last];
       currentLayer.layerId = layerDom.last;
@@ -27,7 +27,7 @@ module NN {
     }
 
     proc add(d: Activation) {
-      writeln(" Adding a new activation layer");
+      //writeln(" Adding a new activation layer");
       ref currentLayer = layers[layerDom.last];
       currentLayer.activation = new Activation(name=d.name);
     }
@@ -108,14 +108,40 @@ module NN {
         }
         ref topLayer = layers[layerDom.last];
         t.stop();
-        writeln("Completed %i epochs".format(epochs));
-        writeln("  Predictions  : ", topLayer.h.T);
-        writeln("  Final error  : ", topLayer.error.T);
-        writeln("  max(error)   : ", max reduce abs(topLayer.error));
-        writeln("  elapsed time : ", t.elapsed());
-        return 0;
+        var summary = new ModelSummary(epochs = epochs, l=topLayer, elapsedTime=t.elapsed());
+        return summary;
+    }
+
+  }
+
+  class ModelSummary {
+    var epochs: int,
+        topLayer: Layer,
+        elapsedTime: real,
+        avgError: real,
+        normError: real,
+        maxError: real;
+
+    proc init(epochs: int, l: Layer, elapsedTime: real) {
+      this.epochs = epochs;
+      this.topLayer = l;
+      this.elapsedTime = elapsedTime;
+      this.avgError = (+ reduce abs(this.topLayer.error))/(this.topLayer.error.size);
+      this.normError = norm(this.topLayer.error);
+      this.maxError = max reduce abs(this.topLayer.error);
+    }
+
+    proc readWriteThis(f) {
+      f <~> "Completed epochs: "; f <~> this.epochs; f <~> "\n";
+      f <~> "  Predictions  : "; f <~> this.topLayer.h.T; f <~> "\n";
+      f <~> "  Final error  : "; f <~> this.topLayer.error.T; f <~> "\n";
+      f <~> "  avg(error)   : "; f <~> (+ reduce abs(this.topLayer.error))/(this.topLayer.error.size); f <~> "\n";
+      f <~> "  norm(error)  : "; f <~> norm(this.topLayer.error); f <~> "\n";
+      f <~> "  max(error)   : "; f <~> max reduce abs(this.topLayer.error); f <~> "\n";
+      f <~> "  elapsed time : "; f <~> this.elapsedTime; f <~> "\n";
     }
   }
+
 
   class Dense {
     var units: int,

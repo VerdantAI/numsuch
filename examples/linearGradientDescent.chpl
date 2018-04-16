@@ -80,47 +80,7 @@ proc linearSGDdf(x:[] real, theta:[] real, y: real) {
   //var wx = theta.dot(x) - y;
   //writeln("wx: ", wx);
   for i in 1..theta.size {
-    z[i] = 2*x[i] * (theta.dot(x) - y);
+    z[i] = 2*x[i] * (theta.dot(x) - y);  // Also transpose(x) * (theta.dot(x) - y)
   }
   return z;
 }
-
-
-
-/*
-var s = seq(1,d);
-// The parameter to fit
-var theta: [1..n] real;
-for i in 1..theta.size do theta[i] = (+ reduce y)/theta.size;
-writeln("theta: ", theta);
-//for r in s {
-//for k in 1.. 10 {  // Should be repeat until
-var k = 1;
-var delta: real = 101;
-do {  // Should be repeat until
-  shuffle(s);
-  for r in s {
-    //writeln("r is now: %n".format(r));
-    var x: [1..n] real;
-    for j in X.domain.dimIter(2,r) {
-      x[j] = X[r,j];
-    }
-    theta = theta - ETA * df(theta, x, y[r]);
-  }
-  var yh = X.dot(theta);
-  var d = yh-y;
-  delta = norm(d);
-  writeln("iteration %n  delta = %n".format(k, delta));
-  k += 1;
-//} while delta > 100;
-} while delta > EPSILON;
-
-proc df(theta:[] real, x:[] real, y:real) {
-  var z: [1..theta.size] real;
-  for i in 1..theta.size {
-    var wx = theta.dot(x);
-    z[i] = 2*x[i] * (theta.dot(x) - y);
-  }
-  return z;
-}
-*/
