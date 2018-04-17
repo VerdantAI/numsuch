@@ -1,5 +1,5 @@
 use NumSuch, NN, LinearAlgebra.Sparse, Norm;
-use Random;
+use Random,IO;
 
 const p = 0.3,
       inputDim = 4,
@@ -43,6 +43,9 @@ proc yf(x: [] real) {
 
 
 
+var f = open('nlfa.out.txt', iomode.cwr);
+var w = f.writer();
+w.writeln("epochs\t  obs\t h\tlr  \tnorm\tmax\tavg\t  time");
 writeln("epochs\t  obs\t h\tlr  \tnorm\tmax\tavg\t  time");
 for N in [50, 500] {
   var X = buildX(nobs = N);
@@ -56,11 +59,14 @@ for N in [50, 500] {
         model.add(new Activation(name="relu"));
         var o = model.fit(xTrain=X,yTrain=y, epochs=e, lr=l);
         //writeln("\tepochs: %n observations: %n  hidden units: %n  norm(err): %n  max(err): %n  time: %n".format(epochs, nObservations, n, o.normError, o.maxError, o.elapsedTime));
+        w.writeln("%6i\t%5i\t%2i\t%4.3dr\t%7.4dr\t%7.4dr\t%7.4dr\t%7.2dr".format(e, N, n, l, o.normError, o.maxError, o.avgError, o.elapsedTime));
         writeln("%6i\t%5i\t%2i\t%4.3dr\t%7.4dr\t%7.4dr\t%7.4dr\t%7.2dr".format(e, N, n, l, o.normError, o.maxError, o.avgError, o.elapsedTime));
       }
     }
   }
 }
+w.close();
+f.close();
 
 /*
 var model = new Sequential();
