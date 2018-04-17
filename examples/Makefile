@@ -1,6 +1,5 @@
 include ../local.mk
 CC=chpl
-BLAS_HOME= /usr/local/Cellar/openblas/0.2.20
 INCLUDES=-I$(BLAS_HOME)/include
 LIBS=-L${BLAS_HOME}/lib -lblas
 MODULES=-M../src
