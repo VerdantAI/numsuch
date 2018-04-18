@@ -1,8 +1,12 @@
 use NumSuch, NN, LinearAlgebra.Sparse, Norm;
 use Random,IO;
 
+/*
+ Can we train the NN to find the answer [1,1,0] ?
+ */
+
 const p = 0.3,
-      inputDim = 4,
+      inputDim = 7,
       randomSeed = 17,
       nObservations = 50,
       epochs:int = 5000,
@@ -10,48 +14,51 @@ const p = 0.3,
 
 proc buildX(nobs: int) {
   var X = Matrix(nobs, inputDim);
-  var R = Matrix(nobs, inputDim);
+  var R: [1..nobs,1..3] real;
   fillRandom(R, randomSeed);
-  for ij in X.domain {
-    if R(ij) < p {
-      X(ij) = 1;
-    } else {
-      X(ij) = 0;
-    }
+  for m in 1..nobs {
+    for k in  1..3 {
+      if R[m,k] < p then X[m,k] = 1.0;
+    }                            // construct a backpack
+    X[m, 3 + (m % 3) +1] = 1.0;  // Which object is being presented
+    X[m,7] = (m % 2) : real;     // Collect or ignore action
   }
   return X;
 }
 
-
-
-
 /*
- Populate y from an actual function so we know something exists
+ state is  [backpack, options, choice]
+          [have A?,  have B?,  have C?,  choosing A?,  choosing B?  choosing C?, collected=1 else 0]
+  Correct answer is choose A and B, leave C
  */
-proc yf(x: [] real) {
+proc yf(x:[] real) {
   var m = x.shape(1),
       n = x.shape(2);
   var y:[1..m] real;
 
   for i in 1..m {
-    var w = 2*x[i,1] + 0.5*x[i,2] - 1.8*x[i,3] + x[i,4] + 0.7*x[i,2] * x[i,4] - x[i,1]*x[i,2]*x[i,3]*x[i,4];
-    y[i] = w;
+    if x.equals([1.0,0.0,0.0, 0.0,1.0,0.0, 1.0]) {
+      y[i] = 10;
+    } else if x.equals([0.0,1.0,0.0, 1.0,0.0,0.0, 1.0]) {
+      y[i] = 10;
+    } else {
+      y[i] = 0;
+    }
   }
   return Vector(y);
 }
-//var y = yf(X);
 
-
-
-var f = open('nlfa.out.txt', iomode.cwr);
+const fn = "ngh.out.txt";
+var f = open(fn, iomode.cwr);
+writeln("writing output to %s".format(fn));
 var w = f.writer();
 w.writeln("epochs\t  obs\t h\tlr  \tnorm\tmax\tavg\t  time");
-for N in [50, 500] {
+for N in [50, 100] {
   var X = buildX(nobs = N);
   var y = yf(X);
-  for e in [5000, 50000, 500000] {
-    for l in [0.1, 0.01, 0.001] {
-      for n in 1..10 {
+  for e in [5000, 10000] {
+    for l in [0.1] {
+      for n in 1..5 {
         var model = new Sequential();
         model.add(new Dense(units=n, inputDim=inputDim, batchSize=N));
         model.add(new Dense(units=1));

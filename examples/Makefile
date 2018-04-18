@@ -26,3 +26,8 @@ nlfa: nonlinearFunctionApproximation.chpl
 	$(CC) $(FLAGS) $(MODULES) $(INCLUDES) $(LIBS) -o nlfa $< ; \
   ./nlfa; \
 	rm nlfa
+
+ngh:  ngh.chpl
+	$(CC) $(FLAGS) $(MODULES) $(INCLUDES) $(LIBS) -o ngh $< ; \
+	./ngh; \
+	rm ngh; 
