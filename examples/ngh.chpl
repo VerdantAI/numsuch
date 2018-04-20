@@ -48,6 +48,10 @@ proc yf(x:[] real) {
   return Vector(y);
 }
 
+var goldX = Matrix(2, inputDim);
+goldX(1,..) = Vector([1.0,0.0,0.0, 0.0,1.0,0.0, 1.0]);
+goldX(2,..) = Vector([1.0,0.0,0.0, 0.0,1.0,0.0, 0.0]);
+writeln("goldX.shape %s", goldX.shape);
 const fn = "ngh.out.txt";
 var f = open(fn, iomode.cwr);
 writeln("writing output to %s".format(fn));
@@ -67,6 +71,8 @@ for N in [50, 100] {
         w.writeln("%6i\t%5i\t%2i\t%4.3dr\t%7.4dr\t%7.4dr\t%7.4dr\t%7.2dr".format(e, N, n, l, o.normError, o.maxError, o.avgError, o.elapsedTime));
         w.flush();
         f.fsync();
+        var a1 = model.predict(goldX);
+        writeln("a1 prediction: ", a1);
       }
     }
   }

@@ -1,166 +1,151 @@
 /*
- This is a pretty good example of the pseudocode http://www.cleveralgorithms.com/nature-inspired/neural/backpropagation.html
+ Another pass at the NN based on Alg. 6.3, 6.4 in Goodfellow, et. al. Chapter 6, approx p 204
  */
-module NN {
-  use LinearAlgebra,
-      Time,
-      Random;
 
-  class Sequential {
-    var layerDom = {1..0},
-        loss = new Loss(),
-        layers: [layerDom] Layer;
+ module NN {
+   use LinearAlgebra,
+       Time,
+       Random;
 
-    proc add(d: Dense) {
-      //writeln(" Adding a new dense layer");
-      layers.push_back(new Layer());
-      ref currentLayer = layers[layerDom.last];
-      currentLayer.layerId = layerDom.last;
-      if currentLayer.layerId == layerDom.first {
-        currentLayer.units = d.units;
-        currentLayer.inputDim = d.inputDim;
-        currentLayer.batchSize = d.batchSize;
-        currentLayer.weightDom = {1..#d.inputDim, 1..#d.units};
-        currentLayer.outputDom = {1..#d.batchSize, 1..#d.units};
-      }
-      currentLayer.units = d.units;
-    }
+   class Sequential {
+     var layerDom = {1..0},
+         layers: [layerDom] Layer,
+         batchSize: int,
+         loss: Loss = new Loss(),
+         trained: bool = false;
 
-    proc add(d: Activation) {
-      //writeln(" Adding a new activation layer");
-      ref currentLayer = layers[layerDom.last];
-      currentLayer.activation = new Activation(name=d.name);
-    }
+     proc init() { }
 
-    proc compile(xTrain:[], yTrain:[]) {
-      // Add the output layer for calculating epoch error
-      layers.push_back(new Layer());
-      ref topLayer = layers[layerDom.last];
-      topLayer.units = 1;
-      topLayer.layerId = layerDom.last;
+     proc add(d:Dense) {
+       this.layers.push_back(new Layer(units=d.units, name="L" + (this.layerDom.high+1):string));
+     }
+     proc add(a: Activation) {
+       ref currentLayer = this.layers[this.layerDom.last];
+       currentLayer.activation = a;
+     }
 
-      for l in layers {
-        if l.layerId == layerDom.first {
-          fillRandom(l.W);
-          var b: [{l.bias.domain.dim(1)}] real;
-          fillRandom(b);
-          [j in l.bias.domain.dim(2)] l.bias[..,j] = b;
-        } else {
-          ref lowerLayer = layers[l.layerId-1];
-          l.inputDim = lowerLayer.units;
-          l.batchSize = lowerLayer.batchSize;
-          l.weightDom = {1..#l.inputDim, 1..#l.units};
-          l.outputDom = {1..#l.batchSize, 1..#l.units};
-          fillRandom(l.W);
-          l.W = l.W / 25.0;
-          var b: [{l.bias.domain.dim(1)}] real;
-          fillRandom(b);
-          [j in l.bias.domain.dim(2)] l.bias[..,j] = b;
-        }
-        if l.activation == nil {
-          l.activation = new Activation("relu");
-        }
-      }
-    }
-    proc fit(xTrain:[], yTrain:[], epochs:int, lr: real) {
-        compile(xTrain, yTrain);
-        var X = xTrain;
+     proc compile(X:[], y:[]) {
+       var outDim: int = 1;
+       var inputDim = X.shape[1];
+       if y.shape.size == 2 {
+         outDim = y.shape[2];
+       }
+       this.batchSize = X.shape[1];
+       var dataLayer = new Layer(units=X.shape[2], name="Data");
+       dataLayer.wDom = {1..X.shape[1], 1..X.shape[2]};
+       dataLayer.hDom = {1..X.shape[1], 1..X.shape[2]};
+       dataLayer.h = X;
+       this.layers.push_front(dataLayer);
+       writeln(dataLayer);
+       this.layers.push_back(new Layer(units=outDim, name="Yhat"));
+       for l in this.layerDom.low+1..this.layerDom.high {
+         ref lowerLayer = this.layers[l-1];
+         ref currentLayer = this.layers[l];
+         currentLayer.wDom = {1..lowerLayer.units, 1..currentLayer.units};
+         currentLayer.bDom = {1..currentLayer.units};  // will construct batchSize tall matrix later
+         currentLayer.aDom = {1..this.batchSize, 1..currentLayer.units};
+         currentLayer.hDom = {1..this.batchSize, 1..currentLayer.units};
+         fillRandom(currentLayer.W);
+         fillRandom(currentLayer.b);
+         currentLayer.W = 0.25 * currentLayer.W;
+         currentLayer.b = 0.25 * currentLayer.b;
+         writeln(currentLayer);
+       }
+     }
+     proc fit(xTrain:[], yTrain:[], epochs: int, batchSize:int, lr: real=0.01) {
+       this.compile(X=xTrain, y=yTrain);
+       for i in 1..epochs {
+         const o = this.feedForward(X=xTrain, y=yTrain);
+         writeln("at the top!");
+         var g = this.loss.J(yHat=o.h, y=yTrain);
+         writeln(g);
+         this.backProp(X=xTrain, y=yTrain, g=g);
+       }
+     }
+     proc feedForward(X:[], y:[]) {
+       for l in this.layerDom.low+1..this.layerDom.high {
+         ref lowerLayer = this.layers[l-1];
+         ref currentLayer = this.layers[l];
+         //try! this.printStep(upperLayer=currentLayer, lowerLayer=lowerLayer,direction="feedForward",step=l);
+         var b:[1..this.batchSize, 1..currentLayer.units] real;
+         for i in 1..this.batchSize {
+           b[i,..] = currentLayer.b;
+         }
+         currentLayer.a = b.plus(lowerLayer.h.dot(currentLayer.W)); // Don't forget to add the bias
+         currentLayer.h = currentLayer.activation.f(currentLayer.a);
+       }
+       return this.layers[this.layerDom.high];
+     }
+     proc backProp(X:[], y:[], g:[]) {
+       var gb = g;
+       //for l in this.layerDom.high..this.layerDom.low+1 by -1 {
+       for l in this.layerDom.low+1..this.layerDom.high by -1 {
+         const gl: [1..]
+         ref currentLayer = this.layers[l];
+         ref lowerLayer= this.layers[l-1];
+         //g = g * currentLayer.activation.df(currentLayer.a);
+         writeln(currentLayer.a.shape);
+         writeln(currentLayer.activation.df(currentLayer.a));
+         writeln(gb.shape);
+         try! this.printStep(upperLayer=currentLayer, lowerLayer=lowerLayer,direction="backProp",step=l);
+       }
+     }
 
-        var batchSize = xTrain.shape[1],
-            inputDim = xTrain.shape[2],
-            labelDim = yTrain.shape;
+     proc printStep(upperLayer: Layer, lowerLayer: Layer, direction: string, step: int) throws {
+       writeln(" * %s: %n".format(direction, step));
+       writeln(upperLayer);
+       writeln(lowerLayer);
+     }
 
-        var t: Timer;
-        t.start();
-        for e in 1..#epochs {
-          for l in layers.domain {
-            ref currentLayer = layers[l];
-            if l == layers.domain.first {
-              currentLayer.a = currentLayer.bias.plus(dot(X, currentLayer.W));
-              currentLayer.h = currentLayer.activation.f(currentLayer.a);
-              continue;
-            }
-            //writeln("** FORWARDS : On layer %i".format(currentLayer.layerId));
-            ref lowerLayer = layers[l-1];
-            currentLayer.a = currentLayer.bias.plus(dot(lowerLayer.h, currentLayer.W));
-            currentLayer.h = currentLayer.activation.f(currentLayer.a);
-          }
-          /*
-            ***** BACKWARDS *****
-           */
-          for l in layers.domain by -1 {
-            //writeln("** BACKWARDS at layer %i".format(l));
-            ref currentLayer = layers[layerDom.last];
-            ref lowerLayer = layers[layerDom.last-1];
-            currentLayer.gradH = currentLayer.activation.df(currentLayer.h);
-            // set the error
-            if l == layerDom.last {
-              currentLayer.error = loss.L(yTrain, currentLayer.h);
-            } else {
-              ref ul = layers[l+1];
-              currentLayer.error = ul.h * currentLayer.gradH;
-            }
-            currentLayer.dH = currentLayer.error * currentLayer.gradH;
-            currentLayer.W += dot(lowerLayer.h.T, currentLayer.dH) * lr;
-            var ones: [currentLayer.dH.domain] real = 1.0;
-            currentLayer.bias += dot(currentLayer.dH, ones.T) * lr;
-          }
-        }
-        ref topLayer = layers[layerDom.last];
-        t.stop();
-        var summary = new ModelSummary(epochs = epochs, l=topLayer, elapsedTime=t.elapsed());
-        return summary;
-    }
+   }
 
-  }
-
-  class ModelSummary {
-    var epochs: int,
-        topLayer: Layer,
-        elapsedTime: real,
-        avgError: real,
-        normError: real,
-        maxError: real;
-
-    proc init(epochs: int, l: Layer, elapsedTime: real) {
-      this.epochs = epochs;
-      this.topLayer = l;
-      this.elapsedTime = elapsedTime;
-      this.avgError = (+ reduce abs(this.topLayer.error))/(this.topLayer.error.size);
-      this.normError = norm(this.topLayer.error);
-      this.maxError = max reduce abs(this.topLayer.error);
-    }
-
-    proc readWriteThis(f) {
-      f <~> "Completed epochs: "; f <~> this.epochs; f <~> "\n";
-      f <~> "  Predictions  : "; f <~> this.topLayer.h.T; f <~> "\n";
-      f <~> "  Final error  : "; f <~> this.topLayer.error.T; f <~> "\n";
-      f <~> "  avg(error)   : "; f <~> (+ reduce abs(this.topLayer.error))/(this.topLayer.error.size); f <~> "\n";
-      f <~> "  norm(error)  : "; f <~> norm(this.topLayer.error); f <~> "\n";
-      f <~> "  max(error)   : "; f <~> max reduce abs(this.topLayer.error); f <~> "\n";
-      f <~> "  elapsed time : "; f <~> this.elapsedTime; f <~> "\n";
-    }
-  }
+   class Layer {
+     var name: string,
+         units: int,
+         inputDim: int,
+         activation: Activation,
+         wDom: domain(2),
+         bDom: domain(1),
+         aDom: domain(2),
+         hDom: domain(2),
+         W:[wDom] real,
+         b:[bDom] real,
+         a:[aDom] real,
+         h:[hDom] real;
 
 
-  class Dense {
-    var units: int,
-        batchSize: int,
-        inputDim: int;
-  }
-  class Activation {
-    var name: string;
+     proc init(name: string, units: int){
+       this.name=name;
+       this.units = units;
+       this.activation = new Activation(name="DEFAULT");
+     }
 
-    proc f(x: real) {
+     proc readWriteThis(f) throws {
+       f <~> "%6s".format(this.name)
+         <~> " W:" <~> this.W.shape
+         <~> " h:" <~> this.h.shape
+         <~> " b:" <~> this.b.shape
+         <~> " a:" <~> this.a.shape;
+
+     }
+   }
+
+   class Activation {
+     var name: string;
+     proc init(name: string) {
+       this.name=name;
+     }
+
+     proc f(x: real) {
        if name == "relu" {
          return sigmoid(x);
        } else {
-         return x;
+        return x;
        }
      }
 
      proc df(x:real) {
-       if name == "relu" {
+       if this.name == "relu" {
          return derivativesSigmoid(x);
        } else {
          return 1;
@@ -172,41 +157,30 @@ module NN {
      }
      proc derivativesSigmoid(x) {
        return x * (1-x);
+     }
+  }
+
+  class Dense {
+    var units: int,
+        inputDim: int;
+
+    proc init(units:int, inputDim=0) {
+      this.units=units;
+      this.inputDim=inputDim;
     }
   }
-  class Layer {
-    var layerId: int,
-    activation: Activation,
-    batchSize: int,
-    inputDim: int,
-    units: int,
-    weightDom: domain(2),  // units x inputDim
-    outputDom: domain(2),  // units x batchSize = number of labels
-    W: [weightDom] real,
-    a: [outputDom] real,
-    h: [outputDom] real, // will be used in NEXT layer
-    gradH: [outputDom] real, // the gradient of the output
-    dH: [outputDom] real, // will be used in NEXT layer
-    bias: [outputDom] real, // bias = [b,b,..]
-    error: [outputDom] real;
 
-    proc summarize() {
-      writeln("Summary of layer %i".format(layerId));
-      writeln("\tinputDim: %i\n\tunits: %i\n\tbatchSize: %i".format(inputDim,units, batchSize ));
-      writeln("\tW size ", W.shape);
-      writeln("\th size ", h.shape);
-      writeln("\ta size ", a.shape);
-      writeln("\tbias size ", bias.shape);
-      writeln("\tActivation ", activation.name);
-    }
-
-  }
   class Loss {
-    proc L(y:[], x:[]) {
-      var yd: [x.domain] real;
-      yd[..,1] = y;
-      var e = yd.minus(x);
-      return e;
+    var name: string;
+    proc init(name: string="DEFAULT") {
+      this.name = name;
+    }
+    proc J(yHat: [], y:[]) {
+      if this.name == "DEFAULT" {
+        return yHat - y;
+      } else {
+        return yHat - y;
+      }
     }
   }
 
