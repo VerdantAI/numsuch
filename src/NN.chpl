@@ -11,6 +11,7 @@
      var layerDom = {1..0},
          layers: [layerDom] Layer,
          batchSize: int,
+         outDim: int,
          loss: Loss = new Loss(),
          trained: bool = false;
 
@@ -25,10 +26,11 @@
      }
 
      proc compile(X:[], y:[]) {
-       var outDim: int = 1;
        var inputDim = X.shape[1];
        if y.shape.size == 2 {
-         outDim = y.shape[2];
+         this.outDim = y.shape[2];
+       } else {
+         this.outDim = 1;
        }
        this.batchSize = X.shape[1];
        var dataLayer = new Layer(units=X.shape[2], name="Data");
@@ -37,7 +39,7 @@
        dataLayer.h = X;
        this.layers.push_front(dataLayer);
        writeln(dataLayer);
-       this.layers.push_back(new Layer(units=outDim, name="Yhat"));
+       this.layers.push_back(new Layer(units=this.outDim, name="Yhat"));
        for l in this.layerDom.low+1..this.layerDom.high {
          ref lowerLayer = this.layers[l-1];
          ref currentLayer = this.layers[l];
@@ -77,17 +79,22 @@
        return this.layers[this.layerDom.high];
      }
      proc backProp(X:[], y:[], g:[]) {
-       var gb = g;
-       //for l in this.layerDom.high..this.layerDom.low+1 by -1 {
+       var t:[1..this.batchSize, 1..this.outDim] real;
+       t[..,1] = g;
+       this.layers[this.layerDom.high].g = t;
        for l in this.layerDom.low+1..this.layerDom.high by -1 {
-         const gl: [1..]
          ref currentLayer = this.layers[l];
          ref lowerLayer= this.layers[l-1];
-         //g = g * currentLayer.activation.df(currentLayer.a);
-         writeln(currentLayer.a.shape);
-         writeln(currentLayer.activation.df(currentLayer.a));
-         writeln(gb.shape);
+         currentLayer.g = currentLayer.g * currentLayer.activation.df(currentLayer.a);
+
+         // Update b
+         // Update W
+
          try! this.printStep(upperLayer=currentLayer, lowerLayer=lowerLayer,direction="backProp",step=l);
+         const tg = currentLayer.g.dot(currentLayer.W.T);
+         writeln("tg.shape: ", tg.shape);
+         writeln("ll.g.shape ", lowerLayer.g.shape);
+         if l > this.layerDom.low+1 then lowerLayer.g = currentLayer.g.dot(currentLayer.W.T);
        }
      }
 
@@ -111,7 +118,8 @@
          W:[wDom] real,
          b:[bDom] real,
          a:[aDom] real,
-         h:[hDom] real;
+         h:[hDom] real,
+         g:[aDom] real;
 
 
      proc init(name: string, units: int){
