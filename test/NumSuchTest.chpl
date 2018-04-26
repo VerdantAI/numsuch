@@ -466,6 +466,19 @@ class NumSuchTest : UnitTest {
 
   }
 
+  proc testMatrixMakers() {
+    var n: int = 5,
+        d: domain(2),
+        X: [d] real;
+
+    d =  {1..n, 1..n};
+    const o = ones(X.domain);
+    assertRealEquals(" Norm of o is 5", expected=5.0, actual=norm(o));
+
+    const p = ones(X.domain, v=7.0);
+    assertRealEquals(" Norm of p is 7", expected=35.0, actual=norm(p));
+  }
+
   proc testNN() {
     var layerOneUnits = 5,
         inputDim = 8,
@@ -486,7 +499,8 @@ class NumSuchTest : UnitTest {
 
   proc run() {
     super.run();
-    testNN();
+//    testNN();
+    testMatrixMakers();
 //    testMatrixOperators();
 //    tropicalTesting();
 //    testIndexSort();
