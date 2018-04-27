@@ -461,14 +461,100 @@ class NumSuchTest : UnitTest {
 
   }
 
-  proc testPersistance() {
-
+  proc testSparseCopies() {
+    writeln("");
+    writeln("testSparseCopies... starting...");
+    writeln("");
+    var t1: Timer;
+    t1.start();
+    var m1 = generateRandomSparseMatrix(100, 0.01);
+    t1.stop();
+    var t2: Timer;
+    t2.start();
+    var P1 = m1;
+    t2.stop();
+    writeln("Time to Build Random Matrix (100): ",t1.elapsed());
+    writeln("Time to Copy Ramdom Matrix (100): ",t2.elapsed());
+    var t3: Timer;
+    t3.start();
+    var m2 = generateRandomSparseMatrix(200, 0.01);
+    t3.stop();
+    var t4: Timer;
+    t4.start();
+    var P2 = m1;
+    t4.stop();
+    writeln("Time to Build Random Matrix (200): ",t3.elapsed());
+    writeln("Time to Copy Ramdom Matrix (200): ",t4.elapsed());
+    var t5: Timer;
+    t5.start();
+    var m3 = generateRandomSparseMatrix(400, 0.01);
+    t5.stop();
+    var t6: Timer;
+    t6.start();
+    var P3 = m1;
+    t6.stop();
+    writeln("Time to Build Random Matrix (400): ",t5.elapsed());
+    writeln("Time to Copy Ramdom Matrix (400): ",t6.elapsed());
+    var t7: Timer;
+    t7.start();
+    var m4 = generateRandomSparseMatrix(800, 0.01);
+    t7.stop();
+    var t8: Timer;
+    t8.start();
+    var P4 = m1;
+    t8.stop();
+    writeln("Time to Build Random Matrix (800): ",t7.elapsed());
+    writeln("Time to Copy Ramdom Matrix (800): ",t8.elapsed());
+    var t9: Timer;
+    t9.start();
+    var m5 = generateRandomSparseMatrix(1600, 0.01);
+    t9.stop();
+    var t10: Timer;
+    t10.start();
+    var P5 = m1;
+    t10.stop();
+    writeln("Time to Build Random Matrix (1600): ",t9.elapsed());
+    writeln("Time to Copy Ramdom Matrix (1600): ",t10.elapsed());
+    var t11: Timer;
+    t11.start();
+    var m6 = generateRandomSparseMatrix(3200, 0.01);
+    t11.stop();
+    var t12: Timer;
+    t12.start();
+    var P6 = m1;
+    t12.stop();
+    writeln("Time to Build Random Matrix (3200): ",t11.elapsed());
+    writeln("Time to Copy Ramdom Matrix (3200): ",t12.elapsed());
+    var t13: Timer;
+    t13.start();
+    var m7 = generateRandomSparseMatrix(6400, 0.01);
+    t13.stop();
+    var t14: Timer;
+    t14.start();
+    var P7 = m1;
+    t14.stop();
+    writeln("Time to Build Random Matrix (6400): ",t13.elapsed());
+    writeln("Time to Copy Ramdom Matrix (6400): ",t14.elapsed());
+    var t15: Timer;
+    t15.start();
+    var m8 = generateRandomSparseMatrix(12800, 0.01);
+    t15.stop();
+    var t16: Timer;
+    t16.start();
+    var P8 = m1;
+    t16.stop();
+    writeln("Time to Build Random Matrix (12800): ",t15.elapsed());
+    writeln("Time to Copy Ramdom Matrix (12800): ",t16.elapsed());
+    writeln("");
+    writeln("testSparseCopies... done...");
+    writeln("");
+    writeln("");
   }
 
   proc run() {
     super.run();
 //    testMatrixOperators();
-    tropicalTesting();
+//    tropicalTesting();
 //    testIndexSort();
 //    testNamedMatrix();
 //    testSetRowNames();
@@ -484,6 +570,7 @@ class NumSuchTest : UnitTest {
 //    testLetters();
 //    testChoice();
 //    testRandomGenerators();
+    testSparseCopies();
     return 0;
   }
 }
