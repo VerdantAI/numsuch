@@ -14,8 +14,8 @@
          batchSize: int,
          outDim: int,
          loss: Loss = new Loss(),
-         momentum: real = 0.9,
-         lr: real = 0.01,
+         momentum: real = 0.05,
+         lr: real = 0.03,
          trained: bool = false,
          reportInterval: int = 100;
 
@@ -68,11 +68,11 @@
          //writeln("at the top! Current output:\n ", o.h);
          this.layers[this.layerDom.high].error = this.loss.J(yHat=o.h, y=yTrain);
          if i % this.reportInterval == 0 {
-           try! writeln("epoch: %5n norm error: %7.4dr".format(i, norm(this.layers[this.layerDom.high].error)));
+           try! writeln("epoch: %5n norm error: %7.4dr".format(i, norm(this.layers[this.layerDom.high].error.T)));
          }
          this.backProp(X=xTrain, y=yTrain);
        }
-       writeln("Done!  Current error:\n", this.layers[this.layerDom.high].h);
+       writeln("Done!  Current error:\n", this.layers[this.layerDom.high].h.T);
        this.trained = true;
      }
      proc feedForward(X:[], y:[]) {
@@ -89,19 +89,26 @@
        }
        return this.layers[this.layerDom.high];
      }
+     /*
+     Notice that under this schedule, the errors reach "up" and the gradients reach "down".
+     The gradients depend on the errors.
+      */
      proc backProp(X:[], y:[]) {
        var t:[1..this.batchSize, 1..this.outDim] real;
-       for l in this.layerDom.low+1..this.layerDom.high by -1 {
+       for l in this.layerDom.low..this.layerDom.high-1 by -1 {
+         ref upperLayer = this.layers[l+1];
          ref currentLayer = this.layers[l];
-         ref lowerLayer= this.layers[l-1];
+         //ref lowerLayer= this.layers[l-1];
          //try! this.printStep(upperLayer=currentLayer, lowerLayer=lowerLayer, direction="backProp",step=l);
-         currentLayer.dW = lowerLayer.h.T.dot(currentLayer.error);
-         currentLayer.db = colSums(currentLayer.error);
-         currentLayer.W_vel = this.momentum * currentLayer.W_vel - this.lr * currentLayer.dW;
-         currentLayer.b_vel = this.momentum * currentLayer.b_vel - this.lr * currentLayer.db;
-         // Need to add momentum before I update W, b
-         currentLayer.W = currentLayer.W.plus(currentLayer.W_vel);
-         currentLayer.b = currentLayer.b.plus(currentLayer.b_vel);
+         //try! this.printStep(upperLayer=upperLayer, lowerLayer=currentLayer, direction="backProp",step=l);
+         currentLayer.error = currentLayer.h * (ones(currentLayer.h.domain) - currentLayer.h) * (upperLayer.error.dot(upperLayer.W.T));
+         upperLayer.dW = currentLayer.h.T.dot(upperLayer.error);
+         upperLayer.db = colSums(upperLayer.error);
+         upperLayer.W_vel = this.momentum * upperLayer.W_vel - this.lr * upperLayer.dW;
+         upperLayer.W = upperLayer.W.plus(upperLayer.W_vel);
+         upperLayer.b_vel = this.momentum * upperLayer.b_vel - this.lr * upperLayer.db;
+         upperLayer.b = upperLayer.b.plus(upperLayer.b_vel);
+
        }
      }
 
