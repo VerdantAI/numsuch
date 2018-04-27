@@ -825,6 +825,29 @@ proc ones(d: domain(2), v: real=1.0) {
   return m;
 }
 
+/*
+Only works on dense matrices at the moment
+*/
+proc rowSums(X: []) {
+  var v:[X.domain.dims()(1)] real;
+  for i in v.domain {
+    v[i] = + reduce X[i,..];
+  }
+  return v;
+}
+
+/*
+Only works on dense matrices at the moment
+*/
+proc colSums(X: []) {
+  var v:[X.domain.dims()(2)] real;
+  for i in v.domain {
+    v[i] = + reduce X[..,i];
+  }
+  return v;
+}
+
+
 
 /*
  Used to indidcate dimension mismatches on NamedMatrices and vectors

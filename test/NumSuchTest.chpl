@@ -479,6 +479,12 @@ class NumSuchTest : UnitTest {
     assertRealEquals(" Norm of p is 7", expected=35.0, actual=norm(p));
   }
 
+  proc testRowColSums() {
+    var X = Matrix( [5,2] ,[6,1] ,[-1,6] ,[1,1] );
+    assertArrayEquals("rowSums of X", expected=[7.0, 7.0, 5.0, 2.0], actual=rowSums(X));
+    assertArrayEquals("colSums of X", expected=[11.0, 10.0], actual=colSums(X));
+  }
+
   proc testNN() {
     var layerOneUnits = 5,
         inputDim = 8,
@@ -492,15 +498,16 @@ class NumSuchTest : UnitTest {
     //model.add(new Dense(units=layerOneUnits, inputDim=inputDim, batchSize=batchSize));
     model.add(new Dense(units=5));
     model.add(new Dense(units=6));
-    model.add(new Activation(name="relu"));
+    model.add(new Activation(name="logistic"));
     model.fit(xTrain=X, yTrain=y, epochs=epochs, batchSize=batchSize, lr=lr);
     assertIntEquals("NN correct number of layers", expected=4, actual=model.layers.size);
   }
 
   proc run() {
     super.run();
-//    testNN();
-    testMatrixMakers();
+    testNN();
+//    testRowColSums();
+//    testMatrixMakers();
 //    testMatrixOperators();
 //    tropicalTesting();
 //    testIndexSort();

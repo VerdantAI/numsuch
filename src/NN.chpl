@@ -59,9 +59,8 @@
        for i in 1..epochs {
          const o = this.feedForward(X=xTrain, y=yTrain);
          writeln("at the top!");
-         var g = this.loss.J(yHat=o.h, y=yTrain);
-         writeln(g);
-         this.backProp(X=xTrain, y=yTrain, g=g);
+         this.layers[this.layerDom.high].error = this.loss.J(yHat=o.h, y=yTrain);
+         this.backProp(X=xTrain, y=yTrain);
        }
      }
      proc feedForward(X:[], y:[]) {
@@ -78,23 +77,17 @@
        }
        return this.layers[this.layerDom.high];
      }
-     proc backProp(X:[], y:[], g:[]) {
+     proc backProp(X:[], y:[]) {
        var t:[1..this.batchSize, 1..this.outDim] real;
-       t[..,1] = g;
-       this.layers[this.layerDom.high].g = t;
        for l in this.layerDom.low+1..this.layerDom.high by -1 {
          ref currentLayer = this.layers[l];
          ref lowerLayer= this.layers[l-1];
-         currentLayer.g = currentLayer.g * currentLayer.activation.df(currentLayer.a);
+         //try! this.printStep(upperLayer=upperLayer, lowerLayer=currentLayer, direction="backProp",step=l);
+         try! this.printStep(upperLayer=currentLayer, lowerLayer=lowerLayer, direction="backProp",step=l);
+         currentLayer.dW = lowerLayer.h.T.dot(currentLayer.error);
+         currentLayer.W = currentLayer.W.plus(currentLayer.dW);
 
-         // Update b
-         // Update W
-
-         try! this.printStep(upperLayer=currentLayer, lowerLayer=lowerLayer,direction="backProp",step=l);
-         const tg = currentLayer.g.dot(currentLayer.W.T);
-         writeln("tg.shape: ", tg.shape);
-         writeln("ll.g.shape ", lowerLayer.g.shape);
-         if l > this.layerDom.low+1 then lowerLayer.g = currentLayer.g.dot(currentLayer.W.T);
+         // For db I need column sums of the error
        }
      }
 
@@ -116,10 +109,13 @@
          aDom: domain(2),
          hDom: domain(2),
          W:[wDom] real,
+         dW:[wDom] real,
          b:[bDom] real,
+         db:[bDom] real,
          a:[aDom] real,
          h:[hDom] real,
-         g:[aDom] real;
+         g:[aDom] real,
+         error: [hDom] real;
 
 
      proc init(name: string, units: int){
@@ -147,6 +143,8 @@
      proc f(x: real) {
        if name == "relu" {
          return sigmoid(x);
+       } else if name == "logistic" {
+         return exp(x);
        } else {
         return x;
        }
@@ -184,11 +182,13 @@
       this.name = name;
     }
     proc J(yHat: [], y:[]) {
+      var r: [yHat.domain] real;
       if this.name == "DEFAULT" {
-        return yHat - y;
+        r = yHat - y;
       } else {
-        return yHat - y;
+        r = yHat - y;
       }
+      return r;
     }
   }
 
