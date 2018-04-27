@@ -488,7 +488,7 @@ class NumSuchTest : UnitTest {
   proc testNN() {
     var layerOneUnits = 5,
         inputDim = 8,
-        epochs=10,
+        epochs=10000,
         batchSize = 4,
         model = new Sequential(),
         lr: real = 0.01;
@@ -496,8 +496,8 @@ class NumSuchTest : UnitTest {
     var X = Matrix( [0,0] ,[0,1] ,[1,0] ,[1,1] ),
         y = Vector([0,1,1,0]);
     //model.add(new Dense(units=layerOneUnits, inputDim=inputDim, batchSize=batchSize));
-    model.add(new Dense(units=5));
-    model.add(new Dense(units=6));
+    model.add(new Dense(units=2));
+    //model.add(new Dense(units=6));
     model.add(new Activation(name="logistic"));
     model.fit(xTrain=X, yTrain=y, epochs=epochs, batchSize=batchSize, lr=lr);
     assertIntEquals("NN correct number of layers", expected=4, actual=model.layers.size);

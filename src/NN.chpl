@@ -5,6 +5,7 @@
  module NN {
    use LinearAlgebra,
        Time,
+       Norm,
        Random;
 
    class Sequential {
@@ -13,12 +14,15 @@
          batchSize: int,
          outDim: int,
          loss: Loss = new Loss(),
-         trained: bool = false;
+         momentum: real = 0.9,
+         lr: real = 0.01,
+         trained: bool = false,
+         reportInterval: int = 100;
 
      proc init() { }
 
      proc add(d:Dense) {
-       this.layers.push_back(new Layer(units=d.units, name="L" + (this.layerDom.high+1):string));
+       this.layers.push_back(new Layer(units=d.units, name="H" + (this.layerDom.high+1):string));
      }
      proc add(a: Activation) {
        ref currentLayer = this.layers[this.layerDom.last];
@@ -43,25 +47,33 @@
        for l in this.layerDom.low+1..this.layerDom.high {
          ref lowerLayer = this.layers[l-1];
          ref currentLayer = this.layers[l];
-         currentLayer.wDom = {1..lowerLayer.units, 1..currentLayer.units};
-         currentLayer.bDom = {1..currentLayer.units};  // will construct batchSize tall matrix later
          currentLayer.aDom = {1..this.batchSize, 1..currentLayer.units};
          currentLayer.hDom = {1..this.batchSize, 1..currentLayer.units};
-         fillRandom(currentLayer.W);
-         fillRandom(currentLayer.b);
-         currentLayer.W = 0.25 * currentLayer.W;
-         currentLayer.b = 0.25 * currentLayer.b;
+         if !this.trained {
+           currentLayer.wDom = {1..lowerLayer.units, 1..currentLayer.units};
+           currentLayer.bDom = {1..currentLayer.units};  // will construct batchSize tall matrix later
+           fillRandom(currentLayer.W);
+           fillRandom(currentLayer.b);
+           currentLayer.W = 0.25 * currentLayer.W;
+           currentLayer.b = 0.25 * currentLayer.b;
+         }
          writeln(currentLayer);
        }
      }
      proc fit(xTrain:[], yTrain:[], epochs: int, batchSize:int, lr: real=0.01) {
+       this.lr = lr;
        this.compile(X=xTrain, y=yTrain);
        for i in 1..epochs {
          const o = this.feedForward(X=xTrain, y=yTrain);
-         writeln("at the top!");
+         //writeln("at the top! Current output:\n ", o.h);
          this.layers[this.layerDom.high].error = this.loss.J(yHat=o.h, y=yTrain);
+         if i % this.reportInterval == 0 {
+           try! writeln("epoch: %5n norm error: %7.4dr".format(i, norm(this.layers[this.layerDom.high].error)));
+         }
          this.backProp(X=xTrain, y=yTrain);
        }
+       writeln("Done!  Current error:\n", this.layers[this.layerDom.high].h);
+       this.trained = true;
      }
      proc feedForward(X:[], y:[]) {
        for l in this.layerDom.low+1..this.layerDom.high {
@@ -82,12 +94,14 @@
        for l in this.layerDom.low+1..this.layerDom.high by -1 {
          ref currentLayer = this.layers[l];
          ref lowerLayer= this.layers[l-1];
-         //try! this.printStep(upperLayer=upperLayer, lowerLayer=currentLayer, direction="backProp",step=l);
-         try! this.printStep(upperLayer=currentLayer, lowerLayer=lowerLayer, direction="backProp",step=l);
+         //try! this.printStep(upperLayer=currentLayer, lowerLayer=lowerLayer, direction="backProp",step=l);
          currentLayer.dW = lowerLayer.h.T.dot(currentLayer.error);
-         currentLayer.W = currentLayer.W.plus(currentLayer.dW);
-
-         // For db I need column sums of the error
+         currentLayer.db = colSums(currentLayer.error);
+         currentLayer.W_vel = this.momentum * currentLayer.W_vel - this.lr * currentLayer.dW;
+         currentLayer.b_vel = this.momentum * currentLayer.b_vel - this.lr * currentLayer.db;
+         // Need to add momentum before I update W, b
+         currentLayer.W = currentLayer.W.plus(currentLayer.W_vel);
+         currentLayer.b = currentLayer.b.plus(currentLayer.b_vel);
        }
      }
 
@@ -110,8 +124,10 @@
          hDom: domain(2),
          W:[wDom] real,
          dW:[wDom] real,
+         W_vel:[wDom] real = 0.0,
          b:[bDom] real,
          db:[bDom] real,
+         b_vel: [bDom] real = 0.0,
          a:[aDom] real,
          h:[hDom] real,
          g:[aDom] real,
