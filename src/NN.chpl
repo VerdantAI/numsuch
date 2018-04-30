@@ -17,7 +17,7 @@
          momentum: real = 0.05,
          lr: real = 0.03,
          trained: bool = false,
-         reportInterval: int = 100;
+         reportInterval: int = 1000;
 
      proc init() { }
 
@@ -164,29 +164,79 @@
      }
 
      proc f(x: real) {
-       if name == "relu" {
+       if this.name == "relu" {
+         return ramp(x);
+       } else if this.name == "sigmoid" {
          return sigmoid(x);
-       } else if name == "logistic" {
-         return exp(x);
+       } else if this.name == "tanh" {
+        return tanh(x);
+       } else if this.name == "step" {
+         return heaviside(x);
        } else {
-        return x;
+         return 0;
        }
      }
 
      proc df(x:real) {
        if this.name == "relu" {
-         return derivativesSigmoid(x);
+         return dramp(x);
+       } else if this.name == "sigmoid" {
+         return dsigmoid(x);
+       } else if this.name == "tanh" {
+         return dtanh(x);
+       } else if this.name == "step" {
+         return dheaviside(x);  //maybe I'll make this dsigmoid(x) for fun?
        } else {
-         return 1;
+         return 0;
+       }
+     }
+
+     // Activation Functions
+     proc ramp(x: real) {
+       if x < 0 {
+         return 0;
+       } else {
+         return x;
        }
      }
 
      proc sigmoid(x: real) {
        return (1/(1 + exp(-x)));
      }
-     proc derivativesSigmoid(x) {
-       return x * (1-x);
+
+     proc tanh(x: real) {
+       return (exp(x) - exp(-x))/(exp(x) + exp(-x));
      }
+
+     proc heaviside(x) {
+       if x < 0 {
+         return 0;
+       } else {
+         return 1;
+       }
+     }
+
+     // Derivates of Activation Functions
+     proc dsigmoid(x) {
+       return sigmoid(x) * (1 - sigmoid(x));
+     }
+
+     proc dramp(x) {
+       return heaviside(x);
+     }
+
+     proc dtanh(x) {
+       return 1 - (tanh(x))**2;
+     }
+
+     proc dheaviside(x) {
+       if x == 0 {
+         return 10000000000000000;
+       } else {
+         return 0;
+       }
+     }
+
   }
 
   class Dense {

@@ -488,7 +488,7 @@ class NumSuchTest : UnitTest {
   proc testNN() {
     var layerOneUnits = 5,
         inputDim = 8,
-        epochs=10000,
+        epochs=100000,
         batchSize = 4,
         model = new Sequential(),
         lr: real = 0.01;
