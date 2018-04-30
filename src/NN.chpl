@@ -145,7 +145,7 @@
      }
 
      proc f(x: real) {
-       if name == "relu" {
+       if name == "sigmoid" {
          return sigmoid(x);
        } else {
         return x;
@@ -153,7 +153,7 @@
      }
 
      proc df(x:real) {
-       if this.name == "relu" {
+       if this.name == "sigmoid" {
          return derivativesSigmoid(x);
        } else {
          return 1;

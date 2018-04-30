@@ -578,15 +578,16 @@ class NumSuchTest : UnitTest {
     //model.add(new Dense(units=layerOneUnits, inputDim=inputDim, batchSize=batchSize));
     model.add(new Dense(units=5));
     model.add(new Dense(units=6));
-    model.add(new Activation(name="relu"));
+    model.add(new Activation(name="sigmoid"));
     model.fit(xTrain=X, yTrain=y, epochs=epochs, batchSize=batchSize, lr=lr);
-    assertIntEquals("NN correct number of layers", expected=4, actual=model.layers.size);
+    writeln("Number of Layers (All): ",model.layers.size);
+  //  assertIntEquals("NN correct number of layers", expected=3, actual=model.layers.size);
   }
 
   proc run() {
     super.run();
-//    testNN();
-    testMatrixMakers();
+    testNN();
+//    testMatrixMakers();
 //    testMatrixOperators();
 //    tropicalTesting();
 //    testIndexSort();
@@ -604,7 +605,7 @@ class NumSuchTest : UnitTest {
 //    testLetters();
 //    testChoice();
 //    testRandomGenerators();
-    testSparseCopies();
+//    testSparseCopies();
     return 0;
   }
 }
