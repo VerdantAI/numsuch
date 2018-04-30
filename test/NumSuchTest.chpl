@@ -3,6 +3,7 @@ use NumSuch,
     LinearAlgebra,
     Viterbi,
     Core,
+    NN,
     Charcoal;
 
 
@@ -551,8 +552,41 @@ class NumSuchTest : UnitTest {
     writeln("");
   }
 
+  proc testMatrixMakers() {
+    var n: int = 5,
+        d: domain(2),
+        X: [d] real;
+
+    d =  {1..n, 1..n};
+    const o = ones(X.domain);
+    assertRealEquals(" Norm of o is 5", expected=5.0, actual=norm(o));
+
+    const p = ones(X.domain, v=7.0);
+    assertRealEquals(" Norm of p is 7", expected=35.0, actual=norm(p));
+  }
+
+  proc testNN() {
+    var layerOneUnits = 5,
+        inputDim = 8,
+        epochs=10,
+        batchSize = 4,
+        model = new Sequential(),
+        lr: real = 0.01;
+
+    var X = Matrix( [0,0] ,[0,1] ,[1,0] ,[1,1] ),
+        y = Vector([0,1,1,0]);
+    //model.add(new Dense(units=layerOneUnits, inputDim=inputDim, batchSize=batchSize));
+    model.add(new Dense(units=5));
+    model.add(new Dense(units=6));
+    model.add(new Activation(name="relu"));
+    model.fit(xTrain=X, yTrain=y, epochs=epochs, batchSize=batchSize, lr=lr);
+    assertIntEquals("NN correct number of layers", expected=4, actual=model.layers.size);
+  }
+
   proc run() {
     super.run();
+//    testNN();
+    testMatrixMakers();
 //    testMatrixOperators();
 //    tropicalTesting();
 //    testIndexSort();

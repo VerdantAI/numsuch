@@ -851,6 +851,11 @@ proc identityMat(n: int) {
   return I;
 }
 
+proc ones(d: domain(2), v: real=1.0) {
+  var m: [d] real = v;
+  return m;
+}
+
 
 /*
  Used to indidcate dimension mismatches on NamedMatrices and vectors
