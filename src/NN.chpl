@@ -145,24 +145,45 @@
      }
 
      proc f(x: real) {
-       if name == "sigmoid" {
+       if this.name == "sigmoid" {
          return sigmoid(x);
-       } else {
-        return x;
+       } else if this.name == "relu" {
+        return ramp(x);
        }
      }
 
      proc df(x:real) {
        if this.name == "sigmoid" {
          return derivativesSigmoid(x);
-       } else {
-         return 1;
+       } else if this.name == "relu" {
+         return derivativesRamp(x);
        }
      }
 
      proc sigmoid(x: real) {
        return (1/(1 + exp(-x)));
      }
+
+     proc ramp(x: real) {
+       if x < 0 {
+         return 0;
+       } else {
+         return x;
+       }
+     }
+
+     proc heaviside(x: real) {
+       if x < 0 {
+         return 0;
+       } else {
+         return 1;
+       }
+     }
+
+     proc derivativesRamp(x) {
+       return heaviside(x);
+     }
+
      proc derivativesSigmoid(x) {
        return x * (1-x);
      }
