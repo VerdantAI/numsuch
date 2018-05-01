@@ -497,8 +497,8 @@ class NumSuchTest : UnitTest {
         y = Vector([0,1,1,0]);
     //model.add(new Dense(units=layerOneUnits, inputDim=inputDim, batchSize=batchSize));
     model.add(new Dense(units=2));
-    //model.add(new Dense(units=6));
-    model.add(new Activation(name="logistic"));
+  //  model.add(new Dense(units=2));
+  //  model.add(new Activation(name="sigmoid"));
     model.fit(xTrain=X, yTrain=y, epochs=epochs, batchSize=batchSize, lr=lr);
     assertIntEquals("NN correct number of layers", expected=4, actual=model.layers.size);
   }

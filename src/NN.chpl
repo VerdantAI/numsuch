@@ -144,7 +144,7 @@
      proc init(name: string, units: int){
        this.name=name;
        this.units = units;
-       this.activation = new Activation(name="DEFAULT");
+       this.activation = new Activation(name="sigmoid");
      }
 
      proc readWriteThis(f) throws {
