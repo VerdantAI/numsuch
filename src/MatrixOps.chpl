@@ -22,7 +22,6 @@ class NamedMatrix {
 
    proc init(X) {
      this.D = {X.domain.dim(1), X.domain.dim(2)};
-     this.SD = X.domain;
      this.complete();
      this.loadX(X);
    }
@@ -387,7 +386,6 @@ proc NamedMatrix.ndot(N: NamedMatrix) {
 }
 
 
-
 /*
  Routine to take two NamedMatrices and multiply them along just the row/column
  intersections.  If X has cols [red yellow blue green] and Y has rows [red blue green]
@@ -641,19 +639,6 @@ proc maxiLoc_(axis:int, id, X:[]) {
 }
 
 
-proc matPlus(A:[],B:[]) {
-  var dom = {A.domain.dim(1),B.domain.dim(2)};
-  var sps = CSRDomain(dom);
-  sps += A.domain;
-  sps += B.domain;
-  var S: [sps] real;
-  for (i,j) in sps {
-    S(i,j) = A(i,j) + B(i,j);
-  }
-  return S;
-}
-
-
 proc tropic(A:[],B:[]) {
   var dom: domain(2) = {A.domain.dim(1),B.domain.dim(2)};
   var sps = CSRDomain(dom);
@@ -753,41 +738,24 @@ proc tropicLimit(A:[] real,B:[] real): A.type {
  }
 }
 
-proc extractMatrix_(N: NamedMatrix) {
-  var t1: Timer;
-  t1.start();
-  var dom = N.D;
-  t1.stop();
-  writeln("Time to Clone Domain: ",t1.elapsed());
-  var t2: Timer;
-  t2.start();
-  var sps = CSRDomain(dom);
-  sps += N.SD;
-  t2.stop();
-  writeln("Time to Clone Sparse Domain: ",t2.elapsed());
-  var t3: Timer;
-  t3.start();
-  var R: [sps] real;
-  forall (i,j) in sps {
-    R(i,j) = N.X(i,j);
-  }
-  t3.stop();
-  writeln("Time to Clone Values: ",t3.elapsed());
-  return R;
-}
+
 
 /*
  Build a random sparse matrix.  Good for testing;
  */
 proc generateRandomSparseMatrix(size: int, sparsity: real) {
-  var D: domain(2) = {1..size, 1..size};
-  var SD = CSRDomain(D);
+  const D: domain(2) = {1..size, 1..size};
+  var SD: sparse subdomain(D) dmapped CS();
   var R: [SD] real;
+  var da: domain(1) = {1..size};
+  var array: [da] int = 1..size;
   var dom: domain(1) = {1..0};
   var indices: [dom] 2*int;
   var N = floor(size*(1-sparsity)): int;
-  for (i,j) in {1..size,1..size} {
-    indices.push_back(i,j);
+  forall i in array {
+    forall j in array {
+      indices.push_back((i,j));
+    }
   }
   shuffle(indices);
   var sparseids = indices[1..N];
@@ -855,6 +823,29 @@ proc ones(d: domain(2), v: real=1.0) {
   var m: [d] real = v;
   return m;
 }
+
+/*
+Only works on dense matrices at the moment
+*/
+proc rowSums(X: []) {
+  var v:[X.domain.dims()(1)] real;
+  for i in v.domain {
+    v[i] = + reduce X[i,..];
+  }
+  return v;
+}
+
+/*
+Only works on dense matrices at the moment
+*/
+proc colSums(X: []) {
+  var v:[X.domain.dims()(2)] real;
+  for i in v.domain {
+    v[i] = + reduce X[..,i];
+  }
+  return v;
+}
+
 
 
 /*
