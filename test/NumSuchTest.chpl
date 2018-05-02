@@ -161,6 +161,12 @@ class NumSuchTest : UnitTest {
     var sg = nm2.seq2grid(7);
     assertIntEquals("seq2grid works on the matrix", expected=2, actual=sg[1]);
     assertIntEquals("seq2grid works on the matrix", expected=3, actual=sg[2]);
+
+    var dX: [DY] real;
+    fillRandom(dX);
+    var dnm = new NamedMatrix(X=dX);
+    assertIntEquals("Dense NamedMatrix is all non-zeroes", expected=12, actual=dnm.nnz());
+
     writeln("...done");
   }
 
@@ -547,7 +553,7 @@ class NumSuchTest : UnitTest {
 //    testMatrixOperators();
 //    tropicalTesting();
 //    testIndexSort();
-//    testNamedMatrix();
+    testNamedMatrix();
 //    testSetRowNames();
 //    testSetColNames();
 //    testNamedMatrixInitWithNames();
