@@ -5,6 +5,7 @@
  module NN {
    use LinearAlgebra,
        Time,
+       Norm,
        Random;
 
    class Sequential {
@@ -13,12 +14,15 @@
          batchSize: int,
          outDim: int,
          loss: Loss = new Loss(),
-         trained: bool = false;
+         momentum: real = 0.05,
+         lr: real = 0.03,
+         trained: bool = false,
+         reportInterval: int = 1000;
 
      proc init() { }
 
      proc add(d:Dense) {
-       this.layers.push_back(new Layer(units=d.units, name="L" + (this.layerDom.high+1):string));
+       this.layers.push_back(new Layer(units=d.units, name="H" + (this.layerDom.high+1):string));
      }
      proc add(a: Activation) {
        ref currentLayer = this.layers[this.layerDom.last];
@@ -43,26 +47,33 @@
        for l in this.layerDom.low+1..this.layerDom.high {
          ref lowerLayer = this.layers[l-1];
          ref currentLayer = this.layers[l];
-         currentLayer.wDom = {1..lowerLayer.units, 1..currentLayer.units};
-         currentLayer.bDom = {1..currentLayer.units};  // will construct batchSize tall matrix later
          currentLayer.aDom = {1..this.batchSize, 1..currentLayer.units};
          currentLayer.hDom = {1..this.batchSize, 1..currentLayer.units};
-         fillRandom(currentLayer.W);
-         fillRandom(currentLayer.b);
-         currentLayer.W = 0.25 * currentLayer.W;
-         currentLayer.b = 0.25 * currentLayer.b;
+         if !this.trained {
+           currentLayer.wDom = {1..lowerLayer.units, 1..currentLayer.units};
+           currentLayer.bDom = {1..currentLayer.units};  // will construct batchSize tall matrix later
+           fillRandom(currentLayer.W);
+           fillRandom(currentLayer.b);
+           currentLayer.W = 0.25 * currentLayer.W;
+           currentLayer.b = 0.25 * currentLayer.b;
+         }
          writeln(currentLayer);
        }
      }
      proc fit(xTrain:[], yTrain:[], epochs: int, batchSize:int, lr: real=0.01) {
+       this.lr = lr;
        this.compile(X=xTrain, y=yTrain);
        for i in 1..epochs {
          const o = this.feedForward(X=xTrain, y=yTrain);
-         writeln("at the top!");
-         var g = this.loss.J(yHat=o.h, y=yTrain);
-         writeln(g);
-         this.backProp(X=xTrain, y=yTrain, g=g);
+         //writeln("at the top! Current output:\n ", o.h);
+         this.layers[this.layerDom.high].error = this.loss.J(yHat=o.h, y=yTrain);
+         if i % this.reportInterval == 0 {
+           try! writeln("epoch: %5n norm error: %7.4dr".format(i, norm(this.layers[this.layerDom.high].error.T)));
+         }
+         this.backProp(X=xTrain, y=yTrain);
        }
+       writeln("Done!  Current error:\n", this.layers[this.layerDom.high].h.T);
+       this.trained = true;
      }
      proc feedForward(X:[], y:[]) {
        for l in this.layerDom.low+1..this.layerDom.high {
@@ -78,23 +89,26 @@
        }
        return this.layers[this.layerDom.high];
      }
-     proc backProp(X:[], y:[], g:[]) {
+     /*
+     Notice that under this schedule, the errors reach "up" and the gradients reach "down".
+     The gradients depend on the errors.
+      */
+     proc backProp(X:[], y:[]) {
        var t:[1..this.batchSize, 1..this.outDim] real;
-       t[..,1] = g;
-       this.layers[this.layerDom.high].g = t;
-       for l in this.layerDom.low+1..this.layerDom.high by -1 {
+       for l in this.layerDom.low..this.layerDom.high-1 by -1 {
+         ref upperLayer = this.layers[l+1];
          ref currentLayer = this.layers[l];
-         ref lowerLayer= this.layers[l-1];
-         currentLayer.g = currentLayer.g * currentLayer.activation.df(currentLayer.a);
+         //ref lowerLayer= this.layers[l-1];
+         //try! this.printStep(upperLayer=currentLayer, lowerLayer=lowerLayer, direction="backProp",step=l);
+         //try! this.printStep(upperLayer=upperLayer, lowerLayer=currentLayer, direction="backProp",step=l);
+         currentLayer.error = currentLayer.h * (ones(currentLayer.h.domain) - currentLayer.h) * (upperLayer.error.dot(upperLayer.W.T));
+         upperLayer.dW = currentLayer.h.T.dot(upperLayer.error);
+         upperLayer.db = colSums(upperLayer.error);
+         upperLayer.W_vel = this.momentum * upperLayer.W_vel - this.lr * upperLayer.dW;
+         upperLayer.W = upperLayer.W.plus(upperLayer.W_vel);
+         upperLayer.b_vel = this.momentum * upperLayer.b_vel - this.lr * upperLayer.db;
+         upperLayer.b = upperLayer.b.plus(upperLayer.b_vel);
 
-         // Update b
-         // Update W
-
-         try! this.printStep(upperLayer=currentLayer, lowerLayer=lowerLayer,direction="backProp",step=l);
-         const tg = currentLayer.g.dot(currentLayer.W.T);
-         writeln("tg.shape: ", tg.shape);
-         writeln("ll.g.shape ", lowerLayer.g.shape);
-         if l > this.layerDom.low+1 then lowerLayer.g = currentLayer.g.dot(currentLayer.W.T);
        }
      }
 
@@ -116,16 +130,21 @@
          aDom: domain(2),
          hDom: domain(2),
          W:[wDom] real,
+         dW:[wDom] real,
+         W_vel:[wDom] real = 0.0,
          b:[bDom] real,
+         db:[bDom] real,
+         b_vel: [bDom] real = 0.0,
          a:[aDom] real,
          h:[hDom] real,
-         g:[aDom] real;
+         g:[aDom] real,
+         error: [hDom] real;
 
 
      proc init(name: string, units: int){
        this.name=name;
        this.units = units;
-       this.activation = new Activation(name="DEFAULT");
+       this.activation = new Activation(name="sigmoid");
      }
 
      proc readWriteThis(f) throws {
@@ -145,25 +164,34 @@
      }
 
      proc f(x: real) {
-       if this.name == "sigmoid" {
+       if this.name == "relu" {
+         return ramp(x);
+       } else if this.name == "sigmoid" {
          return sigmoid(x);
-       } else if this.name == "relu" {
-        return ramp(x);
+       } else if this.name == "tanh" {
+        return tanh(x);
+       } else if this.name == "step" {
+         return heaviside(x);
+       } else {
+         return 0;
        }
      }
 
      proc df(x:real) {
-       if this.name == "sigmoid" {
-         return derivativesSigmoid(x);
-       } else if this.name == "relu" {
-         return derivativesRamp(x);
+       if this.name == "relu" {
+         return dramp(x);
+       } else if this.name == "sigmoid" {
+         return dsigmoid(x);
+       } else if this.name == "tanh" {
+         return dtanh(x);
+       } else if this.name == "step" {
+         return dheaviside(x);  //maybe I'll make this dsigmoid(x) for fun?
+       } else {
+         return 0;
        }
      }
 
-     proc sigmoid(x: real) {
-       return (1/(1 + exp(-x)));
-     }
-
+     // Activation Functions
      proc ramp(x: real) {
        if x < 0 {
          return 0;
@@ -172,7 +200,15 @@
        }
      }
 
-     proc heaviside(x: real) {
+     proc sigmoid(x: real) {
+       return (1/(1 + exp(-x)));
+     }
+
+     proc tanh(x: real) {
+       return (exp(x) - exp(-x))/(exp(x) + exp(-x));
+     }
+
+     proc heaviside(x) {
        if x < 0 {
          return 0;
        } else {
@@ -180,13 +216,27 @@
        }
      }
 
-     proc derivativesRamp(x) {
+     // Derivates of Activation Functions
+     proc dsigmoid(x) {
+       return sigmoid(x) * (1 - sigmoid(x));
+     }
+
+     proc dramp(x) {
        return heaviside(x);
      }
 
-     proc derivativesSigmoid(x) {
-       return x * (1-x);
+     proc dtanh(x) {
+       return 1 - (tanh(x))**2;
      }
+
+     proc dheaviside(x) {
+       if x == 0 {
+         return 10000000000000000;
+       } else {
+         return 0;
+       }
+     }
+
   }
 
   class Dense {
@@ -205,11 +255,13 @@
       this.name = name;
     }
     proc J(yHat: [], y:[]) {
+      var r: [yHat.domain] real;
       if this.name == "DEFAULT" {
-        return yHat - y;
+        r = yHat - y;
       } else {
-        return yHat - y;
+        r = yHat - y;
       }
+      return r;
     }
   }
 

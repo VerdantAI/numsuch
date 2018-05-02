@@ -22,6 +22,7 @@ class NamedMatrix {
 
    proc init(X) {
      this.D = {X.domain.dim(1), X.domain.dim(2)};
+  //   this.SD = X.domain;
      this.complete();
      this.loadX(X);
    }
