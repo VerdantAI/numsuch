@@ -231,29 +231,27 @@ proc NamedMatrix.loadX(X:[], shape: 2*int =(-1,-1)) {
 /*
 Sets the row names for the matrix X
  */
-proc NamedMatrix.setRowNames(rn:[]): string throws {
+proc NamedMatrix.setRowNames(rn:[]) throws {
   //if (X.domain.dim(1).size > 0) && (rn.size != X.domain.dim(1).size) {
   //if (1 > 0) && (rn.size != X.domain.dim(1).size) {
   if rn.size != X.domain.dim(1).size {
     const err = new DimensionMatchError(expected = X.domain.dim(1).size, actual=rn.size);
     throw err;
-    return "";
   } else {
     for i in 1..rn.size {
       this.rows.add(rn[i]);
     }
-    return this.rows;
   }
+  return this.rows;
 }
 
 /*
 Sets the column names for the matrix X
 */
-proc NamedMatrix.setColNames(cn:[]): string throws {
+proc NamedMatrix.setColNames(cn:[]) throws {
   if cn.size != X.domain.dim(2).size {
     const err = new DimensionMatchError(expected = X.domain.dim(2).size, actual=cn.size);
     throw err;
-    return "";
   } else {
     for i in 1..cn.size {
       this.cols.add(cn[i]);

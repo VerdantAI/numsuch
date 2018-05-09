@@ -47,7 +47,16 @@ class NumSuchTest : UnitTest {
 
   proc testMatrixOperators() {
     var vn2: [1..0] string;
-    for n in vn do vn2.push_back(n);
+    vn2.push_back("star lord");
+    vn2.push_back("gamora");
+    vn2.push_back("groot");
+    vn2.push_back("drax");
+    vn2.push_back("rocket");
+    vn2.push_back("mantis");
+    vn2.push_back("yondu");
+    vn2.push_back("nebula");
+
+    //for n in vn do vn2.push_back(n);
     //vn2.push_back("nebula");
     var nm = new NamedMatrix(X=X, names=vn2);
     nm.set(i=2, j=7, w=13.1);
@@ -194,6 +203,16 @@ class NumSuchTest : UnitTest {
   }
 
   proc testSetColNames() {
+    var vn: [1..0] string;
+    vn.push_back("star lord");
+    vn.push_back("gamora");
+    vn.push_back("groot");
+    vn.push_back("drax");
+    vn.push_back("rocket");
+    vn.push_back("mantis");
+    vn.push_back("yondu");
+    vn.push_back("nebula");
+
     var nm = new NamedMatrix(X=X);
     try {
       nm.setColNames(vn);
@@ -227,23 +246,38 @@ class NumSuchTest : UnitTest {
     }
   }
 
-  proc testArgMax() {
-    var x: [1..3] real = [1.1, 3.3, 2.2];
-    var y: [1..3,1..3] real = ((1,0,0), (0,0,2), (0,3,0));
-    var xSD: sparse subdomain(x.domain);
-    var z: [xSD] real;
+  proc testArgMaxMin() {
+    var x: [1..3] real = [1.1, 3.3, 2.2],
+        y: [1..3,1..3] real = ((1,0.1,0.5), (0.3,0.2,2), (0.7,3,0)),
+        xSD: sparse subdomain(x.domain),
+        z: [xSD] real,
+        vn: [1..0] string;
     xSD += 2; z[2] = 1.3;
     xSD += 3; z[3] = 0.8;
+
+    vn.push_back("star lord");
+    vn.push_back("gamora");
+    vn.push_back("groot");
+    vn.push_back("drax");
+    vn.push_back("rocket");
+    vn.push_back("mantis");
+    vn.push_back("yondu");
+    vn.push_back("nebula");
 
     assertBoolEquals("z is sparse", expected=true, actual=isSparseArr(z));
     assertIntEquals("argmax1d(z)", expected=2, actual=argmax1d(z));
 
     assertIntEquals("argmax(x)", expected=2, actual=argmax(x));
     assertIntArrayEquals("argmax(y, ?)", expected=[3,2], actual=argmax(y));
-    assertIntArrayEquals("argmax(y, ?)", expected=[3,2], actual=argmax(y));
     assertIntArrayEquals("argmax(y,0)", expected=[3,2], actual=argmax(y, axis=0));
     assertIntArrayEquals("argmax(y,1)", expected=[1,3,2], actual=argmax(y, axis=1));
     assertIntArrayEquals("argmax(y,2)", expected=[1,3,2], actual=argmax(y, axis=2));
+
+    assertIntEquals("argmin(x)", expected=1, actual=argmin(x));
+    assertIntArrayEquals("argmin(y, ?)", expected=[3,3], actual=argmin(y));
+    assertIntArrayEquals("argmin(y,0)", expected=[3,3], actual=argmin(y, axis=0));
+    assertIntArrayEquals("argmin(y,1)", expected=[2,2,3], actual=argmin(y, axis=1));
+    assertIntArrayEquals("argmin(y,2)", expected=[2,1,3], actual=argmin(y, axis=2));
 
     var SD2: sparse subdomain(D),
         X2:[SD2] real;
@@ -548,25 +582,25 @@ class NumSuchTest : UnitTest {
     super.run();
     testNamedDenseMatrix();
 //    testNN();
-//    testRowColSums();
-//    testMatrixMakers();
-//    testMatrixOperators();
+    testRowColSums();
+    testMatrixMakers();
+    testMatrixOperators();
 //    tropicalTesting();
-//    testIndexSort();
+    testIndexSort();
     testNamedMatrix();
-//    testSetRowNames();
-//    testSetColNames();
+    testSetRowNames();
+    testSetColNames();
 //    testNamedMatrixInitWithNames();
-//    testSetByName();
-//    testArgMax();
+    testSetByName();
+      testArgMaxMin();
 //    testCosineDistance();
 //    testLabelMatrix();
-//    testECDF();
-//    testBiMap();
-//    testViterbi();
-//    testLetters();
-//    testChoice();
-//    testRandomGenerators();
+    testECDF();
+    testBiMap();
+    testViterbi();
+    testLetters();
+    testChoice();
+    testRandomGenerators();
     return 0;
   }
 }
