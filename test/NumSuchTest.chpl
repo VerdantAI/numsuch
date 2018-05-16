@@ -579,6 +579,19 @@ class NumSuchTest : UnitTest {
     assertIntEquals(msg="Concatenated real array is 6 wide", expected=6, actual=z.size);
     assertArrayEquals(msg="Check concat gives correct array", expected=zz, actual=z);
 
+    // Now integer Arrays
+    var r: [1..3] int = [0, 1, 0],
+        s: [8..10] int = [1, 1, 0];
+
+    var u = concat(r, s);
+    assertIntArrayEquals(msg="Concat gets integer arrays"
+      ,expected = [0,1,0,1,1,0], actual=concat(r,s));
+
+    var a = [3,2,1],
+        b = [4,5,6];
+    assertIntArrayEquals(msg="Concat gets integer arrays (no domain)"
+       ,expected=[3,2,1,4,5,6], actual=concat(a,b));
+
     this.tearDown(t);
   }
 
