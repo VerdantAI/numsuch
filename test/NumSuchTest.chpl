@@ -3,7 +3,6 @@ use NumSuch,
     LinearAlgebra,
     Viterbi,
     Core,
-    NN,
     Charcoal;
 
 
@@ -37,8 +36,15 @@ class NumSuchTest : UnitTest {
     SD += (6,7); X[6,7] = 1;
     SD += (6,8); X[6,8] = 1;
     SD += (7,8); X[7,8] = 1;
+
+    var t: Timer;
+    t.start();
+    return t;
   }
 
+  proc tearDown(ref t: Timer) {
+    return super.tearDown(t);
+  }
 
   proc init(verbose:bool) {
     super.init(verbose=verbose);
@@ -46,6 +52,7 @@ class NumSuchTest : UnitTest {
   }
 
   proc testMatrixOperators() {
+    var t = this.setUp("Matrix Ops");
     var vn2: [1..0] string;
     vn2.push_back("star lord");
     vn2.push_back("gamora");
@@ -70,10 +77,12 @@ class NumSuchTest : UnitTest {
     nm.remove("star lord", "yondu");
     assertBoolEquals("Can remove an entry from the matrix by name", expected=false, actual=nm.SD.member(2,7));
 
+    this.tearDown(t);
   }
 
 
   proc tropicalTesting() {
+    var t = this.setUp("Tropicals");
     var nv: int = 8,
         D: domain(2) = {1..nv, 1..nv},
         SD = CSRDomain(D),
@@ -115,6 +124,7 @@ class NumSuchTest : UnitTest {
   //  writeln(sparseEq(X6,X5));
 
     writeln(tropicLimit(X,X));
+    this.tearDown(t);
 /*
 
 
@@ -134,6 +144,7 @@ class NumSuchTest : UnitTest {
   }
 
   proc testIndexSort() {
+    var t = this.setUp("IndexSort");
     var p: bool = true;
     const Arr = [7, 10, 23, 1];
     const Idx = [2.2, 3.3, 1.1, 4.4];
@@ -145,10 +156,11 @@ class NumSuchTest : UnitTest {
     var b: [1..4] real = for x in indexSort(arr=Arr, idx=Idx, reverse=true) do x;
     var e: [1..4] real = [1, 10, 7, 23];
     assertArrayEquals(msg="IndexSort reversed", expected=e, actual=b);
+    this.tearDown(t);
   }
 
   proc testNamedMatrix() {
-    write("testNamedMatrix() ...");
+    var t = this.setUp("Named Matrix");
     var nm = new NamedMatrix(X=X);
     nm.set(1,3, 17.0);
 
@@ -176,10 +188,11 @@ class NumSuchTest : UnitTest {
     var dnm = new NamedMatrix(X=dX);
     assertIntEquals("Dense NamedMatrix is all non-zeroes", expected=12, actual=dnm.nnz());
 
-    writeln("...done");
+    this.tearDown(t);
   }
 
   proc testSetRowNames() {
+    var t = this.setUp("SetRowNames");
     var nm = new NamedMatrix(X=X);
     var vn2: [1..0] string;
     for n in vn do vn2.push_back(n);
@@ -200,6 +213,8 @@ class NumSuchTest : UnitTest {
     } catch {
       assertIntEquals(msg="Set Row Names right size failed",  expected=8, actual=nm.nrows());
     }
+
+    this.tearDown(t);
   }
 
   proc testSetColNames() {
@@ -235,6 +250,7 @@ class NumSuchTest : UnitTest {
   }
 
   proc testSetByName() {
+    var t = this.setUp("SetByName");
     try {
       var nm = new NamedMatrix(rownames = vn, colnames=vn);
       nm.set("star lord", "yondu", 17.0);
@@ -244,9 +260,11 @@ class NumSuchTest : UnitTest {
     } catch e: Error {
       writeln(e);
     }
+    this.tearDown(t);
   }
 
   proc testArgMaxMin() {
+    var t = this.setUp("ArgMaxMin");
     var x: [1..3] real = [1.1, 3.3, 2.2],
         y: [1..3,1..3] real = ((1,0.1,0.5), (0.3,0.2,2), (0.7,3,0)),
         xSD: sparse subdomain(x.domain),
@@ -317,10 +335,11 @@ class NumSuchTest : UnitTest {
     assertIntEquals("m colArgMin(6)", expected=6, actual=m.colArgMin(6)[2]);
     assertIntEquals("m colArgMin('mantis')", expected=6, actual=m.colArgMin('mantis')[2]);
 
-
+    this.tearDown(t);
   }
 
   proc testCosineDistance() {
+    var t = this.setUp("Cosine Distance");
     var X = Matrix(
       [3.0, 0.2, 0.0, 0.7, 0.1],
       [0.2, 2.0, 0.3, 0.0, 0.0],
@@ -361,12 +380,14 @@ class NumSuchTest : UnitTest {
     const b = V2-cosimXYtarget;
     const bb = norm(b);
     assertRealApproximates(msg="Cosine Distance(X,Y) norm", expected=1.53583e-06, actual=bb);
+    this.tearDown(t);
   }
 
   /*
    Does not assert anything, LabeledMatrix may be deprecated
    */
   proc testLabelMatrix() {
+    var t = this.setUp("Label Matrix");
     var Y = Matrix(
       [3.0, 0.2, 0.0, 0.7, 0.1],
       [0.2, 2.0, 0.3, 0.0, 0.0],
@@ -378,9 +399,11 @@ class NumSuchTest : UnitTest {
     var L = new LabelMatrix();
     L.fromMatrix(Y);
     assertRealEquals(msg="Label Matrix entry (1,4)", expected=0.7, actual=L.data(1,4));
+    this.tearDown(t);
   }
 
   proc testECDF() {
+    var t = this.setUp("ECDF");
     var x = [3,3,1,4];
     var ecdf = new ECDF(x);
     assertIntEquals("ECDF: Number of observations", expected=4, actual=ecdf.nobs);
@@ -388,9 +411,11 @@ class NumSuchTest : UnitTest {
     var y = [3.0, 55.0, 0.5, 1.5];
     var d = ecdf(y);
     assertArrayEquals("ECDF: Output", expected=[0.75,1.0,0.0,0.25], actual=d);
+    this.tearDown(t);
   }
 
   proc testBiMap() {
+    var t = this.setUp("BiMap");
     var bm = new BiMap();
     bm.add("bob");
     bm.add("chuck");
@@ -415,9 +440,11 @@ class NumSuchTest : UnitTest {
     var cbm = abm.uni(bbm);
     assertIntEquals("BIMAP union size", expected=4, actual=cbm.keys.size);
     assertIntEquals("BIMAP union max", expected=4, actual=cbm.max());
+    this.tearDown(t);
   }
 
   proc testViterbi() {
+    var t = this.setUp("Viterbi");
     var obs = ["normal", "cold", "dizzy"];
     var states = ["health", "fever"];
     var initP = [0.6, 0.4];
@@ -444,9 +471,11 @@ class NumSuchTest : UnitTest {
     );
     var v = Viterbi(obs, states, initP, transitionProbabilities=A, emissionProbabilities=B);
     assertStringArrayEquals("Viterbi states output", expected=["health","health","fever"], actual=v);
+    this.tearDown(t);
   }
 
   proc testLetters() {
+    var t= this.setUp("Letters");
     var ltrs = letters(28);
     assertStringEquals("First in letters is A", expected="A", actual=ltrs[1]);
     assertStringEquals("28th in letters is BB", expected="BB", actual=ltrs[28]);
@@ -457,9 +486,11 @@ class NumSuchTest : UnitTest {
     var gn2 = gridNames(i=3, j=5);
     assertRealEquals("gridNames(3,5) has 15 entries", expected=15, actual=gn2.size);
     assertStringEquals("Last grid name is 'C5'", expected="C5", actual=gn2[15]);
+    this.tearDown(t);
   }
 
   proc testChoice() {
+    var t = this.setUp("Choice");
     var x = [1,2,3,4,5,6,7,8,9,10];
     var y = choice(a=x,size=2);
     assertIntEquals("Can pick two choices, no replacement, no p", expected=2, actual=y.size);
@@ -474,23 +505,29 @@ class NumSuchTest : UnitTest {
     var n = chooseMultinomial(a=s, replace=true, size=3, p=p);
     assertIntEquals("Multinomial w/ replace returns correct number of results", expected=3, actual=n.size);
     var o = choice(a=s, replace=false, size=3, p=p);
+
+    this.tearDown(t);
   }
 
   proc testRandomGenerators() {
+    var t= this.setUp("Random Generators");
     var n: int = 100000;
     var x: [1..n] int;
     //for i in 1..n { x[i] = randInt(1,6); }
     for i in 1..n do x[i] = randInt(1,6);
     var mu = + reduce x;
-    assertRealApproximates("Average of 100,000 randInt(1,6) is about 3.5", expected=3.5, actual=mu:real/n:real);
+    assertRealApproximates("Average of 100,000 randInt(1,6) is about 3.5"
+      , expected=3.5, actual=mu:real/n:real, error=0.01);
 
     var threeD6 = for i in 1..n do nds(n=3, s=6);
-    assertRealApproximates("Average of 100,000 three d6 is about 10.5", expected=10.5, actual=(+reduce threeD6):real/n:real);
+    assertRealApproximates("Average of 100,000 three d6 is about 10.5"
+      , expected=10.5, actual=(+reduce threeD6):real/n:real, error=0.012);
 
     // Check random reals
     var rrls: [1..n] real;
     for i in 1..n do rrls[i] = rand(a=2,b=7);
-    assertRealApproximates("Average of 100,000 random(2,7) is about 4.5", expected=4.5, actual=(+reduce rrls):real/n:real);
+    assertRealApproximates("Average of 100,000 random(2,7) is about 4.5"
+      , expected=4.5, actual=(+reduce rrls):real/n:real, error=0.01);
 
     var sq = seq(3,7);
     assertIntEquals("First element of sequence is 3", expected=3, actual=sq[1]);
@@ -500,6 +537,7 @@ class NumSuchTest : UnitTest {
     assertIntEquals("First element of sequence(stride=5) is 3", expected=3, actual=sq2[1]);
     assertIntEquals("Last element of sequence(stride=5) is 7", expected=23, actual=sq2[5]);
 
+    this.tearDown(t);
   }
 
   proc testPersistance() {
@@ -507,6 +545,7 @@ class NumSuchTest : UnitTest {
   }
 
   proc testMatrixMakers() {
+    var t = this.setUp("Matrix makers");
     var n: int = 5,
         d: domain(2),
         X: [d] real;
@@ -517,38 +556,39 @@ class NumSuchTest : UnitTest {
 
     const p = ones(X.domain, v=7.0);
     assertRealEquals(" Norm of p is 7", expected=35.0, actual=norm(p));
+
+    this.tearDown(t);
   }
 
   proc testRowColSums() {
+    var t = this.setUp("RowColSums");
     var X = Matrix( [5,2] ,[6,1] ,[-1,6] ,[1,1] );
     assertArrayEquals("rowSums of X", expected=[7.0, 7.0, 5.0, 2.0], actual=rowSums(X));
     assertArrayEquals("colSums of X", expected=[11.0, 10.0], actual=colSums(X));
+
+    this.tearDown(t);
   }
 
-  proc testNN() {
-    var layerOneUnits = 5,
-        inputDim = 8,
-        epochs=100000,
-        batchSize = 4,
-        model = new Sequential(),
-        lr: real = 0.01;
+  proc testConcat() {
+    var t = this.setUp("Concat");
+    var x: [1..3] real = [1.1, 2.2, 3.3],
+        y: [9..11] real = [9.9, 10.10, 11.11];
 
-    var X = Matrix( [0,0] ,[0,1] ,[1,0] ,[1,1] ),
-        y = Vector([0,1,1,0]);
-    //model.add(new Dense(units=layerOneUnits, inputDim=inputDim, batchSize=batchSize));
-    model.add(new Dense(units=2));
-  //  model.add(new Dense(units=2));
-  //  model.add(new Activation(name="sigmoid"));
-    model.fit(xTrain=X, yTrain=y, epochs=epochs, batchSize=batchSize, lr=lr);
-    assertIntEquals("NN correct number of layers", expected=4, actual=model.layers.size);
+    var z = concat(x,y);
+    var zz: [1..6] real = [1.1, 2.2, 3.3, 9.9, 10.10, 11.11];
+    assertIntEquals(msg="Concatenated real array is 6 wide", expected=6, actual=z.size);
+    assertArrayEquals(msg="Check concat gives correct array", expected=zz, actual=z);
+
+    this.tearDown(t);
   }
 
   proc testNamedDenseMatrix() {
+    var t = this.setUp("Named Dense Matrix");
     var dom: domain(2) = {1..7,1..6};
     var W: [dom] real;
     fillRandom(W);
     var nm = new NamedMatrix(X=W);
-    writeln(nm.X);
+    //writeln(nm.X);
 
     vn.push_back("star lord");
     vn.push_back("gamora");
@@ -572,16 +612,17 @@ class NumSuchTest : UnitTest {
     SD += (7,8); X[7,8] = 1;
 
 
-    writeln(X);
+    //writeln(X);
 
     var nm2 = new NamedMatrix(X=X);
-    writeln(nm2.X);
+    //writeln(nm2.X);
+
+    this.tearDown(t);
   }
 
   proc run() {
     super.run();
     testNamedDenseMatrix();
-//    testNN();
     testRowColSums();
     testMatrixMakers();
     testMatrixOperators();
@@ -601,6 +642,7 @@ class NumSuchTest : UnitTest {
     testLetters();
     testChoice();
     testRandomGenerators();
+    testConcat();
     return 0;
   }
 }

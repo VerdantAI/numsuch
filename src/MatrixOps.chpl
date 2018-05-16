@@ -865,3 +865,19 @@ class DimensionMatchError : NumSuchError {
     return "Error matching dimensions.  Expected: " + this.expected + " Actual: " + this.actual;
   }
 }
+
+proc concat(x:[], y:[]) {
+  const d:int = x.size + y.size;
+  var v:[1..d] x.eltType;
+
+  var k = 1;
+  for i in x.domain {
+    v[k] = x[i];
+    k += 1;
+  }
+  for i in y.domain {
+    v[k] = y[i];
+    k += 1;
+  }
+  return v;
+}
