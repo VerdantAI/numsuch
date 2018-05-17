@@ -1,7 +1,7 @@
 .. default-domain:: chpl
 
 .. module:: NN
-   :synopsis: This is a pretty good example of the pseudocode http://www.cleveralgorithms.com/nature-inspired/neural/backpropagation.html
+   :synopsis: Another pass at the NN based on Alg. 6.3, 6.4 in Goodfellow, et. al. Chapter 6, approx p 204
 
 NN
 ==
@@ -12,78 +12,131 @@ NN
    use NN;
 
 
-This is a pretty good example of the pseudocode http://www.cleveralgorithms.com/nature-inspired/neural/backpropagation.html
+Another pass at the NN based on Alg. 6.3, 6.4 in Goodfellow, et. al. Chapter 6, approx p 204
 
 
 .. class:: Sequential
 
    .. attribute:: var layerDom = {1..0}
 
-   .. attribute:: var loss = new Loss()
-
    .. attribute:: var layers: [layerDom] Layer
-
-   .. method:: proc add(d: Dense)
-
-   .. method:: proc add(d: Activation)
-
-   .. method:: proc compile(xTrain: [], yTrain: [])
-
-   .. method:: proc fit(xTrain: [], yTrain: [], epochs: int, lr: real)
-
-.. class:: Dense
-
-   .. attribute:: var units: int
 
    .. attribute:: var batchSize: int
 
+   .. attribute:: var outDim: int
+
+   .. attribute:: var loss: Loss = new Loss()
+
+   .. attribute:: var momentum: real = 0.05
+
+   .. attribute:: var lr: real = 0.03
+
+   .. attribute:: var trained: bool = false
+
+   .. attribute:: var reportInterval: int = 1000
+
+   .. method:: proc init()
+
+   .. method:: proc add(d: Dense)
+
+   .. method:: proc add(a: Activation)
+
+   .. method:: proc compile(X: [], y: [])
+
+   .. method:: proc fit(xTrain: [], yTrain: [], epochs: int, batchSize: int, lr: real = 0.01)
+
+   .. method:: proc feedForward(X: [], y: [])
+
+   .. method:: proc backProp(X: [], y: [])
+
+      
+      Notice that under this schedule, the errors reach "up" and the gradients reach "down".
+      The gradients depend on the errors.
+       
+
+   .. method:: proc printStep(upperLayer: Layer, lowerLayer: Layer, direction: string, step: int) throws
+
+.. class:: Layer
+
+   .. attribute:: var name: string
+
+   .. attribute:: var units: int
+
    .. attribute:: var inputDim: int
+
+   .. attribute:: var activation: Activation
+
+   .. attribute:: var wDom: domain(2)
+
+   .. attribute:: var bDom: domain(1)
+
+   .. attribute:: var aDom: domain(2)
+
+   .. attribute:: var hDom: domain(2)
+
+   .. attribute:: var W: [wDom] real
+
+   .. attribute:: var dW: [wDom] real
+
+   .. attribute:: var W_vel: [wDom] real = 0.0
+
+   .. attribute:: var b: [bDom] real
+
+   .. attribute:: var db: [bDom] real
+
+   .. attribute:: var b_vel: [bDom] real = 0.0
+
+   .. attribute:: var a: [aDom] real
+
+   .. attribute:: var h: [hDom] real
+
+   .. attribute:: var g: [aDom] real
+
+   .. attribute:: var error: [hDom] real
+
+   .. method:: proc init(name: string, units: int)
+
+   .. method:: proc readWriteThis(f) throws
 
 .. class:: Activation
 
    .. attribute:: var name: string
 
+   .. method:: proc init(name: string)
+
    .. method:: proc f(x: real)
 
    .. method:: proc df(x: real)
 
+   .. method:: proc ramp(x: real)
+
    .. method:: proc sigmoid(x: real)
 
-   .. method:: proc derivativesSigmoid(x)
+   .. method:: proc tanh(x: real)
 
-.. class:: Layer
+   .. method:: proc heaviside(x)
 
-   .. attribute:: var layerId: int
+   .. method:: proc dsigmoid(x)
 
-   .. attribute:: var activation: Activation
+   .. method:: proc dramp(x)
 
-   .. attribute:: var batchSize: int
+   .. method:: proc dtanh(x)
 
-   .. attribute:: var inputDim: int
+   .. method:: proc dheaviside(x)
+
+.. class:: Dense
 
    .. attribute:: var units: int
 
-   .. attribute:: var weightDom: domain(2)
+   .. attribute:: var inputDim: int
 
-   .. attribute:: var outputDom: domain(2)
-
-   .. attribute:: var W: [weightDom] real
-
-   .. attribute:: var a: [outputDom] real
-
-   .. attribute:: var h: [outputDom] real
-
-   .. attribute:: var gradH: [outputDom] real
-
-   .. attribute:: var dH: [outputDom] real
-
-   .. attribute:: var bias: [outputDom] real
-
-   .. attribute:: var error: [outputDom] real
-
-   .. method:: proc summarize()
+   .. method:: proc init(units: int, inputDim = 0)
 
 .. class:: Loss
 
-   .. method:: proc L(y: [], x: [])
+   .. attribute:: var name: string
+
+   .. method:: proc init(name: string = "DEFAULT")
+
+   .. method:: proc J(yHat: [], y: [])
 
