@@ -347,6 +347,26 @@
 <dd></dd></dl>
 
 <dl class="method">
+<dt id="MatrixOps.NamedMatrix.matPlus">
+<em class="property">proc </em><code class="descclassname">NamedMatrix.</code><code class="descname">matPlus</code><span class="sig-paren">(</span><em>Y: NamedMatrix</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.NamedMatrix.matPlus" title="Permalink to this definition">¶</a></dt>
+<dd><p>We don&#8217;t have a good matPlus for Q + E yet, so doing this element
+by element. kinda sucks.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="MatrixOps.NamedMatrix.eTimes">
+<em class="property">proc </em><code class="descclassname">NamedMatrix.</code><code class="descname">eTimes</code><span class="sig-paren">(</span><em>a: real</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.NamedMatrix.eTimes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Multiplies the underlying matrix in place.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="MatrixOps.NamedMatrix.pprint">
+<em class="property">proc </em><code class="descclassname">NamedMatrix.</code><code class="descname">pprint</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.NamedMatrix.pprint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prints the matrix with row / column headers, not recommended for large matrices.
+Also width of entries should not exceed about 8 places.</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="MatrixOps.NamedMatrix.loadX">
 <em class="property">proc </em><code class="descclassname">NamedMatrix.</code><code class="descname">loadX</code><span class="sig-paren">(</span><em>X: []</em>, <em>shape: 2*(int) = (-1</em>, <em>-1)</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.NamedMatrix.loadX" title="Permalink to this definition">¶</a></dt>
 <dd><p>Loads the data from X into the internal array, also called X.  We call them all X to keep it clear.</p>
@@ -362,13 +382,13 @@
 
 <dl class="method">
 <dt id="MatrixOps.NamedMatrix.setRowNames">
-<em class="property">proc </em><code class="descclassname">NamedMatrix.</code><code class="descname">setRowNames</code><span class="sig-paren">(</span><em>rn: []</em><span class="sig-paren">)</span>: string throws<a class="headerlink" href="#MatrixOps.NamedMatrix.setRowNames" title="Permalink to this definition">¶</a></dt>
+<em class="property">proc </em><code class="descclassname">NamedMatrix.</code><code class="descname">setRowNames</code><span class="sig-paren">(</span><em>rn: []</em><span class="sig-paren">)</span> throws<a class="headerlink" href="#MatrixOps.NamedMatrix.setRowNames" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets the row names for the matrix X</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="MatrixOps.NamedMatrix.setColNames">
-<em class="property">proc </em><code class="descclassname">NamedMatrix.</code><code class="descname">setColNames</code><span class="sig-paren">(</span><em>cn: []</em><span class="sig-paren">)</span>: string throws<a class="headerlink" href="#MatrixOps.NamedMatrix.setColNames" title="Permalink to this definition">¶</a></dt>
+<em class="property">proc </em><code class="descclassname">NamedMatrix.</code><code class="descname">setColNames</code><span class="sig-paren">(</span><em>cn: []</em><span class="sig-paren">)</span> throws<a class="headerlink" href="#MatrixOps.NamedMatrix.setColNames" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets the column names for the matrix X</p>
 </dd></dl>
 
@@ -445,7 +465,9 @@ given matrix.</p>
 <dl class="method">
 <dt>
 <em class="property">proc </em><code class="descclassname">NamedMatrix.</code><code class="descname">grid2seq</code><span class="sig-paren">(</span><em>i: int</em>, <em>j: int</em><span class="sig-paren">)</span></dt>
-<dd></dd></dl>
+<dd><p>Takes a index values <cite>i,j</cite> and turns it into the sequential entry number on the
+given matrix.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="MatrixOps.NamedMatrix.seq2grid">
@@ -513,19 +535,26 @@ Useful on sparse matrices.</p>
 <dd></dd></dl>
 
 <dl class="function">
-<dt id="MatrixOps.sparseEquals">
-<em class="property">proc </em><code class="descname">sparseEquals</code><span class="sig-paren">(</span><em>A: []</em>, <em>B: []</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.sparseEquals" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
 <dt id="MatrixOps.tropic">
 <em class="property">proc </em><code class="descname">tropic</code><span class="sig-paren">(</span><em>A: []</em>, <em>B: []</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.tropic" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
-<dt id="MatrixOps.tropicLimit">
-<em class="property">proc </em><code class="descname">tropicLimit</code><span class="sig-paren">(</span><em>B: [] real</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.tropicLimit" title="Permalink to this definition">¶</a></dt>
+<dt id="MatrixOps.tropic_">
+<em class="property">proc </em><code class="descname">tropic_</code><span class="sig-paren">(</span><em>A: []</em>, <em>B: []</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.tropic_" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
+
+<dl class="function">
+<dt id="MatrixOps.sparseEq">
+<em class="property">proc </em><code class="descname">sparseEq</code><span class="sig-paren">(</span><em>A: []</em>, <em>B: []</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.sparseEq" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="MatrixOps.tropicLimit">
+<em class="property">proc </em><code class="descname">tropicLimit</code><span class="sig-paren">(</span><em>A: [] real</em>, <em>B: [] real</em><span class="sig-paren">)</span>: A.type<a class="headerlink" href="#MatrixOps.tropicLimit" title="Permalink to this definition">¶</a></dt>
+<dd><p>proc adjacencyPolynomial(A:[]) {</p>
+<p>}</p>
+</dd></dl>
 
 <dl class="function">
 <dt id="MatrixOps.generateRandomSparseMatrix">
@@ -538,6 +567,11 @@ Useful on sparse matrices.</p>
 <em class="property">proc </em><code class="descname">sparsity</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.sparsity" title="Permalink to this definition">¶</a></dt>
 <dd><p>General sparsity function for any <cite>real</cite> matrix.</p>
 </dd></dl>
+
+<dl class="function">
+<dt id="MatrixOps.elemMult">
+<em class="property">proc </em><code class="descname">elemMult</code><span class="sig-paren">(</span><em>A: []</em>, <em>B: []</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.elemMult" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="class">
 <dt id="MatrixOps.NumSuchError">
@@ -553,6 +587,28 @@ Useful on sparse matrices.</p>
 <em class="property">proc </em><code class="descname">message</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.NumSuchError.message" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
+</dd></dl>
+
+<dl class="function">
+<dt id="MatrixOps.identityMat">
+<em class="property">proc </em><code class="descname">identityMat</code><span class="sig-paren">(</span><em>n: int</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.identityMat" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="MatrixOps.ones">
+<em class="property">proc </em><code class="descname">ones</code><span class="sig-paren">(</span><em>d: domain(2)</em>, <em>v: real = 1.0</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.ones" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="MatrixOps.rowSums">
+<em class="property">proc </em><code class="descname">rowSums</code><span class="sig-paren">(</span><em>X: []</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.rowSums" title="Permalink to this definition">¶</a></dt>
+<dd><p>Only works on dense matrices at the moment</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="MatrixOps.colSums">
+<em class="property">proc </em><code class="descname">colSums</code><span class="sig-paren">(</span><em>X: []</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.colSums" title="Permalink to this definition">¶</a></dt>
+<dd><p>Only works on dense matrices at the moment</p>
 </dd></dl>
 
 <dl class="class">
@@ -579,6 +635,29 @@ Useful on sparse matrices.</p>
 <em class="property">proc </em><code class="descname">message</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.DimensionMatchError.message" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
+</dd></dl>
+
+<dl class="function">
+<dt id="MatrixOps.concat">
+<em class="property">proc </em><code class="descname">concat</code><span class="sig-paren">(</span><em>x: []</em>, <em>y: []</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.concat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Concatenates two vectors (x, y) -&gt; [x y]</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="MatrixOps.concatRight">
+<em class="property">proc </em><code class="descname">concatRight</code><span class="sig-paren">(</span><em>X: []</em>, <em>y: []</em><span class="sig-paren">)</span><a class="headerlink" href="#MatrixOps.concatRight" title="Permalink to this definition">¶</a></dt>
+<dd><blockquote>
+<div>Concatenates a matrix and a vector, adding the vector
+as extra columns</div></blockquote>
+<dl class="docutils">
+<dt>[ [1 2]</dt>
+<dd><p class="first">[3 4] ], [ 5, 6]   -&gt;</p>
+<dl class="last docutils">
+<dt>[[1 2 5 6]</dt>
+<dd>[3 4 5 6]]</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
 </div>

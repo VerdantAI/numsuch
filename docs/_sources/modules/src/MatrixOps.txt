@@ -107,6 +107,25 @@ MatrixOps
 
 .. method:: proc NamedMatrix.colArgMin()
 
+.. method:: proc NamedMatrix.matPlus(Y: NamedMatrix)
+
+   We don't have a good matPlus for Q + E yet, so doing this element
+   by element. kinda sucks.
+   
+
+.. method:: proc NamedMatrix.eTimes(a: real)
+
+   
+   Multiplies the underlying matrix in place.
+   
+
+.. method:: proc NamedMatrix.pprint()
+
+   
+   Prints the matrix with row / column headers, not recommended for large matrices.
+   Also width of entries should not exceed about 8 places.
+   
+
 .. method:: proc NamedMatrix.loadX(X: [], shape: 2*(int) = (-1, -1))
 
    
@@ -115,13 +134,13 @@ MatrixOps
    :arg real[]: Array representing the matrix
     
 
-.. method:: proc NamedMatrix.setRowNames(rn: []): string throws
+.. method:: proc NamedMatrix.setRowNames(rn: []) throws
 
    
    Sets the row names for the matrix X
     
 
-.. method:: proc NamedMatrix.setColNames(cn: []): string throws
+.. method:: proc NamedMatrix.setColNames(cn: []) throws
 
    
    Sets the column names for the matrix X
@@ -197,6 +216,11 @@ MatrixOps
 
 .. method:: proc NamedMatrix.grid2seq(i: int, j: int)
 
+   
+   Takes a index values `i,j` and turns it into the sequential entry number on the
+   given matrix.
+   
+
 .. method:: proc NamedMatrix.seq2grid(k: int)
 
    
@@ -255,11 +279,18 @@ MatrixOps
 
 .. function:: proc maxiLoc_(axis: int, id, X: [])
 
-.. function:: proc sparseEquals(A: [], B: [])
-
 .. function:: proc tropic(A: [], B: [])
 
-.. function:: proc tropicLimit(B: [] real)
+.. function:: proc tropic_(A: [], B: [])
+
+.. function:: proc sparseEq(A: [], B: [])
+
+.. function:: proc tropicLimit(A: [] real, B: [] real): A.type 
+
+   
+   proc adjacencyPolynomial(A:[]) {
+   
+   }
 
 .. function:: proc generateRandomSparseMatrix(size: int, sparsity: real)
 
@@ -273,6 +304,8 @@ MatrixOps
    General sparsity function for any `real` matrix.
    
 
+.. function:: proc elemMult(A: [], B: [])
+
 .. class:: NumSuchError : Error
 
    
@@ -283,6 +316,20 @@ MatrixOps
    .. method:: proc init()
 
    .. method:: proc message()
+
+.. function:: proc identityMat(n: int)
+
+.. function:: proc ones(d: domain(2), v: real = 1.0)
+
+.. function:: proc rowSums(X: [])
+
+   
+   Only works on dense matrices at the moment
+
+.. function:: proc colSums(X: [])
+
+   
+   Only works on dense matrices at the moment
 
 .. class:: DimensionMatchError : NumSuchError
 
@@ -298,4 +345,23 @@ MatrixOps
    .. method:: proc init(expected: int, actual: int)
 
    .. method:: proc message()
+
+.. function:: proc concat(x: [], y: [])
+
+   
+   Concatenates two vectors (x, y) -> [x y]
+   
+
+.. function:: proc concatRight(X: [], y: [])
+
+   
+    Concatenates a matrix and a vector, adding the vector
+    as extra columns
+   
+   [ [1 2]
+    [3 4] ], [ 5, 6]   ->
+   
+    [[1 2 5 6]
+     [3 4 5 6]]
+    
 

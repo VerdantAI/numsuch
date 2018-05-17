@@ -120,5 +120,7 @@ In NumSuch, matrices are considered sparse until proven otherwise.
       Returns the max value for "value", assuming it's a real number
       
 
+   .. itermethod:: iter sorted()
+
    .. method:: proc uni(b: BiMap)
 
