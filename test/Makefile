@@ -6,12 +6,7 @@ LIBS=-L${ZMQ_BASE}/lib -lzmq -L${BLAS_HOME}/lib -lblas
 MODULES=-M../src
 FLAGS=--fast
 
-all: mlp core
-
-mlp: mlp-test.chpl
-	$(CC) $(FLAGS) $(MODULES) $(INCLUDES) $(LIBS) -o mlp-test $<
-	./mlp-test
-	rm mlp-test
+all: core
 
 core: core-test.chpl
 	$(CC) $(MODULES) $(INCLUDES) $(LIBS) -o core-test $<
