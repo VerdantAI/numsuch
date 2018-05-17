@@ -592,6 +592,12 @@ class NumSuchTest : UnitTest {
     assertIntArrayEquals(msg="Concat gets integer arrays (no domain)"
        ,expected=[3,2,1,4,5,6], actual=concat(a,b));
 
+    // Now try concatRight
+    var X = Matrix([1,2], [3,4]),
+        crX = Matrix([1,2,3,2,1], [3,4,3,2,1]);
+    var cr = concatRight(X, a);
+    assertIntArrayEquals(msg="ConcatRight works", expected=crX, actual=concatRight(X, a));
+
     this.tearDown(t);
   }
 

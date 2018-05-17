@@ -866,6 +866,9 @@ class DimensionMatchError : NumSuchError {
   }
 }
 
+/*
+ Concatenates two vectors (x, y) -> [x y]
+ */
 proc concat(x:[], y:[]) {
   const d:int = x.size + y.size;
   var v:[1..d] x.eltType;
@@ -880,4 +883,26 @@ proc concat(x:[], y:[]) {
     k += 1;
   }
   return v;
+}
+
+/*
+ Concatenates a matrix and a vector, adding the vector
+ as extra columns
+
+[ [1 2]
+ [3 4] ], [ 5, 6]   ->
+
+ [[1 2 5 6]
+  [3 4 5 6]]
+ */
+proc concatRight(X:[], y:[]) {
+    const h = X.shape[1],
+          w = X.shape[2] + y.size;
+    var A: [1..h, 1..w] X.eltType;
+
+    for i in 1..h {
+      const r = concat(X[i,..], y);
+      A[i,..] = r;
+    }
+    return A;
 }
