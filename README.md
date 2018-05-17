@@ -1,7 +1,7 @@
 # NumSuch v 0.2.5
 Porting little bits of code I need from NumPy over to Chapel.
 
-Documents, such as they are, should be available [here](https://buddha314.github.io/numsuch/) as are the
+Documents, such as they are, should be available [here](https://deep6ai.github.io/numsuch/) as are the
 [Release Notes](RELEASE.md).  Note the docs are out of date due to a Chapel issue with `chpldoc` incompatibility with Python 3
 
 This is an attempt to collect numerical tools into [Chapel](https://github.com/chapel-lang/chapel) libraries.

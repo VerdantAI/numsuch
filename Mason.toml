@@ -2,7 +2,7 @@
 name = "NumSuch"
 version = "0.2.5"
 authors = ["Brian Dolan: buddha314@gmail.com"]
-source = "https://github.com/buddha314/numsuch"
+source = "https://github.com/Deep6AI/numsuch"
 chplVersion = "1.17.0"
 
 [dependencies]
