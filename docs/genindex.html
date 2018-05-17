@@ -84,8 +84,6 @@
 <li class="toctree-l1"><a class="reference internal" href="index.html">chpldoc documentation</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="modules/examples/cosineDistance.html">cosineDistance</a></li>
-<li class="toctree-l1"><a class="reference internal" href="modules/examples/labelmatrix-from-file.html">labelmatrix-from-file</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modules/src/Core.html">Core</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modules/src/MatrixOps.html">MatrixOps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modules/src/NN.html">NN</a></li>
@@ -148,6 +146,7 @@
  | <a href="#G"><strong>G</strong></a>
  | <a href="#H"><strong>H</strong></a>
  | <a href="#I"><strong>I</strong></a>
+ | <a href="#J"><strong>J</strong></a>
  | <a href="#K"><strong>K</strong></a>
  | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
@@ -178,8 +177,10 @@
   <dt><a href="modules/src/NN.html#NN.Layer.activation">activation (NN.Layer attribute)</a>
   </dt>
 
-  </dl></td>
-  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="modules/src/MatrixOps.html#MatrixOps.DimensionMatchError.actual">actual (MatrixOps.DimensionMatchError attribute)</a>
+  </dt>
+
       
   <dt><a href="modules/src/NN.html#NN.Sequential.add">add() (NN.Sequential method)</a>, <a href="modules/src/NN.html#NN.Sequential.add">[1]</a>
   </dt>
@@ -191,11 +192,45 @@
 
       </dl></dd>
       
+  <dt><a href="modules/src/NN.html#NN.Layer.aDom">aDom (NN.Layer attribute)</a>
+  </dt>
+
+      
+  <dt><a href="modules/src/MatrixOps.html#MatrixOps.NamedMatrix.alignAndMultiply">alignAndMultiply() (MatrixOps.NamedMatrix method)</a>
+  </dt>
+
+      
+  <dt><a href="modules/src/MatrixOps.html#MatrixOps.aMax">aMax() (in module MatrixOps)</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="modules/src/MatrixOps.html#MatrixOps.aMin">aMin() (in module MatrixOps)</a>
+  </dt>
+
+      
   <dt><a href="modules/src/Core.html#Core.argmax">argmax() (in module Core)</a>
   </dt>
 
       
+  <dt><a href="modules/src/MatrixOps.html#MatrixOps.argMax">argMax() (in module MatrixOps)</a>
+  </dt>
+
+      
   <dt><a href="modules/src/Core.html#Core.argmax1d">argmax1d() (in module Core)</a>
+  </dt>
+
+      
+  <dt><a href="modules/src/Core.html#Core.argmin">argmin() (in module Core)</a>
+  </dt>
+
+      
+  <dt><a href="modules/src/MatrixOps.html#MatrixOps.argMin">argMin() (in module MatrixOps)</a>
+  </dt>
+
+      
+  <dt><a href="modules/src/Core.html#Core.argmin1d">argmin1d() (in module Core)</a>
   </dt>
 
   </dl></td>
@@ -205,23 +240,29 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%" valign="top"><dl>
       
+  <dt><a href="modules/src/NN.html#NN.Layer.b">b (NN.Layer attribute)</a>
+  </dt>
+
+      
+  <dt><a href="modules/src/NN.html#NN.Layer.b_vel">b_vel (NN.Layer attribute)</a>
+  </dt>
+
+      
+  <dt><a href="modules/src/NN.html#NN.Sequential.backProp">backProp() (NN.Sequential method)</a>
+  </dt>
+
+      
   <dt><a href="modules/src/MatrixOps.html#MatrixOps.batchsize">batchsize (in module MatrixOps)</a>
   </dt>
 
-      
-  <dt><a href="modules/src/NN.html#NN.Dense.batchSize">batchSize (NN.Dense attribute)</a>
-  </dt>
-
-      <dd><dl>
-        
-  <dt><a href="modules/src/NN.html#NN.Layer.batchSize">(NN.Layer attribute)</a>
-  </dt>
-
-      </dl></dd>
   </dl></td>
   <td style="width: 33%" valign="top"><dl>
       
-  <dt><a href="modules/src/NN.html#NN.Layer.bias">bias (NN.Layer attribute)</a>
+  <dt><a href="modules/src/NN.html#NN.Sequential.batchSize">batchSize (NN.Sequential attribute)</a>
+  </dt>
+
+      
+  <dt><a href="modules/src/NN.html#NN.Layer.bDom">bDom (NN.Layer attribute)</a>
   </dt>
 
       
@@ -239,7 +280,37 @@
   </dt>
 
       
+  <dt><a href="modules/src/Stats.html#Stats.choice">choice() (in module Stats)</a>, <a href="modules/src/Stats.html#Stats.choice">[1]</a>
+  </dt>
+
+      
+  <dt><a href="modules/src/Stats.html#Stats.chooseMultinomial">chooseMultinomial() (in module Stats)</a>
+  </dt>
+
+      
+  <dt><a href="modules/src/MatrixOps.html#MatrixOps.NamedMatrix.colArgMax">colArgMax() (MatrixOps.NamedMatrix method)</a>, <a href="modules/src/MatrixOps.html#MatrixOps.NamedMatrix.colArgMax">[1]</a>, <a href="modules/src/MatrixOps.html#MatrixOps.NamedMatrix.colArgMax">[2]</a>
+  </dt>
+
+      
+  <dt><a href="modules/src/MatrixOps.html#MatrixOps.NamedMatrix.colArgMin">colArgMin() (MatrixOps.NamedMatrix method)</a>, <a href="modules/src/MatrixOps.html#MatrixOps.NamedMatrix.colArgMin">[1]</a>, <a href="modules/src/MatrixOps.html#MatrixOps.NamedMatrix.colArgMin">[2]</a>
+  </dt>
+
+      
+  <dt><a href="modules/src/MatrixOps.html#MatrixOps.NamedMatrix.colMax">colMax() (MatrixOps.NamedMatrix method)</a>, <a href="modules/src/MatrixOps.html#MatrixOps.NamedMatrix.colMax">[1]</a>, <a href="modules/src/MatrixOps.html#MatrixOps.NamedMatrix.colMax">[2]</a>
+  </dt>
+
+      
+  <dt><a href="modules/src/MatrixOps.html#MatrixOps.NamedMatrix.colMin">colMin() (MatrixOps.NamedMatrix method)</a>, <a href="modules/src/MatrixOps.html#MatrixOps.NamedMatrix.colMin">[1]</a>, <a href="modules/src/MatrixOps.html#MatrixOps.NamedMatrix.colMin">[2]</a>
+  </dt>
+
+      
   <dt><a href="modules/src/MatrixOps.html#MatrixOps.NamedMatrix.cols">cols (MatrixOps.NamedMatrix attribute)</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="modules/src/MatrixOps.html#MatrixOps.colSums">colSums() (in module MatrixOps)</a>
   </dt>
 
       
@@ -256,14 +327,16 @@
   <dt><a href="modules/src/PeelPropagation.html#PeelPropagation.PeelPropagationModel.compiled">compiled (PeelPropagation.PeelPropagationModel attribute)</a>
   </dt>
 
-  </dl></td>
-  <td style="width: 33%" valign="top"><dl>
       
-  <dt><a href="modules/src/Core.html#module-Core">Core (module)</a>
+  <dt><a href="modules/src/MatrixOps.html#MatrixOps.concat">concat() (in module MatrixOps)</a>
   </dt>
 
       
-  <dt><a href="modules/examples/cosineDistance.html#module-cosineDistance">cosineDistance (module)</a>
+  <dt><a href="modules/src/MatrixOps.html#MatrixOps.concatRight">concatRight() (in module MatrixOps)</a>
+  </dt>
+
+      
+  <dt><a href="modules/src/Core.html#module-Core">Core (module)</a>
   </dt>
 
       
@@ -301,15 +374,13 @@
 
       </dl></dd>
       
-  <dt><a href="modules/src/NN.html#NN.Dense">Dense (class in NN)</a>
+  <dt><a href="modules/src/NN.html#NN.Layer.db">db (NN.Layer attribute)</a>
   </dt>
 
       
-  <dt><a href="modules/src/NN.html#NN.Activation.derivativesSigmoid">derivativesSigmoid() (NN.Activation method)</a>
+  <dt><a href="modules/src/NN.html#NN.Dense">Dense (class in NN)</a>
   </dt>
 
-  </dl></td>
-  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="modules/src/NN.html#NN.Activation.df">df() (NN.Activation method)</a>
   </dt>
@@ -319,7 +390,13 @@
   </dt>
 
       
-  <dt><a href="modules/src/NN.html#NN.Layer.dH">dH (NN.Layer attribute)</a>
+  <dt><a href="modules/src/NN.html#NN.Activation.dheaviside">dheaviside() (NN.Activation method)</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="modules/src/MatrixOps.html#MatrixOps.DimensionMatchError">DimensionMatchError (class in MatrixOps)</a>
   </dt>
 
       
@@ -328,6 +405,22 @@
 
       
   <dt><a href="modules/src/Stats.html#Stats.dpois">dpois() (in module Stats)</a>
+  </dt>
+
+      
+  <dt><a href="modules/src/NN.html#NN.Activation.dramp">dramp() (NN.Activation method)</a>
+  </dt>
+
+      
+  <dt><a href="modules/src/NN.html#NN.Activation.dsigmoid">dsigmoid() (NN.Activation method)</a>
+  </dt>
+
+      
+  <dt><a href="modules/src/NN.html#NN.Activation.dtanh">dtanh() (NN.Activation method)</a>
+  </dt>
+
+      
+  <dt><a href="modules/src/NN.html#NN.Layer.dW">dW (NN.Layer attribute)</a>
   </dt>
 
   </dl></td>
@@ -341,6 +434,10 @@
   </dt>
 
       
+  <dt><a href="modules/src/MatrixOps.html#MatrixOps.elemMult">elemMult() (in module MatrixOps)</a>
+  </dt>
+
+      
   <dt><a href="modules/src/NumSuch.html#NumSuch.BiMap.entries">entries() (NumSuch.BiMap iterator)</a>
   </dt>
 
@@ -348,6 +445,14 @@
   <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="modules/src/NN.html#NN.Layer.error">error (NN.Layer attribute)</a>
+  </dt>
+
+      
+  <dt><a href="modules/src/MatrixOps.html#MatrixOps.NamedMatrix.eTimes">eTimes() (MatrixOps.NamedMatrix method)</a>
+  </dt>
+
+      
+  <dt><a href="modules/src/MatrixOps.html#MatrixOps.DimensionMatchError.expected">expected (MatrixOps.DimensionMatchError attribute)</a>
   </dt>
 
   </dl></td>
@@ -365,11 +470,15 @@
   </dt>
 
       
-  <dt><a href="modules/src/Stats.html#Stats.ECDF.findPosition">findPosition() (Stats.ECDF method)</a>
+  <dt><a href="modules/src/NN.html#NN.Sequential.feedForward">feedForward() (NN.Sequential method)</a>
   </dt>
 
   </dl></td>
   <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="modules/src/Stats.html#Stats.ECDF.findPosition">findPosition() (Stats.ECDF method)</a>
+  </dt>
+
       
   <dt><a href="modules/src/NN.html#NN.Sequential.fit">fit() (NN.Sequential method)</a>
   </dt>
@@ -391,6 +500,10 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%" valign="top"><dl>
       
+  <dt><a href="modules/src/NN.html#NN.Layer.g">g (NN.Layer attribute)</a>
+  </dt>
+
+      
   <dt><a href="modules/src/MatrixOps.html#MatrixOps.generateRandomSparseMatrix">generateRandomSparseMatrix() (in module MatrixOps)</a>
   </dt>
 
@@ -407,7 +520,11 @@
   </dl></td>
   <td style="width: 33%" valign="top"><dl>
       
-  <dt><a href="modules/src/NN.html#NN.Layer.gradH">gradH (NN.Layer attribute)</a>
+  <dt><a href="modules/src/MatrixOps.html#MatrixOps.NamedMatrix.grid2seq">grid2seq() (MatrixOps.NamedMatrix method)</a>, <a href="modules/src/MatrixOps.html#MatrixOps.NamedMatrix.grid2seq">[1]</a>
+  </dt>
+
+      
+  <dt><a href="modules/src/Core.html#Core.gridNames">gridNames() (in module Core)</a>
   </dt>
 
   </dl></td>
@@ -420,12 +537,26 @@
   <dt><a href="modules/src/NN.html#NN.Layer.h">h (NN.Layer attribute)</a>
   </dt>
 
+      
+  <dt><a href="modules/src/NN.html#NN.Layer.hDom">hDom (NN.Layer attribute)</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="modules/src/NN.html#NN.Activation.heaviside">heaviside() (NN.Activation method)</a>
+  </dt>
+
   </dl></td>
 </tr></table>
 
 <h2 id="I">I</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="modules/src/MatrixOps.html#MatrixOps.identityMat">identityMat() (in module MatrixOps)</a>
+  </dt>
+
       
   <dt><a href="modules/src/NumSuch.html#NumSuch.BiMap.ids">ids (NumSuch.BiMap attribute)</a>
   </dt>
@@ -438,17 +569,45 @@
   <dt><a href="modules/src/NumSuch.html#NumSuch.BiMap.idxkey">idxkey (NumSuch.BiMap attribute)</a>
   </dt>
 
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="modules/src/NumSuch.html#NumSuch.indexSort">indexSort() (in module NumSuch)</a>
   </dt>
 
-  </dl></td>
-  <td style="width: 33%" valign="top"><dl>
       
-  <dt><a href="modules/src/MatrixOps.html#MatrixOps.NamedMatrix.init">init() (MatrixOps.NamedMatrix method)</a>, <a href="modules/src/MatrixOps.html#MatrixOps.NamedMatrix.init">[1]</a>
+  <dt><a href="modules/src/MatrixOps.html#MatrixOps.DimensionMatchError.init">init() (MatrixOps.DimensionMatchError method)</a>
   </dt>
 
       <dd><dl>
+        
+  <dt><a href="modules/src/MatrixOps.html#MatrixOps.NamedMatrix.init">(MatrixOps.NamedMatrix method)</a>, <a href="modules/src/MatrixOps.html#MatrixOps.NamedMatrix.init">[1]</a>, <a href="modules/src/MatrixOps.html#MatrixOps.NamedMatrix.init">[2]</a>, <a href="modules/src/MatrixOps.html#MatrixOps.NamedMatrix.init">[3]</a>, <a href="modules/src/MatrixOps.html#MatrixOps.NamedMatrix.init">[4]</a>, <a href="modules/src/MatrixOps.html#MatrixOps.NamedMatrix.init">[5]</a>, <a href="modules/src/MatrixOps.html#MatrixOps.NamedMatrix.init">[6]</a>
+  </dt>
+
+        
+  <dt><a href="modules/src/MatrixOps.html#MatrixOps.NumSuchError.init">(MatrixOps.NumSuchError method)</a>
+  </dt>
+
+        
+  <dt><a href="modules/src/NN.html#NN.Activation.init">(NN.Activation method)</a>
+  </dt>
+
+        
+  <dt><a href="modules/src/NN.html#NN.Dense.init">(NN.Dense method)</a>
+  </dt>
+
+        
+  <dt><a href="modules/src/NN.html#NN.Layer.init">(NN.Layer method)</a>
+  </dt>
+
+        
+  <dt><a href="modules/src/NN.html#NN.Loss.init">(NN.Loss method)</a>
+  </dt>
+
+        
+  <dt><a href="modules/src/NN.html#NN.Sequential.init">(NN.Sequential method)</a>
+  </dt>
+
         
   <dt><a href="modules/src/NumSuch.html#NumSuch.BiMap.init">(NumSuch.BiMap method)</a>
   </dt>
@@ -475,6 +634,16 @@
   </dl></td>
 </tr></table>
 
+<h2 id="J">J</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="modules/src/NN.html#NN.Loss.J">J() (NN.Loss method)</a>
+  </dt>
+
+  </dl></td>
+</tr></table>
+
 <h2 id="K">K</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%" valign="top"><dl>
@@ -489,23 +658,7 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%" valign="top"><dl>
       
-  <dt><a href="modules/examples/labelmatrix-from-file.html#labelmatrix-from-file.L">L (in module labelmatrix-from-file)</a>
-  </dt>
-
-      
-  <dt><a href="modules/src/NN.html#NN.Loss.L">L() (NN.Loss method)</a>
-  </dt>
-
-      
-  <dt><a href="modules/examples/labelmatrix-from-file.html#labelmatrix-from-file.labelFile">labelFile (in module labelmatrix-from-file)</a>
-  </dt>
-
-      
   <dt><a href="modules/src/Core.html#Core.LabelMatrix">LabelMatrix (class in Core)</a>
-  </dt>
-
-      
-  <dt><a href="modules/examples/labelmatrix-from-file.html#module-labelmatrix-from-file">labelmatrix-from-file (module)</a>
   </dt>
 
       
@@ -518,12 +671,6 @@
 
       
   <dt><a href="modules/src/NN.html#NN.Sequential.layerDom">layerDom (NN.Sequential attribute)</a>
-  </dt>
-
-  </dl></td>
-  <td style="width: 33%" valign="top"><dl>
-      
-  <dt><a href="modules/src/NN.html#NN.Layer.layerId">layerId (NN.Layer attribute)</a>
   </dt>
 
       
@@ -540,6 +687,12 @@
   </dt>
 
       </dl></dd>
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="modules/src/Core.html#Core.letters">letters() (in module Core)</a>
+  </dt>
+
       
   <dt><a href="modules/src/PeelPropagation.html#PeelPropagation.PeelPropagationModel.Lnorm">Lnorm (PeelPropagation.PeelPropagationModel attribute)</a>
   </dt>
@@ -556,12 +709,20 @@
   <dt><a href="modules/src/NN.html#NN.Sequential.loss">loss (NN.Sequential attribute)</a>
   </dt>
 
+      
+  <dt><a href="modules/src/NN.html#NN.Sequential.lr">lr (NN.Sequential attribute)</a>
+  </dt>
+
   </dl></td>
 </tr></table>
 
 <h2 id="M">M</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="modules/src/MatrixOps.html#MatrixOps.NamedMatrix.matPlus">matPlus() (MatrixOps.NamedMatrix method)</a>
+  </dt>
+
       
   <dt><a href="modules/src/MatrixOps.html#module-MatrixOps">MatrixOps (module)</a>
   </dt>
@@ -570,8 +731,30 @@
   <dt><a href="modules/src/NumSuch.html#NumSuch.BiMap.max">max() (NumSuch.BiMap method)</a>
   </dt>
 
+      
+  <dt><a href="modules/src/MatrixOps.html#MatrixOps.maxiLoc_">maxiLoc_() (in module MatrixOps)</a>
+  </dt>
+
   </dl></td>
   <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="modules/src/MatrixOps.html#MatrixOps.DimensionMatchError.message">message() (MatrixOps.DimensionMatchError method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="modules/src/MatrixOps.html#MatrixOps.NumSuchError.message">(MatrixOps.NumSuchError method)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="modules/src/MatrixOps.html#MatrixOps.miniLoc_">miniLoc_() (in module MatrixOps)</a>
+  </dt>
+
+      
+  <dt><a href="modules/src/NN.html#NN.Sequential.momentum">momentum (NN.Sequential attribute)</a>
+  </dt>
+
       
   <dt><a href="modules/src/Stats.html#Stats.ECDF.mx">mx (Stats.ECDF attribute)</a>
   </dt>
@@ -586,26 +769,48 @@
   <dt><a href="modules/src/NN.html#NN.Activation.name">name (NN.Activation attribute)</a>
   </dt>
 
-      
-  <dt><a href="modules/src/MatrixOps.html#MatrixOps.NamedMatrix">NamedMatrix (class in MatrixOps)</a>
+      <dd><dl>
+        
+  <dt><a href="modules/src/NN.html#NN.Layer.name">(NN.Layer attribute)</a>
   </dt>
 
+        
+  <dt><a href="modules/src/NN.html#NN.Loss.name">(NN.Loss attribute)</a>
+  </dt>
+
+      </dl></dd>
       
-  <dt><a href="modules/src/MatrixOps.html#MatrixOps.NamedMatrixFromPG">NamedMatrixFromPG() (in module MatrixOps)</a>
+  <dt><a href="modules/src/MatrixOps.html#MatrixOps.NamedMatrix">NamedMatrix (class in MatrixOps)</a>
   </dt>
 
       
   <dt><a href="modules/src/Core.html#Core.LabelMatrix.names">names (Core.LabelMatrix attribute)</a>
   </dt>
 
-  </dl></td>
-  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="modules/src/MatrixOps.html#MatrixOps.NamedMatrix.ncols">ncols() (MatrixOps.NamedMatrix method)</a>
+  </dt>
+
+      
+  <dt><a href="modules/src/MatrixOps.html#MatrixOps.NamedMatrix.ndot">ndot() (MatrixOps.NamedMatrix method)</a>
+  </dt>
+
+      
+  <dt><a href="modules/src/Stats.html#Stats.nds">nds() (in module Stats)</a>
+  </dt>
+
       
   <dt><a href="modules/src/Core.html#Core.LabelMatrix.nLabelValues">nLabelValues (Core.LabelMatrix attribute)</a>
   </dt>
 
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="modules/src/NN.html#module-NN">NN (module)</a>
+  </dt>
+
+      
+  <dt><a href="modules/src/MatrixOps.html#MatrixOps.NamedMatrix.nnz">nnz() (MatrixOps.NamedMatrix method)</a>
   </dt>
 
       
@@ -613,7 +818,19 @@
   </dt>
 
       
+  <dt><a href="modules/src/MatrixOps.html#MatrixOps.NamedMatrix.nrows">nrows() (MatrixOps.NamedMatrix method)</a>
+  </dt>
+
+      
+  <dt><a href="modules/src/MatrixOps.html#MatrixOps.NamedMatrix.ntropic">ntropic() (MatrixOps.NamedMatrix method)</a>
+  </dt>
+
+      
   <dt><a href="modules/src/NumSuch.html#module-NumSuch">NumSuch (module)</a>
+  </dt>
+
+      
+  <dt><a href="modules/src/MatrixOps.html#MatrixOps.NumSuchError">NumSuchError (class in MatrixOps)</a>
   </dt>
 
   </dl></td>
@@ -626,10 +843,14 @@
   <dt><a href="modules/src/Stats.html#Stats.ECDF.odom">odom (Stats.ECDF attribute)</a>
   </dt>
 
+      
+  <dt><a href="modules/src/MatrixOps.html#MatrixOps.ones">ones() (in module MatrixOps)</a>
+  </dt>
+
   </dl></td>
   <td style="width: 33%" valign="top"><dl>
       
-  <dt><a href="modules/src/NN.html#NN.Layer.outputDom">outputDom (NN.Layer attribute)</a>
+  <dt><a href="modules/src/NN.html#NN.Sequential.outDim">outDim (NN.Sequential attribute)</a>
   </dt>
 
   </dl></td>
@@ -647,21 +868,17 @@
   </dt>
 
       
-  <dt><a href="modules/src/MatrixOps.html#MatrixOps.persistSparseMatrix">persistSparseMatrix() (in module MatrixOps)</a>
+  <dt><a href="modules/src/MatrixOps.html#MatrixOps.NamedMatrix.pprint">pprint() (MatrixOps.NamedMatrix method)</a>
   </dt>
 
   </dl></td>
   <td style="width: 33%" valign="top"><dl>
       
-  <dt><a href="modules/src/MatrixOps.html#MatrixOps.persistSparseMatrix_">persistSparseMatrix_() (in module MatrixOps)</a>
-  </dt>
-
-      
-  <dt><a href="modules/src/MatrixOps.html#MatrixOps.persistSparseMatrix_P">persistSparseMatrix_P() (in module MatrixOps)</a>
-  </dt>
-
-      
   <dt><a href="modules/src/PeelPropagation.html#PeelPropagation.PeelPropagationModel.Predictions">Predictions (PeelPropagation.PeelPropagationModel attribute)</a>
+  </dt>
+
+      
+  <dt><a href="modules/src/NN.html#NN.Sequential.printStep">printStep() (NN.Sequential method)</a>
   </dt>
 
   </dl></td>
@@ -671,7 +888,31 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%" valign="top"><dl>
       
+  <dt><a href="modules/src/NN.html#NN.Activation.ramp">ramp() (NN.Activation method)</a>
+  </dt>
+
+      
+  <dt><a href="modules/src/Stats.html#Stats.rand">rand() (in module Stats)</a>
+  </dt>
+
+      
+  <dt><a href="modules/src/Stats.html#Stats.randInt">randInt() (in module Stats)</a>
+  </dt>
+
+      
   <dt><a href="modules/src/Core.html#Core.LabelMatrix.readFromFile">readFromFile() (Core.LabelMatrix method)</a>
+  </dt>
+
+      
+  <dt><a href="modules/src/NN.html#NN.Layer.readWriteThis">readWriteThis() (NN.Layer method)</a>
+  </dt>
+
+      
+  <dt><a href="modules/src/MatrixOps.html#MatrixOps.NamedMatrix.remove">remove() (MatrixOps.NamedMatrix method)</a>, <a href="modules/src/MatrixOps.html#MatrixOps.NamedMatrix.remove">[1]</a>
+  </dt>
+
+      
+  <dt><a href="modules/src/NN.html#NN.Sequential.reportInterval">reportInterval (NN.Sequential attribute)</a>
   </dt>
 
       
@@ -681,7 +922,27 @@
   </dl></td>
   <td style="width: 33%" valign="top"><dl>
       
+  <dt><a href="modules/src/MatrixOps.html#MatrixOps.NamedMatrix.rowArgMax">rowArgMax() (MatrixOps.NamedMatrix method)</a>, <a href="modules/src/MatrixOps.html#MatrixOps.NamedMatrix.rowArgMax">[1]</a>, <a href="modules/src/MatrixOps.html#MatrixOps.NamedMatrix.rowArgMax">[2]</a>
+  </dt>
+
+      
+  <dt><a href="modules/src/MatrixOps.html#MatrixOps.NamedMatrix.rowArgMin">rowArgMin() (MatrixOps.NamedMatrix method)</a>, <a href="modules/src/MatrixOps.html#MatrixOps.NamedMatrix.rowArgMin">[1]</a>, <a href="modules/src/MatrixOps.html#MatrixOps.NamedMatrix.rowArgMin">[2]</a>
+  </dt>
+
+      
+  <dt><a href="modules/src/MatrixOps.html#MatrixOps.NamedMatrix.rowMax">rowMax() (MatrixOps.NamedMatrix method)</a>, <a href="modules/src/MatrixOps.html#MatrixOps.NamedMatrix.rowMax">[1]</a>, <a href="modules/src/MatrixOps.html#MatrixOps.NamedMatrix.rowMax">[2]</a>
+  </dt>
+
+      
+  <dt><a href="modules/src/MatrixOps.html#MatrixOps.NamedMatrix.rowMin">rowMin() (MatrixOps.NamedMatrix method)</a>, <a href="modules/src/MatrixOps.html#MatrixOps.NamedMatrix.rowMin">[1]</a>, <a href="modules/src/MatrixOps.html#MatrixOps.NamedMatrix.rowMin">[2]</a>
+  </dt>
+
+      
   <dt><a href="modules/src/MatrixOps.html#MatrixOps.NamedMatrix.rows">rows (MatrixOps.NamedMatrix attribute)</a>
+  </dt>
+
+      
+  <dt><a href="modules/src/MatrixOps.html#MatrixOps.rowSums">rowSums() (in module MatrixOps)</a>
   </dt>
 
       
@@ -696,6 +957,14 @@
   <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="modules/src/MatrixOps.html#MatrixOps.NamedMatrix.SD">SD (MatrixOps.NamedMatrix attribute)</a>
+  </dt>
+
+      
+  <dt><a href="modules/src/Stats.html#Stats.seq">seq() (in module Stats)</a>
+  </dt>
+
+      
+  <dt><a href="modules/src/MatrixOps.html#MatrixOps.NamedMatrix.seq2grid">seq2grid() (MatrixOps.NamedMatrix method)</a>
   </dt>
 
       
@@ -714,30 +983,40 @@
   <dt><a href="modules/src/MatrixOps.html#MatrixOps.NamedMatrix.setRowNames">setRowNames() (MatrixOps.NamedMatrix method)</a>
   </dt>
 
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="modules/src/NN.html#NN.Activation.sigmoid">sigmoid() (NN.Activation method)</a>
   </dt>
 
-  </dl></td>
-  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="modules/src/NumSuch.html#NumSuch.BiMap.size">size() (NumSuch.BiMap method)</a>
+  </dt>
+
+      
+  <dt><a href="modules/src/NumSuch.html#NumSuch.BiMap.sorted">sorted() (NumSuch.BiMap iterator)</a>
+  </dt>
+
+      
+  <dt><a href="modules/src/MatrixOps.html#MatrixOps.sparseEq">sparseEq() (in module MatrixOps)</a>
   </dt>
 
       
   <dt><a href="modules/src/MatrixOps.html#MatrixOps.sparsity">sparsity() (in module MatrixOps)</a>
   </dt>
 
+      <dd><dl>
+        
+  <dt><a href="modules/src/MatrixOps.html#MatrixOps.NamedMatrix.sparsity">(MatrixOps.NamedMatrix method)</a>
+  </dt>
+
+      </dl></dd>
       
   <dt><a href="modules/src/Stats.html#module-Stats">Stats (module)</a>
   </dt>
 
       
   <dt><a href="modules/src/Core.html#Core.subSampleLabels">subSampleLabels() (in module Core)</a>
-  </dt>
-
-      
-  <dt><a href="modules/src/NN.html#NN.Layer.summarize">summarize() (NN.Layer method)</a>
   </dt>
 
   </dl></td>
@@ -747,23 +1026,33 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%" valign="top"><dl>
       
-  <dt><a href="modules/examples/cosineDistance.html#cosineDistance.t">t (in module cosineDistance)</a>
+  <dt><a href="modules/src/NN.html#NN.Activation.tanh">tanh() (NN.Activation method)</a>
   </dt>
 
-      <dd><dl>
-        
-  <dt><a href="modules/examples/labelmatrix-from-file.html#labelmatrix-from-file.t">(in module labelmatrix-from-file)</a>
-  </dt>
-
-      </dl></dd>
       
   <dt><a href="modules/src/Stats.html#Stats.ECDF.this">this() (Stats.ECDF method)</a>, <a href="modules/src/Stats.html#Stats.ECDF.this">[1]</a>
+  </dt>
+
+      
+  <dt><a href="modules/src/NN.html#NN.Sequential.trained">trained (NN.Sequential attribute)</a>
+  </dt>
+
+      
+  <dt><a href="modules/src/Core.html#Core.LabelMatrix.trainingLabelDom">trainingLabelDom (Core.LabelMatrix attribute)</a>
   </dt>
 
   </dl></td>
   <td style="width: 33%" valign="top"><dl>
       
-  <dt><a href="modules/src/Core.html#Core.LabelMatrix.trainingLabelDom">trainingLabelDom (Core.LabelMatrix attribute)</a>
+  <dt><a href="modules/src/MatrixOps.html#MatrixOps.tropic">tropic() (in module MatrixOps)</a>
+  </dt>
+
+      
+  <dt><a href="modules/src/MatrixOps.html#MatrixOps.tropic_">tropic_() (in module MatrixOps)</a>
+  </dt>
+
+      
+  <dt><a href="modules/src/MatrixOps.html#MatrixOps.tropicLimit">tropicLimit() (in module MatrixOps)</a>
   </dt>
 
   </dl></td>
@@ -772,6 +1061,10 @@
 <h2 id="U">U</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="modules/src/NumSuch.html#NumSuch.BiMap.uni">uni() (NumSuch.BiMap method)</a>
+  </dt>
+
       
   <dt><a href="modules/src/NN.html#NN.Dense.units">units (NN.Dense attribute)</a>
   </dt>
@@ -795,20 +1088,6 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%" valign="top"><dl>
       
-  <dt><a href="modules/examples/cosineDistance.html#cosineDistance.V">V (in module cosineDistance)</a>
-  </dt>
-
-      
-  <dt><a href="modules/examples/cosineDistance.html#cosineDistance.vectorFile">vectorFile (in module cosineDistance)</a>
-  </dt>
-
-      <dd><dl>
-        
-  <dt><a href="modules/examples/labelmatrix-from-file.html#labelmatrix-from-file.vectorFile">(in module labelmatrix-from-file)</a>
-  </dt>
-
-      </dl></dd>
-      
   <dt><a href="modules/src/Viterbi.html#module-Viterbi">Viterbi (module)</a>
   </dt>
 
@@ -818,10 +1097,6 @@
   <dt><a href="modules/src/Viterbi.html#Viterbi.Viterbi">Viterbi() (in module Viterbi)</a>
   </dt>
 
-      
-  <dt><a href="modules/src/MatrixOps.html#MatrixOps.vNamesFromPG">vNamesFromPG() (in module MatrixOps)</a>
-  </dt>
-
   </dl></td>
 </tr></table>
 
@@ -829,27 +1104,17 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%" valign="top"><dl>
       
-  <dt><a href="modules/examples/cosineDistance.html#cosineDistance.W">W (in module cosineDistance)</a>
+  <dt><a href="modules/src/NN.html#NN.Layer.W">W (NN.Layer attribute)</a>
   </dt>
 
-      <dd><dl>
-        
-  <dt><a href="modules/src/NN.html#NN.Layer.W">(NN.Layer attribute)</a>
-  </dt>
-
-      </dl></dd>
       
-  <dt><a href="modules/src/NN.html#NN.Layer.weightDom">weightDom (NN.Layer attribute)</a>
+  <dt><a href="modules/src/NN.html#NN.Layer.W_vel">W_vel (NN.Layer attribute)</a>
   </dt>
 
   </dl></td>
   <td style="width: 33%" valign="top"><dl>
       
-  <dt><a href="modules/src/MatrixOps.html#MatrixOps.wFromPG">wFromPG() (in module MatrixOps)</a>
-  </dt>
-
-      
-  <dt><a href="modules/src/MatrixOps.html#MatrixOps.wFromPG_">wFromPG_() (in module MatrixOps)</a>
+  <dt><a href="modules/src/NN.html#NN.Layer.wDom">wDom (NN.Layer attribute)</a>
   </dt>
 
   </dl></td>

@@ -77,3 +77,41 @@ Stats
    :TODO: Finish the Gamma distribution
    
 
+.. function:: proc choice(a: [] ?t, size = 1, replace = true)
+
+   
+   Routine to choose from a set, hopefully follwing this:
+   https://docs.scipy.org/doc/numpy-dev/reference/generated/numpy.random.choice.html
+   
+   :returns: array of choices, size
+    
+
+.. function:: proc choice(a: [] ?t, size = 1, replace = true, p: [] ?u)
+
+.. function:: proc chooseMultinomial(a: [] ?t, size: int, replace = true, p: [] real)
+
+   
+   Well, I'll be damned. This is what I came up with over a cup of coffee
+   https://en.wikipedia.org/wiki/Multinomial_distribution#Sampling_from_a_multinomial_distribution
+    
+
+.. function:: proc randInt(a: int, b: int)
+
+   
+   Returns a random integer between `a <= N <= b`
+   
+
+.. function:: proc rand(a: real, b: real)
+
+   Get a random number drawn uniformly along [a,b] 
+
+.. function:: proc seq(start: int, stop: int, stride: int = 1)
+
+   Returns a sequence as an integer array from a to b, inclusive 
+
+.. function:: proc nds(n: int, s: int)
+
+   
+   Returns the sum of rolling `n` `s`-sided dice.  E.g. n=3, s=6, is three six sided die
+   
+

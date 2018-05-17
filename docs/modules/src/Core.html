@@ -32,7 +32,7 @@
   
     <link rel="top" title="chpldoc 0.0.1 documentation" href="../../index.html"/>
         <link rel="next" title="MatrixOps" href="MatrixOps.html"/>
-        <link rel="prev" title="labelmatrix-from-file" href="../examples/labelmatrix-from-file.html"/> 
+        <link rel="prev" title="chpldoc documentation" href="../../index.html"/> 
 
   
   <script src="../../_static/js/modernizr.min.js"></script>
@@ -85,8 +85,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../index.html">chpldoc documentation</a></li>
 </ul>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../examples/cosineDistance.html">cosineDistance</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples/labelmatrix-from-file.html">labelmatrix-from-file</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Core</a></li>
 <li class="toctree-l1"><a class="reference internal" href="MatrixOps.html">MatrixOps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="NN.html">NN</a></li>
@@ -222,6 +220,17 @@ Dimensions must be conformable</p>
 <dl class="function">
 <dt id="Core.argmax1d">
 <em class="property">proc </em><code class="descname">argmax1d</code><span class="sig-paren">(</span><em>x: []</em><span class="sig-paren">)</span><a class="headerlink" href="#Core.argmax1d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Internal routine to find the argmax along a dense vector</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="Core.argmin1d">
+<em class="property">proc </em><code class="descname">argmin1d</code><span class="sig-paren">(</span><em>x: []</em><span class="sig-paren">)</span><a class="headerlink" href="#Core.argmin1d" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="Core.argmin">
+<em class="property">proc </em><code class="descname">argmin</code><span class="sig-paren">(</span><em>x: []</em>, <em>axis: int = 0</em><span class="sig-paren">)</span><a class="headerlink" href="#Core.argmin" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
@@ -253,6 +262,18 @@ Dimensions must be conformable</p>
 <dl class="function">
 <dt id="Core.xlog2x">
 <em class="property">proc </em><code class="descname">xlog2x</code><span class="sig-paren">(</span><em>x: real</em><span class="sig-paren">)</span><a class="headerlink" href="#Core.xlog2x" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns x * log_2 (x)... I&#8217;ll write it in LaTeX later</p>
+</dd></dl>
+
+<dl class="iterfunction">
+<dt id="Core.letters">
+<em class="property">iter </em><code class="descname">letters</code><span class="sig-paren">(</span><em>n: int</em><span class="sig-paren">)</span><a class="headerlink" href="#Core.letters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Iterator to generate labels A, B, ... AA, BB, ... etc</p>
+</dd></dl>
+
+<dl class="iterfunction">
+<dt id="Core.gridNames">
+<em class="property">iter </em><code class="descname">gridNames</code><span class="sig-paren">(</span><em>i: int</em>, <em>j: int = 0</em><span class="sig-paren">)</span><a class="headerlink" href="#Core.gridNames" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
@@ -267,7 +288,7 @@ Dimensions must be conformable</p>
         <a href="MatrixOps.html" class="btn btn-neutral float-right" title="MatrixOps" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../examples/labelmatrix-from-file.html" class="btn btn-neutral" title="labelmatrix-from-file" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="../../index.html" class="btn btn-neutral" title="chpldoc documentation" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

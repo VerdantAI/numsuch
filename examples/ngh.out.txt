@@ -1,0 +1,2 @@
+epochs	  obs	 h	lr  	norm	max	avg	  time
+  5000	   50	 1	0.100	 0.0480	 0.0109	 0.0064	   4.57

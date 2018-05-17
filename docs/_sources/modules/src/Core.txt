@@ -66,6 +66,14 @@ Core
 
 .. function:: proc argmax1d(x: [])
 
+   
+   Internal routine to find the argmax along a dense vector
+    
+
+.. function:: proc argmin1d(x: [])
+
+.. function:: proc argmin(x: [], axis: int = 0)
+
 .. function:: proc argmax(x: [], axis: int = 0)
 
    
@@ -81,4 +89,16 @@ Core
    
 
 .. function:: proc xlog2x(x: real)
+
+   
+   Returns x * log_2 (x)... I'll write it in LaTeX later
+   
+
+.. iterfunction:: iter letters(n: int)
+
+   
+   Iterator to generate labels A, B, ... AA, BB, ... etc
+    
+
+.. iterfunction:: iter gridNames(i: int, j: int = 0)
 

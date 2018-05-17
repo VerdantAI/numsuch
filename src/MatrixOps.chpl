@@ -1,5 +1,6 @@
 use LinearAlgebra,
     LinearAlgebra.Sparse,
+    Time,
     NumSuch,
     Random;
 
@@ -21,6 +22,7 @@ class NamedMatrix {
 
    proc init(X) {
      this.D = {X.domain.dim(1), X.domain.dim(2)};
+  //   this.SD = X.domain;
      this.complete();
      this.loadX(X);
    }
@@ -123,8 +125,6 @@ proc NamedMatrix.colArgMax() {
 }
 
 
-
-
 proc NamedMatrix.rowMin(i: int) {
   return aMin(this.X, 1)[i];
 }
@@ -172,6 +172,42 @@ proc NamedMatrix.colArgMin() {
   return argMin(this.X, 2);
 }
 
+/* We don't have a good matPlus for Q + E yet, so doing this element
+  by element. kinda sucks.
+ */
+proc NamedMatrix.matPlus(Y: NamedMatrix) {
+  forall ij in Y.SD {
+    this.X[ij] += Y.X[ij];
+  }
+}
+
+/*
+ Multiplies the underlying matrix in place.
+ */
+proc NamedMatrix.eTimes(a: real) {
+  this.X = a * this.X;
+}
+
+/*
+ Prints the matrix with row / column headers, not recommended for large matrices.
+ Also width of entries should not exceed about 8 places.
+ */
+proc NamedMatrix.pprint() {
+  write("     ");
+  for c in this.cols.sorted() {
+    write("       %5s  |".format(c[1]));
+  }
+  write("\n");
+  for r in this.rows.sorted() {
+    write(" %3s ".format(r[1]));
+    for c in this.cols.sorted() {
+      write(" %13.3dr ".format(this.get(r[2], c[2])));
+    }
+    write("\n");
+  }
+
+}
+
 
 //proc NamedMatrix.argRowMax()
 
@@ -195,29 +231,27 @@ proc NamedMatrix.loadX(X:[], shape: 2*int =(-1,-1)) {
 /*
 Sets the row names for the matrix X
  */
-proc NamedMatrix.setRowNames(rn:[]): string throws {
+proc NamedMatrix.setRowNames(rn:[]) throws {
   //if (X.domain.dim(1).size > 0) && (rn.size != X.domain.dim(1).size) {
   //if (1 > 0) && (rn.size != X.domain.dim(1).size) {
   if rn.size != X.domain.dim(1).size {
     const err = new DimensionMatchError(expected = X.domain.dim(1).size, actual=rn.size);
     throw err;
-    return "";
   } else {
     for i in 1..rn.size {
       this.rows.add(rn[i]);
     }
-    return this.rows;
   }
+  return this.rows;
 }
 
 /*
 Sets the column names for the matrix X
 */
-proc NamedMatrix.setColNames(cn:[]): string throws {
+proc NamedMatrix.setColNames(cn:[]) throws {
   if cn.size != X.domain.dim(2).size {
     const err = new DimensionMatchError(expected = X.domain.dim(2).size, actual=cn.size);
     throw err;
-    return "";
   } else {
     for i in 1..cn.size {
       this.cols.add(cn[i]);
@@ -312,6 +346,29 @@ proc NamedMatrix.sparsity() {
   return this.nnz():real / d;
 }
 
+/*
+ Takes a index (i,j) tuple and turns it into the sequential entry number on the
+ given matrix.
+ */
+proc NamedMatrix.grid2seq(ij: 2*int) {
+  return this.ncols() * ij[1] + ij[2] - this.ncols();
+}
+/*
+ Takes a index values `i,j` and turns it into the sequential entry number on the
+ given matrix.
+ */
+proc NamedMatrix.grid2seq(i: int, j: int) {
+  return this.grid2seq((i,j));
+}
+
+
+/*
+ Takes a sequential value and gives the row / column indices of that entry
+ */
+proc NamedMatrix.seq2grid(k: int) {
+  return (divfloor(k, this.ncols())+1, k % this.ncols());
+}
+
 proc NamedMatrix.ntropic(N: NamedMatrix) {
   var T: NamedMatrix = new NamedMatrix(X = tropic(this.X, N.X), this.rows, N.cols);
   return T;
@@ -322,15 +379,17 @@ proc NamedMatrix.ntropic(N: NamedMatrix) {
  the names of `X.cols` with `Y.rows`.  Returns an appropriately named NamedMatrix
  :arg NamedMatrix Y:
  */
-
 proc NamedMatrix.ndot(N: NamedMatrix) {
   var C: NamedMatrix = new NamedMatrix(X = dot(this.X,N.X), this.rows, N.cols);
   return C;
 }
 
 
-
-
+/*
+ Routine to take two NamedMatrices and multiply them along just the row/column
+ intersections.  If X has cols [red yellow blue green] and Y has rows [red blue green]
+ this function produces a NamedMatrix with rows [red blue green]
+ */
 proc NamedMatrix.alignAndMultiply(Y: NamedMatrix) {
     var rcOverlap: domain(string) = this.cols.keys & Y.rows.keys;
 
@@ -363,6 +422,12 @@ proc NamedMatrix.alignAndMultiply(Y: NamedMatrix) {
     return n;
 }
 
+/*
+ Designed to be similar to SciPy's `amax() <https://docs.scipy.org/doc/numpy/reference/generated/numpy.amax.html>`_
+ Useful on sparse matrices
+
+ We'll get around to documenting here it eventually
+ */
 proc aMax(X:[], axis = 0) {
   var is: domain(1) = 1..max(X.domain.dim(1).size,X.domain.dim(2).size);
   var sis: sparse subdomain(is);
@@ -403,6 +468,12 @@ proc aMax(X:[], axis = 0) {
   return maxima;
 }
 
+/*
+ Designed to be similar to SciPy's `amin() <https://docs.scipy.org/doc/numpy/reference/generated/numpy.amin.html>`_
+ Useful on sparse matrices.
+
+ We'll get around to documenting here it eventually
+ */
 proc aMin(X:[], axis: int) {
   var is: domain(1) = 1..max(X.domain.dim(1).size,X.domain.dim(2).size);
   var sis: sparse subdomain(is);
@@ -444,6 +515,9 @@ proc aMin(X:[], axis: int) {
 }
 
 
+/*
+Provides the "where" of the min along an axis in a sparse matrix
+ */
 proc argMin(X:[], axis: int) {
   var is: domain(1) = 1..max(X.domain.dim(1).size,X.domain.dim(2).size);
   var sis: sparse subdomain(is);
@@ -471,6 +545,9 @@ proc argMin(X:[], axis: int) {
   return minima;
 }
 
+/*
+ Provides the "where" of a max along a given axis in a sparse matrix
+ */
 proc argMax(X:[], axis: int) {
   var is: domain(1) = 1..max(X.domain.dim(1).size,X.domain.dim(2).size);
   var sis: sparse subdomain(is);
@@ -561,8 +638,38 @@ proc maxiLoc_(axis:int, id, X:[]) {
 }
 
 
+proc tropic(A:[],B:[]) {
+  var dom: domain(2) = {A.domain.dim(1),B.domain.dim(2)};
+  var sps = CSRDomain(dom);
+//  var BT = transpose(B);
+  var T: [sps] real;
+  for (i,j) in dom {
+    var t: Timer;
+    t.start();
+    var mini = 100000000: real;
+    if A.domain.member((i,j)) {
+      mini = min(mini,A(i,j));
+    }
+    if B.domain.member((i,j)) {
+      mini = min(mini,B(i,j));
+    }
+    for w in A.domain.dimIter(2,i) {
+      if B.domain.member((w,j)) {
+        mini = min(mini,A(i,w) + B(w,j));
+      }
+    }
+    t.stop();
+    if mini < 100000000 {
+      sps += (i,j);
+      T(i,j) = mini;
+      writeln((i,j));
+      writeln("",t.elapsed());
+    }
+  }
+  return T;
+}
 
-proc tropic(A:[],B:[]) { // UNDER CONSTRUCTION
+proc tropic_(A:[],B:[]) {
   var dom: domain(2) = {A.domain.dim(1),B.domain.dim(2)};
   var sps = CSRDomain(dom);
   var BT = transpose(B);
@@ -601,14 +708,36 @@ proc tropic(A:[],B:[]) { // UNDER CONSTRUCTION
 }
 
 
-proc tropicLimit(A:[] real,B:[] real) {
-  var R = tropic(A,B);
-  if A == R {
-    return A;
-  } else {
-    tropicLimit(R,B);
+proc sparseEq(A:[], B:[]) {
+  var s: bool = true;
+  forall (i,j) in A.domain with (&& reduce s) {
+    s &&= A(i,j) == B(i,j);
   }
+  return s;
 }
+
+
+/*
+proc adjacencyPolynomial(A:[]) {
+
+}*/
+
+
+
+proc tropicLimit(A:[] real,B:[] real): A.type {
+ var R = tropic(A,B);
+ if A.domain == R.domain {
+   if sparseEq(R,A) {
+     return R;
+   } else {
+     return tropicLimit(R,B);
+   }
+ } else {
+   return tropicLimit(R,B);
+ }
+}
+
+
 
 /*
  Build a random sparse matrix.  Good for testing;
@@ -638,6 +767,9 @@ proc generateRandomSparseMatrix(size: int, sparsity: real) {
 }
 
 
+/*
+ General sparsity function for any `real` matrix.
+ */
 proc sparsity(X) {
   const d = X.shape[1]:real * X.shape[2]: real;
   var i: real = 0.0;
@@ -647,6 +779,22 @@ proc sparsity(X) {
   return i / d;
 }
 
+proc elemMult(A: [], B: []) {
+  var dom: domain(2) = {A.domain.dim(1),A.domain.dim(2)};
+  var sps = CSRDomain(dom);
+  var C: [sps] real;
+  for (i,j) in A.domain {
+    if B.domain.member((i,j)) {
+      sps += (i,j);
+      C(i,j) = A(i,j) * B(i,j);
+    }
+  }
+  return C;
+}
+
+/*
+ Error classes
+ */
 class NumSuchError : Error {
   proc init() {
     super.init();
@@ -657,6 +805,51 @@ class NumSuchError : Error {
   }
 }
 
+proc identityMat(n: int) {
+  var dom: domain(2) = {1..n,1..n};
+  var sps = CSRDomain(dom);
+  for i in 1..n {
+    sps += (i,i);
+  }
+  var I: [sps] real;
+  forall ij in sps {
+    I(ij) = 1;
+  }
+  return I;
+}
+
+proc ones(d: domain(2), v: real=1.0) {
+  var m: [d] real = v;
+  return m;
+}
+
+/*
+Only works on dense matrices at the moment
+*/
+proc rowSums(X: []) {
+  var v:[X.domain.dims()(1)] real;
+  for i in v.domain {
+    v[i] = + reduce X[i,..];
+  }
+  return v;
+}
+
+/*
+Only works on dense matrices at the moment
+*/
+proc colSums(X: []) {
+  var v:[X.domain.dims()(2)] real;
+  for i in v.domain {
+    v[i] = + reduce X[..,i];
+  }
+  return v;
+}
+
+
+
+/*
+ Used to indidcate dimension mismatches on NamedMatrices and vectors
+ */
 class DimensionMatchError : NumSuchError {
   var expected: int,
       actual: int;
@@ -671,4 +864,45 @@ class DimensionMatchError : NumSuchError {
   proc message() {
     return "Error matching dimensions.  Expected: " + this.expected + " Actual: " + this.actual;
   }
+}
+
+/*
+ Concatenates two vectors (x, y) -> [x y]
+ */
+proc concat(x:[], y:[]) {
+  const d:int = x.size + y.size;
+  var v:[1..d] x.eltType;
+
+  var k = 1;
+  for i in x.domain {
+    v[k] = x[i];
+    k += 1;
+  }
+  for i in y.domain {
+    v[k] = y[i];
+    k += 1;
+  }
+  return v;
+}
+
+/*
+ Concatenates a matrix and a vector, adding the vector
+ as extra columns
+
+[ [1 2]
+ [3 4] ], [ 5, 6]   ->
+
+ [[1 2 5 6]
+  [3 4 5 6]]
+ */
+proc concatRight(X:[], y:[]) {
+    const h = X.shape[1],
+          w = X.shape[2] + y.size;
+    var A: [1..h, 1..w] X.eltType;
+
+    for i in 1..h {
+      const r = concat(X[i,..], y);
+      A[i,..] = r;
+    }
+    return A;
 }

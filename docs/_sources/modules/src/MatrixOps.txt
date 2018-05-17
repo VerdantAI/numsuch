@@ -33,6 +33,99 @@ MatrixOps
 
    .. method:: proc init(X)
 
+   .. method:: proc init(X, names: [] string)
+
+   .. method:: proc init(X, rownames: [] string, colnames: [] string)
+
+   .. method:: proc init(rownames: [] string, colnames: [] string)
+
+   .. method:: proc init(N: NamedMatrix)
+
+   .. method:: proc init(X, rows: BiMap, cols: BiMap)
+
+.. method:: proc NamedMatrix.nrows()
+
+   
+   Returns the number of rows in the matrix frame
+    
+
+.. method:: proc NamedMatrix.ncols()
+
+   
+   Returns the number of columns in the matrix frame
+    
+
+.. method:: proc NamedMatrix.rowMax(i: int)
+
+   
+   Finds the max along the row indicated by row number
+   
+
+.. method:: proc NamedMatrix.rowMax(s: string)
+
+.. method:: proc NamedMatrix.rowMax()
+
+.. method:: proc NamedMatrix.colMax(i: int)
+
+.. method:: proc NamedMatrix.colMax(s: string)
+
+.. method:: proc NamedMatrix.colMax()
+
+.. method:: proc NamedMatrix.rowArgMax(i: int)
+
+.. method:: proc NamedMatrix.rowArgMax(s: string)
+
+.. method:: proc NamedMatrix.rowArgMax()
+
+.. method:: proc NamedMatrix.colArgMax(i: int)
+
+.. method:: proc NamedMatrix.colArgMax(s: string)
+
+.. method:: proc NamedMatrix.colArgMax()
+
+.. method:: proc NamedMatrix.rowMin(i: int)
+
+.. method:: proc NamedMatrix.rowMin(s: string)
+
+.. method:: proc NamedMatrix.rowMin()
+
+.. method:: proc NamedMatrix.colMin(i: int)
+
+.. method:: proc NamedMatrix.colMin(s: string)
+
+.. method:: proc NamedMatrix.colMin()
+
+.. method:: proc NamedMatrix.rowArgMin(i: int)
+
+.. method:: proc NamedMatrix.rowArgMin(s: string)
+
+.. method:: proc NamedMatrix.rowArgMin()
+
+.. method:: proc NamedMatrix.colArgMin(i)
+
+.. method:: proc NamedMatrix.colArgMin(s: string)
+
+.. method:: proc NamedMatrix.colArgMin()
+
+.. method:: proc NamedMatrix.matPlus(Y: NamedMatrix)
+
+   We don't have a good matPlus for Q + E yet, so doing this element
+   by element. kinda sucks.
+   
+
+.. method:: proc NamedMatrix.eTimes(a: real)
+
+   
+   Multiplies the underlying matrix in place.
+   
+
+.. method:: proc NamedMatrix.pprint()
+
+   
+   Prints the matrix with row / column headers, not recommended for large matrices.
+   Also width of entries should not exceed about 8 places.
+   
+
 .. method:: proc NamedMatrix.loadX(X: [], shape: 2*(int) = (-1, -1))
 
    
@@ -41,13 +134,13 @@ MatrixOps
    :arg real[]: Array representing the matrix
     
 
-.. method:: proc NamedMatrix.setRowNames(rn: []): string throws
+.. method:: proc NamedMatrix.setRowNames(rn: []) throws
 
    
    Sets the row names for the matrix X
     
 
-.. method:: proc NamedMatrix.setColNames(cn: []): string throws
+.. method:: proc NamedMatrix.setColNames(cn: []) throws
 
    
    Sets the column names for the matrix X
@@ -84,49 +177,120 @@ MatrixOps
 .. method:: proc NamedMatrix.update(f: string, t: string, w: real)
 
    
-   Update the value in X(i,j) with `w` using the row column names
+   Update the value in X(i,j) with `w` using the row column names. This adds
+   `w` to the current value. To replace the current value, use `.set()`
     
 
-.. function:: proc NamedMatrixFromPG(con: Connection, edgeTable: string, fromField: string, toField: string, wField: string = "NONE")
+.. method:: proc NamedMatrix.remove(i: int, j: int)
 
    
-   Creates a NamedMatrix from a table in Postgres.  Does not optimize for square matrices.  This assumption
-   is that the matrix is sparse.
-   
-   @TODO Appears that `forall` is causing problems.
-   
-   :arg string edgeTable: The SQL table holding the values of the matrix.
-   :arg string fromField: The table column representing rows, e.g. `i`.
-   :arg string toField: The table column representing columns, e.g. 'j'.
-   :arg string wField: `default=NONE` the table column containing the values of cell `(i,j)``
+   Removes the matrix entry `(i,j)` from the matrix and the underlying domain
+   by row, column ids
    
 
-.. function:: proc wFromPG(con: Connection, edgeTable: string, fromField: string, toField: string, wField: string, n: int, weights = true)
+.. method:: proc NamedMatrix.remove(i: string, j: string)
 
    
-   
-   :arg con: A CDO Connection to Postgres
-   :arg edgeTable: The table in PG of edges
-   :arg fromField: The field of edgeTable containing the id of the head vertex
-   :arg toField: the field of edgeTable containing the id of the tail vertex
-   :arg wField: The field of edgeTable containing the weight of the edge
-   :arg n: number of distinct vertices. In practice, this may be gives and the number of names
-   :arg weights: Boolean on whether to use the weights in the table or a 1 (indicator)
+   Removes the matrix entry `(i,j)` from the matrix and the underlying domain
+   by row, column names
    
 
-.. function:: proc wFromPG_(con: Connection, edgeTable: string, fromField: string, toField: string, wField: string, n: int, weights = true)
-
-.. function:: proc vNamesFromPG(con: Connection, nameTable: string, nameField: string, idField: string)
+.. method:: proc NamedMatrix.nnz()
 
    
+   Find the number of non-zeroes in the matrix
+    
+
+.. method:: proc NamedMatrix.sparsity()
+
    
-   :arg con: A connection to a Postgres database containing a table with <ftr_id>, <vertex_name> pairs
-   :arg nameTable: The name of the Postgres table containing the pairs
-   :arg nameField: The name of the field in the nameTable containing the names
-   :arg idField: The name of the field in the nameTable containing the feature ids
+   Calculates the sparsity of the matrix: Number of entries / frame size
+    
+
+.. method:: proc NamedMatrix.grid2seq(ij: 2*(int))
+
    
-   :returns: An array of strings in order of feature id
+   Takes a index (i,j) tuple and turns it into the sequential entry number on the
+   given matrix.
    
+
+.. method:: proc NamedMatrix.grid2seq(i: int, j: int)
+
+   
+   Takes a index values `i,j` and turns it into the sequential entry number on the
+   given matrix.
+   
+
+.. method:: proc NamedMatrix.seq2grid(k: int)
+
+   
+   Takes a sequential value and gives the row / column indices of that entry
+   
+
+.. method:: proc NamedMatrix.ntropic(N: NamedMatrix)
+
+.. method:: proc NamedMatrix.ndot(N: NamedMatrix)
+
+   
+   Multiplies the current NamedMatrix `X` against the argument `Y`, but first it aligns
+   the names of `X.cols` with `Y.rows`.  Returns an appropriately named NamedMatrix
+   :arg NamedMatrix Y:
+   
+
+.. method:: proc NamedMatrix.alignAndMultiply(Y: NamedMatrix)
+
+   
+   Routine to take two NamedMatrices and multiply them along just the row/column
+   intersections.  If X has cols [red yellow blue green] and Y has rows [red blue green]
+   this function produces a NamedMatrix with rows [red blue green]
+   
+
+.. function:: proc aMax(X: [], axis = 0)
+
+   
+   Designed to be similar to SciPy's `amax() <https://docs.scipy.org/doc/numpy/reference/generated/numpy.amax.html>`_
+   Useful on sparse matrices
+   
+   We'll get around to documenting here it eventually
+   
+
+.. function:: proc aMin(X: [], axis: int)
+
+   
+   Designed to be similar to SciPy's `amin() <https://docs.scipy.org/doc/numpy/reference/generated/numpy.amin.html>`_
+   Useful on sparse matrices.
+   
+   We'll get around to documenting here it eventually
+   
+
+.. function:: proc argMin(X: [], axis: int)
+
+   
+   Provides the "where" of the min along an axis in a sparse matrix
+    
+
+.. function:: proc argMax(X: [], axis: int)
+
+   
+   Provides the "where" of a max along a given axis in a sparse matrix
+   
+
+.. function:: proc miniLoc_(axis: int, id, X: [])
+
+.. function:: proc maxiLoc_(axis: int, id, X: [])
+
+.. function:: proc tropic(A: [], B: [])
+
+.. function:: proc tropic_(A: [], B: [])
+
+.. function:: proc sparseEq(A: [], B: [])
+
+.. function:: proc tropicLimit(A: [] real, B: [] real): A.type 
+
+   
+   proc adjacencyPolynomial(A:[]) {
+   
+   }
 
 .. function:: proc generateRandomSparseMatrix(size: int, sparsity: real)
 
@@ -134,11 +298,70 @@ MatrixOps
    Build a random sparse matrix.  Good for testing;
    
 
-.. function:: proc persistSparseMatrix(con: Connection, aTable: string, fromField: string, toField: string, weightField: string, X: [?D] real)
+.. function:: proc sparsity(X)
 
-.. function:: proc persistSparseMatrix_(con: Connection, aTable: string, fromField: string, toField: string, weightField: string, X: [?D] real)
+   
+   General sparsity function for any `real` matrix.
+   
 
-.. function:: proc persistSparseMatrix_P(con: Connection, aTable: string, fromField: string, toField: string, weightField: string, X: [?D] real)
+.. function:: proc elemMult(A: [], B: [])
 
-.. function:: proc sparsity(X: [])
+.. class:: NumSuchError : Error
+
+   
+   Error classes
+   
+
+
+   .. method:: proc init()
+
+   .. method:: proc message()
+
+.. function:: proc identityMat(n: int)
+
+.. function:: proc ones(d: domain(2), v: real = 1.0)
+
+.. function:: proc rowSums(X: [])
+
+   
+   Only works on dense matrices at the moment
+
+.. function:: proc colSums(X: [])
+
+   
+   Only works on dense matrices at the moment
+
+.. class:: DimensionMatchError : NumSuchError
+
+   
+   Used to indidcate dimension mismatches on NamedMatrices and vectors
+   
+
+
+   .. attribute:: var expected: int
+
+   .. attribute:: var actual: int
+
+   .. method:: proc init(expected: int, actual: int)
+
+   .. method:: proc message()
+
+.. function:: proc concat(x: [], y: [])
+
+   
+   Concatenates two vectors (x, y) -> [x y]
+   
+
+.. function:: proc concatRight(X: [], y: [])
+
+   
+    Concatenates a matrix and a vector, adding the vector
+    as extra columns
+   
+   [ [1 2]
+    [3 4] ], [ 5, 6]   ->
+   
+    [[1 2 5 6]
+     [3 4 5 6]]
+    
 

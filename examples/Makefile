@@ -1,8 +1,7 @@
+include ../local.mk
 CC=chpl
-ZMQ_BASE=/usr/local/Cellar/zeromq/4.2.2
-BLAS_HOME= /usr/local/Cellar/openblas/0.2.20
-INCLUDES=-I${ZMQ_BASE}/include -I$(BLAS_HOME)/include
-LIBS=-L${ZMQ_BASE}/lib -lzmq -L${BLAS_HOME}/lib -lblas
+INCLUDES=-I$(BLAS_HOME)/include
+LIBS=-L${BLAS_HOME}/lib -lblas
 MODULES=-M../src
 FLAGS=--fast
 
@@ -16,4 +15,19 @@ labels: labelmatrix-from-file.chpl
 cos: cosineDistance.chpl
 	$(CC) $(FLAGS) $(MODULES) $(INCLUDES) $(LIBS) -o cos $<
 	./cos
-	rm cos	
+	rm cos
+
+lgd: linearGradientDescent.chpl
+	$(CC) $(FLAGS) $(MODULES) $(INCLUDES) $(LIBS) -o lgd $< ; \
+	./lgd; \
+	rm lgd;
+
+nlfa: nonlinearFunctionApproximation.chpl
+	$(CC) $(FLAGS) $(MODULES) $(INCLUDES) $(LIBS) -o nlfa $< ; \
+  ./nlfa; \
+	rm nlfa
+
+ngh:  ngh.chpl
+	$(CC) $(FLAGS) $(MODULES) $(INCLUDES) $(LIBS) -o ngh $< ; \
+	./ngh; \
+	rm ngh; 

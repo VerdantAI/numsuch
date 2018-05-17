@@ -85,8 +85,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../index.html">chpldoc documentation</a></li>
 </ul>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../examples/cosineDistance.html">cosineDistance</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples/labelmatrix-from-file.html">labelmatrix-from-file</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Core.html">Core</a></li>
 <li class="toctree-l1"><a class="reference internal" href="MatrixOps.html">MatrixOps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="NN.html">NN</a></li>
@@ -236,6 +234,57 @@ Or maybe this one, includes C code: <a class="reference external" href="http://w
 </tr>
 </tbody>
 </table>
+</dd></dl>
+
+<dl class="function">
+<dt id="Stats.choice">
+<em class="property">proc </em><code class="descname">choice</code><span class="sig-paren">(</span><em>a: [] ?t</em>, <em>size = 1</em>, <em>replace = true</em><span class="sig-paren">)</span><a class="headerlink" href="#Stats.choice" title="Permalink to this definition">¶</a></dt>
+<dd><p>Routine to choose from a set, hopefully follwing this:
+<a class="reference external" href="https://docs.scipy.org/doc/numpy-dev/reference/generated/numpy.random.choice.html">https://docs.scipy.org/doc/numpy-dev/reference/generated/numpy.random.choice.html</a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">array of choices, size</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<em class="property">proc </em><code class="descname">choice</code><span class="sig-paren">(</span><em>a: [] ?t</em>, <em>size = 1</em>, <em>replace = true</em>, <em>p: [] ?u</em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="Stats.chooseMultinomial">
+<em class="property">proc </em><code class="descname">chooseMultinomial</code><span class="sig-paren">(</span><em>a: [] ?t</em>, <em>size: int</em>, <em>replace = true</em>, <em>p: [] real</em><span class="sig-paren">)</span><a class="headerlink" href="#Stats.chooseMultinomial" title="Permalink to this definition">¶</a></dt>
+<dd><p>Well, I&#8217;ll be damned. This is what I came up with over a cup of coffee
+<a class="reference external" href="https://en.wikipedia.org/wiki/Multinomial_distribution#Sampling_from_a_multinomial_distribution">https://en.wikipedia.org/wiki/Multinomial_distribution#Sampling_from_a_multinomial_distribution</a></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="Stats.randInt">
+<em class="property">proc </em><code class="descname">randInt</code><span class="sig-paren">(</span><em>a: int</em>, <em>b: int</em><span class="sig-paren">)</span><a class="headerlink" href="#Stats.randInt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a random integer between <cite>a &lt;= N &lt;= b</cite></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="Stats.rand">
+<em class="property">proc </em><code class="descname">rand</code><span class="sig-paren">(</span><em>a: real</em>, <em>b: real</em><span class="sig-paren">)</span><a class="headerlink" href="#Stats.rand" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a random number drawn uniformly along [a,b]</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="Stats.seq">
+<em class="property">proc </em><code class="descname">seq</code><span class="sig-paren">(</span><em>start: int</em>, <em>stop: int</em>, <em>stride: int = 1</em><span class="sig-paren">)</span><a class="headerlink" href="#Stats.seq" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a sequence as an integer array from a to b, inclusive</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="Stats.nds">
+<em class="property">proc </em><code class="descname">nds</code><span class="sig-paren">(</span><em>n: int</em>, <em>s: int</em><span class="sig-paren">)</span><a class="headerlink" href="#Stats.nds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the sum of rolling <cite>n</cite> <cite>s</cite>-sided dice.  E.g. n=3, s=6, is three six sided die</p>
 </dd></dl>
 
 </div>

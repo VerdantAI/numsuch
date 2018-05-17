@@ -180,8 +180,8 @@ Loads a label file into a Matrix.  Labels should be binary indicators
   Internal routine to find the argmax along a dense vector
    */
   proc argmax1d(x:[]) {
-    var idx: int = 1,
-        currentMax: real = x[1];
+    var idx: int = x.domain.low,
+        currentMax: real = x[idx];
     for i in x.domain {
       if x[i] > currentMax {
         currentMax = x[i];
@@ -191,6 +191,54 @@ Loads a label file into a Matrix.  Labels should be binary indicators
     return idx;
   }
 
+  proc argmin1d(x:[]) {
+    var idx: int = x.domain.low,
+        currentMin: real = x[idx];
+    for i in x.domain {
+      if x[i] < currentMin {
+        currentMin = x[i];
+        idx = i;
+      }
+    }
+    return idx;
+  }
+
+  proc argmin(x:[], axis:int = 0) {
+    //writeln(x.domain);
+    //writeln(x.shape.size);
+    var idom: domain(1) = {1..1};
+    var idx: [idom] int;
+    if x.shape.size == 1 {
+      return argmin1d(x);
+    } else if x.shape.size == 2 && axis==1 {
+      idom = {1..#x.shape[1]};
+      for i in x.domain.dim(1) {
+        var y: [x.domain.dim(1)] real = x[i,..];
+        idx[i] = argmin1d(y);
+      }
+      return idx;
+    } else if  x.shape.size == 2 && axis==2 {
+      idom = {1..#x.shape[2]};
+      for j in x.domain.dim(2) {
+        var y: [x.domain.dim(2)] real = x[..,j];
+        idx[j] = argmin1d(y);
+      }
+      return idx;
+    } else if x.shape.size == 2 && axis==0 {
+      idom = {1..2};
+      idx = (0,0);
+      var currentMin: real = x[1,1];
+      for (i,j) in x.domain {
+        if x[i,j] < currentMin {
+          idx = (i,j);
+          currentMin = x[i,j];
+        }
+      }
+      return idx;
+    } else {
+      halt("cannot resolve input dimension!");
+    }
+  }
 
   /*
 
@@ -242,6 +290,9 @@ Loads a label file into a Matrix.  Labels should be binary indicators
     }
   }
 
+  /*
+   Returns x * log_2 (x)... I'll write it in LaTeX later
+   */
   proc xlog2x(x: real) {
     if x > 0 {
       return x * log2(x);
