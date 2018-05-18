@@ -796,12 +796,14 @@ proc elemMult(A: [], B: []) {
  Error classes
  */
 class NumSuchError : Error {
-  proc init() {
+  var msg: string;
+  proc init(msg: string) {
     super.init();
     this.complete();
+    this.msg = msg;
   }
   proc message() {
-    return "Generic NumSuch Error";
+    return this.msg;
   }
 }
 
@@ -851,18 +853,19 @@ proc colSums(X: []) {
  Used to indidcate dimension mismatches on NamedMatrices and vectors
  */
 class DimensionMatchError : NumSuchError {
-  var expected: int,
+  var msg: string,
+      expected: int,
       actual: int;
 
-  proc init(expected: int, actual:int) {
-    super.init();
+  proc init(expected: int, actual:int, msg="") {
+    super.init(msg=msg);
     this.complete();
     this.expected = expected;
     this.actual = actual;
   }
 
   proc message() {
-    return "Error matching dimensions.  Expected: " + this.expected + " Actual: " + this.actual;
+    return this.msg + "Error matching dimensions.  Expected: " + this.expected + " Actual: " + this.actual;
   }
 }
 
