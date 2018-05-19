@@ -853,8 +853,7 @@ proc colSums(X: []) {
  Used to indidcate dimension mismatches on NamedMatrices and vectors
  */
 class DimensionMatchError : NumSuchError {
-  var msg: string,
-      expected: int,
+  var expected: int,
       actual: int;
 
   proc init(expected: int, actual:int, msg="") {
@@ -865,7 +864,7 @@ class DimensionMatchError : NumSuchError {
   }
 
   proc message() {
-    return this.msg + "Error matching dimensions.  Expected: " + this.expected + " Actual: " + this.actual;
+    return this.msg + "- Error matching dimensions.  Expected: " + this.expected + " Actual: " + this.actual;
   }
 }
 
