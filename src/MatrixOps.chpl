@@ -60,6 +60,34 @@ class NamedMatrix {
 }
 
 
+/*  DO NOT REMOVE THIS FUNCTION  */
+   proc extractMatrix_(N: NamedMatrix) {
+
+     var t: Timer;
+     t.start();
+     var dom = N.D;
+     t.stop();
+     writeln("Time to Clone Domain: ",t.elapsed());
+     t.clear();
+     t.start();
+     var sps = CSRDomain(dom);
+     sps += N.SD;
+     t.stop();
+     writeln("Time to Clone Sparse Domain: ",t.elapsed());
+     t.clear();
+     t.start();
+     var R: [sps] real;
+     forall (i,j) in sps {
+       R(i,j) = N.X(i,j);
+     }
+     t.stop();
+     writeln("Time to Clone Values: ",t.elapsed());
+     t.clear();
+     return R;
+   }
+
+
+
 /*
 Returns the number of rows in the matrix frame
  */
